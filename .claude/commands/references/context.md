@@ -88,6 +88,18 @@ Shared reference data for all learning modules.
 
 ---
 
+## Playwright MCP Server
+
+| Item | Value |
+|------|-------|
+| Server name | `playwright` |
+| Package | `@playwright/mcp` |
+| Command | `npx @playwright/mcp@latest --browser chrome` |
+| Key tools | `browser_navigate`, `browser_snapshot`, `browser_click`, `browser_type`, `browser_take_screenshot`, `browser_close` |
+| Notes | Requires Chrome installed; snapshot returns accessibility tree |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -97,4 +109,5 @@ Shared reference data for all learning modules.
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
 | 05 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
+| 06 — Playwright MCP | Module 01 complete (Claude Code working) |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |

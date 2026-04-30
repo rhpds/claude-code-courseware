@@ -386,5 +386,5 @@ Common CLAUDE.md sections:
   - Cost-saving patterns
   - Preferences
 
-Next module: /learn-06-playwright-mcp (coming soon)
+Next module: /learn-06-playwright-mcp
 ```
