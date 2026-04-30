@@ -18,9 +18,12 @@ Claude Code Courseware — Learning Modules
       Connect Claude Code to Jira via the Atlassian Rovo MCP server.
       Prerequisites: Module 01
 
+  03  Memory MCP                             ~10 min
+      Persistent knowledge graph for cross-session memory.
+      Prerequisites: Module 01
+
   ---  Coming Soon  ---
 
-  03  Memory MCP                             ~10 min
   04  Git MCP                                ~10 min
   05  Playwright MCP                         ~10 min
   06  Writing CLAUDE.md                      ~15 min
@@ -39,4 +42,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module, tell them it's not yet available and suggest modules 01 or 02.
+If they pick a "Coming Soon" module, tell them it's not yet available and suggest modules 01-03.

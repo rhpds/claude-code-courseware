@@ -37,9 +37,22 @@ Shared reference data for all learning modules.
 
 ---
 
+## Memory MCP Server
+
+| Item | Value |
+|------|-------|
+| Server name | `memory` |
+| Package | `@modelcontextprotocol/server-memory` |
+| Command | `npx -y @modelcontextprotocol/server-memory` |
+| Storage | Local JSON file (default: `~/.claude/memory.json`) |
+| Env var | `MEMORY_FILE_PATH` — path to the knowledge graph JSON file |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
 |--------|----------|
 | 01 — Vertex Setup | Mac or Linux, Red Hat GCP account |
 | 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
+| 03 — Memory MCP | Module 01 complete (Claude Code working) |

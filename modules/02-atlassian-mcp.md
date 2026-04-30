@@ -314,5 +314,5 @@ You can now:
 
 All from inside Claude Code, across any project.
 
-Next module: /learn-03-memory-mcp (coming soon)
+Next module: /learn-03-memory-mcp
 ```
