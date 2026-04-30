@@ -100,6 +100,20 @@ Shared reference data for all learning modules.
 
 ---
 
+## Writing Custom Skills
+
+| Item | Value |
+|------|-------|
+| Skill file | `SKILL.md` (in a named directory) |
+| Global location | `~/.claude/skills/<name>/SKILL.md` |
+| Project location | `.claude/commands/<name>.md` |
+| Frontmatter fields | `name`, `description`, `agent`, `model` |
+| Agent models | `haiku` (mechanical), `sonnet` (analysis), omit for Opus |
+| Installation | Direct copy or symlink from a repo |
+| Reference skills | `~/repos/claude-cost-saving/skills/` (10 subagent examples) |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -110,4 +124,5 @@ Shared reference data for all learning modules.
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
 | 05 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
 | 06 — Playwright MCP | Module 01 complete (Claude Code working) |
+| 07 — Writing Custom Skills | Module 01 complete (Claude Code working) |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |

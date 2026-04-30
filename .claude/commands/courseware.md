@@ -34,9 +34,12 @@ Claude Code Courseware — Learning Modules
       Browser automation and visual testing via the Playwright MCP server.
       Prerequisites: Module 01
 
+  07  Writing Custom Skills                  ~20 min
+      Create skills for repeatable workflows.
+      Prerequisites: Module 01
+
   ---  Coming Soon  ---
 
-  07  Writing Custom Skills                  ~20 min
   08  Hivemind Knowledge Base                ~15 min
   09  Workshop Ops (rhdp-ops)                ~10 min
   10  Workshop Intake                        ~15 min
@@ -56,4 +59,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module (07-12), tell them it's not yet available and suggest modules 01-06 or 13.
+If they pick a "Coming Soon" module (08-12), tell them it's not yet available and suggest modules 01-07 or 13.
