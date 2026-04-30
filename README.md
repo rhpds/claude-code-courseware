@@ -37,19 +37,20 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 | 02 | Atlassian MCP Server (Jira) | ~5 min | Connect Claude Code to Jira via the Atlassian Rovo MCP server |
 | 03 | Memory MCP | ~10 min | Persistent knowledge graph for cross-session memory |
 | 04 | Git MCP | ~10 min | Structured Git operations via MCP for status, history, and diffs |
+| 05 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 
 ### Coming Soon
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 05 | Playwright MCP | ~10 min | Browser automation and visual testing |
-| 06 | Writing CLAUDE.md | ~15 min | Project instructions that shape Claude's behavior |
-| 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
-| 08 | Hivemind Knowledge Base | ~15 min | Contribute to the team knowledge base |
-| 09 | Workshop Ops | ~10 min | Manage workshops via rhdp-ops MCP |
-| 10 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
-| 11 | Building MCP Servers | ~30 min | Create your own MCP server |
-| 12 | Review Agents | ~15 min | Use the team review agent system |
+| 06 | Playwright MCP | ~10 min | Browser automation and visual testing |
+| 07 | Writing CLAUDE.md | ~15 min | Project instructions that shape Claude's behavior |
+| 08 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
+| 09 | Hivemind Knowledge Base | ~15 min | Contribute to the team knowledge base |
+| 10 | Workshop Ops | ~10 min | Manage workshops via rhdp-ops MCP |
+| 11 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
+| 12 | Building MCP Servers | ~30 min | Create your own MCP server |
+| 13 | Review Agents | ~15 min | Use the team review agent system |
 
 ## How Modules Work
 

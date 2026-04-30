@@ -61,6 +61,21 @@ Shared reference data for all learning modules.
 
 ---
 
+## Red Hat Quick Deck Skill
+
+| Item | Value |
+|------|-------|
+| Repository | `~/repos/red-hat-quick-deck` |
+| Skill path | `~/.claude/skills/red-hat-quick-deck` |
+| Installation | Symlink repo directory into `~/.claude/skills/` |
+| Key file | `SKILL.md` — full skill definition |
+| Reference files | `references/redhat-brand.md`, `references/story-arcs.md`, `references/rhds-icons.md` |
+| Invocation | Ask Claude for a "quick deck" on any topic |
+| Output | Self-contained `.html` file + `.md` companion |
+| Color modes | Core Dark (default), Core Light, Expressive Dark |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -69,3 +84,4 @@ Shared reference data for all learning modules.
 | 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
+| 05 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
