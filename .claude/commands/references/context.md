@@ -76,6 +76,18 @@ Shared reference data for all learning modules.
 
 ---
 
+## CLAUDE.md
+
+| Item | Value |
+|------|-------|
+| File name | `CLAUDE.md` |
+| Scope levels | Workspace (`~/repos/CLAUDE.md`), Project (repo root), Subdirectory |
+| Key sections | Project overview, Conventions, MCP usage, Workflow rules, Preferences |
+| Cost-saving patterns | Subagent delegation, Preferred tools, Session discipline |
+| Reference bundle | `~/repos/claude-cost-saving/` (CLAUDE.md template + 10 skills) |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -84,4 +96,5 @@ Shared reference data for all learning modules.
 | 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
+| 05 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |

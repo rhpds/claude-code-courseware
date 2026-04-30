@@ -26,16 +26,20 @@ Claude Code Courseware — Learning Modules
       Structured Git operations via MCP for status, history, and diffs.
       Prerequisites: Module 01
 
+  05  Writing CLAUDE.md                      ~15 min
+      Write project instructions that shape Claude Code's behavior.
+      Prerequisites: Module 01
+
   ---  Coming Soon  ---
 
-  05  Playwright MCP                         ~10 min
-  06  Writing CLAUDE.md                      ~15 min
+  06  Playwright MCP                         ~10 min
   07  Writing Custom Skills                  ~20 min
   08  Hivemind Knowledge Base                ~15 min
   09  Workshop Ops (rhdp-ops)                ~10 min
   10  Workshop Intake                        ~15 min
   11  Building MCP Servers                   ~30 min
   12  Review Agents                          ~15 min
+
 
   13  Red Hat Quick Deck                     ~10 min
       Generate branded HTML slide presentations with the Quick Deck skill.
@@ -49,4 +53,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module (05-12), tell them it's not yet available and suggest modules 01-04 or 13.
+If they pick a "Coming Soon" module (06-12), tell them it's not yet available and suggest modules 01-05 or 13.
