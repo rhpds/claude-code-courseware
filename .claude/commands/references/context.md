@@ -84,4 +84,4 @@ Shared reference data for all learning modules.
 | 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
-| 05 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
+| 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |

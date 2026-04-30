@@ -3,7 +3,7 @@
 Generate branded HTML slide presentations with the Red Hat Quick Deck skill.
 Estimated time: 10 minutes. Prerequisites: Module 01.
 
-Read and follow the module at `modules/05-red-hat-quick-deck.md` step by step.
+Read and follow the module at `modules/13-red-hat-quick-deck.md` step by step.
 
 Start with the Orientation section, then run the Preflight checks.
 Skip any step where the prerequisite already exists.

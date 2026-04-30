@@ -1,4 +1,4 @@
-# Module 05 — Red Hat Quick Deck
+# Module 13 — Red Hat Quick Deck
 
 Estimated time: 10 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -301,5 +301,5 @@ The skill follows Red Hat brand standards automatically:
   Red Hat Display for headlines, Red Hat Text for body,
   official logo, design tokens for spacing and typography.
 
-Next module: /learn-06-writing-claude-md (coming soon)
+You've completed all available modules. Check /courseware for updates.
 ```
