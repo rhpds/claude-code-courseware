@@ -3,7 +3,7 @@
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed), Module 02 (Atlassian MCP connected)
 
-Install and configure the Jira plugin for Claude Code. The plugin adds 17 slash commands and 19 context-aware skills for creating issues, analyzing backlogs, solving tickets with PRs, and more. You'll choose which features to enable for your workflow and Jira project.
+Install and configure the Jira plugin for Claude Code. The plugin adds 17 slash commands and 15 context-aware skills for creating issues, analyzing backlogs, solving tickets with PRs, and more. You'll choose which features to enable for your workflow and Jira project.
 
 ## Orientation
 
@@ -116,7 +116,7 @@ The plugin has two layers:
     You type /jira:create story or /jira:solve PROJ-123
     These are explicit actions you trigger.
 
-  Skills (19 total) — triggered automatically by context
+  Skills (15 total) — triggered automatically by context
     When you say "create a bug report," Claude recognizes the
     intent and applies the create-bug skill's guidance.
     These are implicit — Claude uses them when relevant.
@@ -246,7 +246,7 @@ echo "Commands: $(ls "$HOME/.claude/plugins/jira/commands/"*.md 2>/dev/null | wc
 echo "Skills: $(ls "$HOME/.claude/plugins/jira/skills/"*.md 2>/dev/null | wc -l | tr -d ' ')"
 ```
 
-Expected: 17 commands, 19 skills.
+Expected: 17 commands, 15 skills.
 
 ## Step 3 — Configure Jira Credentials
 
@@ -489,7 +489,7 @@ To re-enable any command later, move its file back:
 This is informational — no action needed.
 
 ```
-Besides commands, the plugin includes 19 skills. Skills are different
+Besides commands, the plugin includes 15 skills. Skills are different
 from commands:
 
   Commands = you type /jira:<name> to invoke them explicitly
@@ -502,7 +502,7 @@ steps — without you typing /jira:create.
 
 Skills cover:
   - Issue creation patterns: bug, story, epic, task, feature, feature-request
-  - Project-specific knowledge: HyperShift, GCP HCP, OCP Bugs, Control Plane
+  - Project-specific conventions: team routing, component selection
   - Workflow automation: PR extraction, status analysis, readiness validation
   - Documentation: release notes, enhancement proposals
 
