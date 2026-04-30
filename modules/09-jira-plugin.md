@@ -130,11 +130,79 @@ exceed MCP response limits.
 
 Skip if `~/.claude/plugins/jira/commands` already exists with files.
 
-The Jira plugin is distributed as a Git repository. Ask the user where the plugin repo lives:
+There are two ways to install the Jira plugin. Ask the user which they prefer:
 
 ```
-The Jira plugin is installed from a Git repository.
+The Jira plugin can be installed two ways:
 
+  A) From a marketplace (recommended)
+     If your team has a plugin marketplace registered, install with
+     a single command. Handles updates automatically.
+
+  B) From a Git repository (manual)
+     Clone the plugin repo and copy files into place. Use this if
+     you don't have a marketplace or want to customize the plugin.
+
+Which method would you like to use?
+```
+
+### Option A: Marketplace Install
+
+Check if a marketplace is already registered:
+
+```bash
+if [ -f "$HOME/.claude/marketplaces.json" ]; then
+  python3 -c "
+import json
+d = json.load(open('$HOME/.claude/marketplaces.json'))
+for name, info in d.items():
+    plugins = info.get('plugins', {})
+    if 'jira' in plugins:
+        print(f'EXISTS: jira plugin available in {name}')
+        print(f'  Version: {plugins[\"jira\"].get(\"version\", \"unknown\")}')
+    else:
+        print(f'INFO: marketplace \"{name}\" registered but no jira plugin listed')
+" 2>/dev/null
+else
+  echo "MISSING: no marketplaces registered"
+fi
+```
+
+If a marketplace with the jira plugin is available:
+```
+Install the Jira plugin from your marketplace:
+
+  ! /plugin install jira@<marketplace-name>
+
+This will download the plugin files, register the commands and skills,
+and set up any MCP servers the plugin needs.
+```
+
+If no marketplace is registered, or it doesn't have the jira plugin:
+```
+You need to register a marketplace first. Ask your team lead for the
+marketplace path (e.g. rhpds/rhpds-utils/marketplace), then run:
+
+  ! /plugin marketplace add <org/repo/path>
+
+After registering, install the plugin:
+
+  ! /plugin install jira@<marketplace-name>
+```
+
+Verify after marketplace install:
+```bash
+[ -d "$HOME/.claude/plugins/jira/commands" ] && echo "PASS: commands installed" || echo "FAIL: commands missing"
+[ -d "$HOME/.claude/plugins/jira/skills" ] && echo "PASS: skills installed" || echo "FAIL: skills missing"
+echo "Commands: $(ls "$HOME/.claude/plugins/jira/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')"
+echo "Skills: $(ls "$HOME/.claude/plugins/jira/skills/"*.md 2>/dev/null | wc -l | tr -d ' ')"
+```
+
+### Option B: Manual Install from Git
+
+Ask the user where the plugin repo lives:
+
+```
 Where is the jira-plugin repository cloned? Common locations:
   A) ~/repos/jira-plugin
   B) ~/repos/claude-code-jira-plugin
@@ -147,16 +215,15 @@ If you haven't cloned it, I'll need the repo URL to set it up.
 If the user provides a path, verify it has the expected structure:
 
 ```bash
-# Verify the source repo has the plugin structure
 SOURCE_PATH="<user-provided-path>"
 [ -d "$SOURCE_PATH/commands" ] && echo "EXISTS: commands/ directory" || echo "MISSING: commands/ directory"
 [ -d "$SOURCE_PATH/skills" ] && echo "EXISTS: skills/ directory" || echo "MISSING: skills/ directory"
 ```
 
-If the source has the right structure, install by copying or symlinking into the plugins directory:
+If the source has the right structure, install by copying into the plugins directory:
 
 ```bash
-mkdir -p "$HOME/.claude/plugins"
+mkdir -p "$HOME/.claude/plugins/jira"
 ```
 
 Tell the user:
@@ -175,8 +242,8 @@ If the repo also has a `reference/` directory, copy that too:
 
 Verify:
 ```bash
-echo "Commands: $(ls "$HOME/.claude/plugins/jira/commands/" | wc -l | tr -d ' ')"
-echo "Skills: $(ls "$HOME/.claude/plugins/jira/skills/" | wc -l | tr -d ' ')"
+echo "Commands: $(ls "$HOME/.claude/plugins/jira/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')"
+echo "Skills: $(ls "$HOME/.claude/plugins/jira/skills/"*.md 2>/dev/null | wc -l | tr -d ' ')"
 ```
 
 Expected: 17 commands, 19 skills.
