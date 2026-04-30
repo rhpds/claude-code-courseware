@@ -114,6 +114,20 @@ Shared reference data for all learning modules.
 
 ---
 
+## Hivemind Knowledge Base
+
+| Item | Value |
+|------|-------|
+| Repository | `github.com/rhpds/hivemind` |
+| Format | Obsidian-compatible markdown (YAML frontmatter, `[[wikilinks]]`, `#tags`) |
+| Vault structure | `vault/team_docs/` (canonical), `vault/people/<contributor>/` (individual) |
+| Skills | `hivemind-write` (contribute articles), `hivemind-query` (search KB) |
+| Skill source | `~/repos/hivemind/.claude/skills/` (symlinked to `~/.claude/skills/`) |
+| Preferences | `~/.config/hivemind/hivemind-preferences.md` |
+| Article types | feature, fix, tool, decision, issue, knowledge |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -125,4 +139,5 @@ Shared reference data for all learning modules.
 | 05 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
 | 06 — Playwright MCP | Module 01 complete (Claude Code working) |
 | 07 — Writing Custom Skills | Module 01 complete (Claude Code working) |
+| 08 — Hivemind Knowledge Base | Module 01 complete, GitHub access to rhpds org |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |

@@ -40,13 +40,13 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 | 05 | Writing CLAUDE.md | ~15 min | Write project instructions that shape Claude Code's behavior |
 | 06 | Playwright MCP | ~10 min | Browser automation and visual testing via the Playwright MCP server |
 | 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
+| 08 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared Hive Mind knowledge base |
 | 13 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 
 ### Coming Soon
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 08 | Hivemind Knowledge Base | ~15 min | Contribute to the team knowledge base |
 | 09 | Workshop Ops | ~10 min | Manage workshops via rhdp-ops MCP |
 | 10 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
 | 11 | Building MCP Servers | ~30 min | Create your own MCP server |

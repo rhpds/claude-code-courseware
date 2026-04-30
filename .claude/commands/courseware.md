@@ -38,9 +38,12 @@ Claude Code Courseware — Learning Modules
       Create skills for repeatable workflows.
       Prerequisites: Module 01
 
+  08  Hivemind Knowledge Base                ~15 min
+      Contribute to and search the team's shared Hive Mind knowledge base.
+      Prerequisites: Module 01, GitHub access to rhpds org
+
   ---  Coming Soon  ---
 
-  08  Hivemind Knowledge Base                ~15 min
   09  Workshop Ops (rhdp-ops)                ~10 min
   10  Workshop Intake                        ~15 min
   11  Building MCP Servers                   ~30 min
@@ -59,4 +62,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module (08-12), tell them it's not yet available and suggest modules 01-07 or 13.
+If they pick a "Coming Soon" module (09-12), tell them it's not yet available and suggest modules 01-08 or 13.
