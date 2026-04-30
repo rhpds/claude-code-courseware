@@ -22,9 +22,12 @@ Claude Code Courseware — Learning Modules
       Persistent knowledge graph for cross-session memory.
       Prerequisites: Module 01
 
+  04  Git MCP                                ~10 min
+      Structured Git operations via MCP for status, history, and diffs.
+      Prerequisites: Module 01
+
   ---  Coming Soon  ---
 
-  04  Git MCP                                ~10 min
   05  Playwright MCP                         ~10 min
   06  Writing CLAUDE.md                      ~15 min
   07  Writing Custom Skills                  ~20 min
@@ -42,4 +45,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module, tell them it's not yet available and suggest modules 01-03.
+If they pick a "Coming Soon" module, tell them it's not yet available and suggest modules 01-04.

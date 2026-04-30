@@ -35,13 +35,13 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 |---|-------|------|-------------|
 | 01 | Claude Code + Vertex AI Setup | ~10 min | Install Claude Code and configure Vertex AI as the backend provider |
 | 02 | Atlassian MCP Server (Jira) | ~5 min | Connect Claude Code to Jira via the Atlassian Rovo MCP server |
+| 03 | Memory MCP | ~10 min | Persistent knowledge graph for cross-session memory |
+| 04 | Git MCP | ~10 min | Structured Git operations via MCP for status, history, and diffs |
 
 ### Coming Soon
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 03 | Memory MCP | ~10 min | Persist knowledge across sessions |
-| 04 | Git MCP | ~10 min | Git operations via MCP |
 | 05 | Playwright MCP | ~10 min | Browser automation and visual testing |
 | 06 | Writing CLAUDE.md | ~15 min | Project instructions that shape Claude's behavior |
 | 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |

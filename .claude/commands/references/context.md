@@ -37,6 +37,18 @@ Shared reference data for all learning modules.
 
 ---
 
+## Git MCP Server
+
+| Item | Value |
+|------|-------|
+| Server name | `git` |
+| Package | `@modelcontextprotocol/server-git` |
+| Command | `npx -y @modelcontextprotocol/server-git` |
+| Key tools | `git_status`, `git_log`, `git_diff`, `git_show`, `git_branch` |
+| Notes | All tools require `repo_path` parameter |
+
+---
+
 ## Memory MCP Server
 
 | Item | Value |
@@ -56,3 +68,4 @@ Shared reference data for all learning modules.
 | 01 — Vertex Setup | Mac or Linux, Red Hat GCP account |
 | 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
+| 04 — Git MCP | Module 01 complete (Claude Code working) |
