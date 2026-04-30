@@ -42,9 +42,12 @@ Claude Code Courseware — Learning Modules
       Contribute to and search the team's shared Hive Mind knowledge base.
       Prerequisites: Module 01, GitHub access to rhpds org
 
+  09  Jira Plugin                            ~15 min
+      Install and configure the Jira Plugin for structured workflows.
+      Prerequisites: Module 01, Module 02
+
   ---  Coming Soon  ---
 
-  09  Workshop Ops (rhdp-ops)                ~10 min
   10  Workshop Intake                        ~15 min
   11  Building MCP Servers                   ~30 min
   12  Review Agents                          ~15 min
@@ -62,4 +65,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module (09-12), tell them it's not yet available and suggest modules 01-08 or 13.
+If they pick a "Coming Soon" module (10-12), tell them it's not yet available and suggest modules 01-09 or 13.

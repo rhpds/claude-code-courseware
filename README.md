@@ -41,13 +41,13 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 | 06 | Playwright MCP | ~10 min | Browser automation and visual testing via the Playwright MCP server |
 | 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
 | 08 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared Hive Mind knowledge base |
+| 09 | Jira Plugin | ~15 min | Install and configure the Jira Plugin for structured workflows |
 | 13 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 
 ### Coming Soon
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 09 | Workshop Ops | ~10 min | Manage workshops via rhdp-ops MCP |
 | 10 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
 | 11 | Building MCP Servers | ~30 min | Create your own MCP server |
 | 12 | Review Agents | ~15 min | Use the team review agent system |

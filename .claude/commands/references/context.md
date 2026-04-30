@@ -128,6 +128,22 @@ Shared reference data for all learning modules.
 
 ---
 
+## Jira Plugin
+
+| Item | Value |
+|------|-------|
+| Plugin path | `~/.claude/plugins/jira/` |
+| Commands | 17 slash commands in `commands/` |
+| Skills | 19 context-aware skills in `skills/` |
+| Credentials file | `~/.config/claude-code/mcp.json` |
+| Env vars (alt) | `JIRA_USERNAME`, `JIRA_API_TOKEN` or `JIRA_PERSONAL_TOKEN` |
+| Default Jira instance | `https://redhat.atlassian.net` |
+| Key commands | `/jira:create`, `/jira:solve`, `/jira:backlog`, `/jira:ready-to-solve` |
+| Feature groups | Issue Creation, Backlog & Analysis, Grooming, Dev Workflow, Reporting & Docs |
+| Disable pattern | Move command `.md` files to `commands/disabled/` |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -140,4 +156,5 @@ Shared reference data for all learning modules.
 | 06 — Playwright MCP | Module 01 complete (Claude Code working) |
 | 07 — Writing Custom Skills | Module 01 complete (Claude Code working) |
 | 08 — Hivemind Knowledge Base | Module 01 complete, GitHub access to rhpds org |
+| 09 — Jira Plugin | Module 01 complete, Module 02 complete (Atlassian MCP) |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
