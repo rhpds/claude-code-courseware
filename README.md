@@ -40,7 +40,9 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 | 05 | Writing CLAUDE.md | ~15 min | Write project instructions that shape Claude Code's behavior |
 | 06 | Playwright MCP | ~10 min | Browser automation and visual testing via the Playwright MCP server |
 | 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
-| 08 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared Hive Mind knowledge base |
+| 08 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared Hive Mind knowledge base (RHDP Team only) |
+| 11 | Building MCP Servers | ~30 min | Build a custom MCP server in Python and register it with Claude Code |
+| 12 | Review Agents | ~15 min | Use Claude Code's agent system for specialized code reviews |
 | 13 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 
 ### Coming Soon
@@ -48,8 +50,6 @@ Tab completion works after typing `/learn-` — it shows all available modules.
 | # | Title | Time | Description |
 |---|-------|------|-------------|
 | 10 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
-| 11 | Building MCP Servers | ~30 min | Create your own MCP server |
-| 12 | Review Agents | ~15 min | Use the team review agent system |
 
 ## How Modules Work
 

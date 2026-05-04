@@ -1,5 +1,7 @@
 # Module 08 — Hivemind Knowledge Base
 
+**RHDP Team only** — requires access to the rhpds GitHub org.
+
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed and working), GitHub access to rhpds org
 
