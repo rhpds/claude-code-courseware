@@ -286,7 +286,7 @@ To verify, ask the user to confirm they can see the deck in their browser. The f
 
 If successful, print:
 ```
-Module 05 complete.
+Module 13 complete.
 
 You can now create Red Hat-branded presentations with Claude Code.
 Key things to remember:

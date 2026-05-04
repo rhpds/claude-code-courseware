@@ -445,5 +445,5 @@ Key workflow:
 Your knowledge graph: ~/.claude/memory.json
 Entities so far: <count>
 
-Next module: /learn-04-git-mcp (coming soon)
+Next module: /learn-04-git-mcp
 ```

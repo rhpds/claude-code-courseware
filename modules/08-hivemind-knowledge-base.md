@@ -645,5 +645,5 @@ Best practices:
   - Write articles when you fix something non-obvious
   - Search before writing — someone may have documented it already
 
-Next module: /learn-09-workshop-ops (coming soon)
+Next module: /learn-11-building-mcp-servers
 ```

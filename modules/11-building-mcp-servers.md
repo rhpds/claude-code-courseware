@@ -589,5 +589,5 @@ To remove the practice server later:
   claude mcp remove my-server
   rm -rf ~/repos/my-mcp-server
 
-Next module: /learn-13-red-hat-quick-deck
+Next module: /learn-12-review-agents
 ```
