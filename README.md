@@ -6,6 +6,21 @@ Each module is an interactive, guided walkthrough that runs inside Claude Code. 
 
 ## Getting Started
 
+### Option A: Plugin Install (global)
+
+If your team uses the rhpds-marketplace:
+
+```
+claude plugin install claude-code-courseware --marketplace rhpds-marketplace
+```
+
+Then from any directory:
+```
+/courseware
+```
+
+### Option B: Clone (project-scoped)
+
 1. Clone this repo:
    ```bash
    git clone git@github.com:rhpds/claude-code-courseware.git
@@ -72,6 +87,10 @@ bash scripts/setup-claude-vertex.sh
 ```
 
 This walks you through the same steps as Module 01 but runs as a standalone shell script.
+
+## Forking for Your Team
+
+Want to run this courseware for your own organization? See [Fork Your Own Courseware](docs/fork-your-own.md).
 
 ## Authoring New Modules
 
