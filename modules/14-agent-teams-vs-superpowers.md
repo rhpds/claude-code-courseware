@@ -677,4 +677,6 @@ Agent definitions you created in this module:
 These agents are available in this project now. You can run them
 anytime by asking Claude Code to "run the courseware review team"
 or by spawning individual specialists.
+
+Next module: /learn-15-profile-cleanup
 ```

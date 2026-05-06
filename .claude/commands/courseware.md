@@ -58,6 +58,10 @@ Claude Code Courseware — Learning Modules
       Compare multi-agent coordination patterns for reviews and implementation.
       Prerequisites: Module 01, Module 12 recommended
 
+  15  Profile Cleanup                        ~15 min
+      Audit and clean ~/.claude/ for duplicate skills, orphaned plugins, and context bloat.
+      Prerequisites: Module 01
+
   ---  Coming Soon  ---
 
   10  Workshop Intake                        ~15 min
