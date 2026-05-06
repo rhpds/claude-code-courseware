@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Courseware — Install Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/@rhds/tokens@3.0.2/css/global.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&family=Red+Hat+Text:wght@400;500;700&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #1f1f1f;
+      --bg-surface: #292929;
+      --text-primary: #ffffff;
+      --text-secondary: #c7c7c7;
+      --text-muted: #a3a3a3;
+      --accent: #ee0000;
+      --accent-dark: #a60000;
+      --accent-light: #f56e6e;
+      --tag-border: #383838;
+      --icon-filter: brightness(0) invert(1);
+      --icon-filter-accent: invert(12%) sepia(100%) saturate(10000%) hue-rotate(0deg) brightness(95%);
+
+      --font-display: var(--rh-font-family-heading, 'Red Hat Display', sans-serif);
+      --font-body: var(--rh-font-family-body-text, 'Red Hat Text', sans-serif);
+      --font-mono: var(--rh-font-family-code, 'Red Hat Mono', monospace);
+    }
+
+    html, body { height: 100%; overflow: hidden; background: var(--bg-primary); color: var(--text-primary); }
+
+    .deck { position: relative; width: 100%; height: 100%; }
+
+    .slide {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: var(--rh-space-4xl, 80px) var(--rh-space-3xl, 64px);
+      gap: var(--rh-space-lg, 24px);
+      background: var(--bg-primary);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute; top: -20%; right: -10%; width: 60%; height: 60%;
+      background: radial-gradient(ellipse, rgba(238,0,0,0.08) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+
+    .slide.active .animate-in { animation: fadeSlideUp 0.6s ease-out forwards; opacity: 0; }
+    .slide.active .animate-in:nth-child(2) { animation-delay: 0.1s; }
+    .slide.active .animate-in:nth-child(3) { animation-delay: 0.2s; }
+    .slide.active .animate-in:nth-child(4) { animation-delay: 0.3s; }
+    .slide.active .animate-in:nth-child(5) { animation-delay: 0.4s; }
+    .slide.active .animate-in:nth-child(6) { animation-delay: 0.5s; }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .breadcrumb {
+      position: absolute; top: var(--rh-space-xl, 32px); left: var(--rh-space-3xl, 64px);
+      font-family: var(--font-mono); font-size: var(--rh-font-size-body-text-sm, 0.875rem);
+      color: var(--text-muted); display: flex; align-items: center; gap: var(--rh-space-sm, 8px);
+      z-index: 1;
+    }
+
+    .slide-label {
+      font-family: var(--font-mono); font-size: var(--rh-font-size-body-text-xs, 0.75rem);
+      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(2.5rem, 5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: var(--rh-font-size-heading-lg, 2rem); line-height: 1.1;
+    }
+
+    .subtitle {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-xl, 1.25rem);
+      color: var(--text-secondary); max-width: 720px;
+    }
+
+    .accent { color: var(--accent); }
+
+    .tag {
+      display: inline-block;
+      padding: var(--rh-space-xs, 4px) var(--rh-space-md, 16px);
+      border: var(--rh-border-width-sm, 1px) solid var(--tag-border);
+      border-radius: var(--rh-border-radius-pill, 64px);
+      font-family: var(--font-mono);
+      font-size: var(--rh-font-size-body-text-xs, 0.75rem);
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary);
+    }
+    .tag.accent { border-color: var(--accent); color: var(--accent); }
+
+    .tags { display: flex; gap: var(--rh-space-sm, 8px); flex-wrap: wrap; }
+
+    .attribution {
+      position: absolute; bottom: var(--rh-space-xl, 32px); left: var(--rh-space-3xl, 64px);
+      font-family: var(--font-body); font-size: var(--rh-font-size-body-text-sm, 0.875rem);
+      color: var(--text-muted); z-index: 1;
+    }
+
+    .source {
+      font-family: var(--font-body); font-size: var(--rh-font-size-body-text-sm, 0.875rem);
+      color: var(--text-muted); margin-top: auto;
+    }
+
+    .body-text {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-lg, 1.125rem);
+      color: var(--text-secondary); line-height: 1.6; max-width: 800px;
+    }
+
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: var(--rh-font-size-body-text-md, 1rem);
+      background: var(--bg-surface); color: var(--text-primary);
+      padding: var(--rh-space-lg, 24px); border-radius: var(--rh-border-radius-default, 3px);
+      line-height: 1.7; max-width: 840px; white-space: pre; overflow-x: auto;
+      border-left: var(--rh-border-width-lg, 3px) solid var(--accent);
+    }
+
+    .big-number {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(4rem, 10vw, 8rem); color: var(--accent);
+      line-height: 0.9; letter-spacing: -0.03em;
+    }
+
+    .rh-logo { height: 28px; width: auto; }
+    .rh-logo.small { height: 20px; }
+    .rh-logo.large { height: 40px; }
+
+    .rh-icon { height: 48px; width: 48px; filter: var(--icon-filter); vertical-align: middle; }
+    .rh-icon.small { height: 24px; width: 24px; }
+    .rh-icon.medium { height: 48px; width: 48px; }
+    .rh-icon.large { height: 64px; width: 64px; }
+    .rh-icon.xl { height: 96px; width: 96px; }
+    .rh-icon.accent { filter: var(--icon-filter-accent); }
+
+    /* Workflow diagram */
+    .workflow {
+      display: flex; flex-direction: column; gap: var(--rh-space-lg, 24px);
+      max-width: 900px; width: 100%;
+    }
+    .workflow-row {
+      display: flex; align-items: center; gap: var(--rh-space-md, 16px);
+    }
+    .workflow-step {
+      display: flex; align-items: center; gap: var(--rh-space-md, 16px);
+      background: var(--bg-surface); border: 1px solid var(--tag-border);
+      border-radius: var(--rh-border-radius-default, 3px);
+      padding: var(--rh-space-md, 16px) var(--rh-space-lg, 24px);
+      flex: 1; min-width: 0;
+    }
+    .workflow-step.highlight {
+      border-color: var(--accent); background: rgba(238,0,0,0.06);
+    }
+    .workflow-step .step-num {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: var(--rh-font-size-heading-md, 1.5rem);
+      color: var(--accent); flex-shrink: 0;
+    }
+    .workflow-step .step-text {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-md, 1rem);
+      color: var(--text-primary);
+    }
+    .workflow-step .step-cmd {
+      font-family: var(--font-mono);
+      font-size: var(--rh-font-size-body-text-sm, 0.875rem);
+      color: var(--text-muted); margin-top: 4px;
+    }
+    .workflow-arrow {
+      font-size: 1.5rem; color: var(--text-muted); flex-shrink: 0;
+    }
+
+    /* Two column layout */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--rh-space-xl, 32px); max-width: 1000px;
+    }
+    .col {
+      background: var(--bg-surface); border: 1px solid var(--tag-border);
+      border-radius: var(--rh-border-radius-default, 3px);
+      padding: var(--rh-space-lg, 24px);
+    }
+    .col h3 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: var(--rh-font-size-heading-sm, 1.25rem);
+      margin-bottom: var(--rh-space-md, 16px);
+    }
+    .col p {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-md, 1rem);
+      color: var(--text-secondary); line-height: 1.6;
+    }
+    .col.winner { border-color: var(--accent); }
+    .col.winner h3 { color: var(--accent); }
+
+    /* Bullet list */
+    .bullet-list {
+      list-style: none; display: flex; flex-direction: column;
+      gap: var(--rh-space-sm, 8px); max-width: 800px;
+    }
+    .bullet-list li {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-lg, 1.125rem);
+      color: var(--text-secondary); position: relative;
+      padding-left: var(--rh-space-lg, 24px); line-height: 1.5;
+    }
+    .bullet-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.7em;
+      width: 12px; height: 2px; background: var(--accent);
+    }
+    .bullet-list li strong { color: var(--text-primary); }
+
+    /* Checklist */
+    .check-list {
+      list-style: none; display: flex; flex-direction: column;
+      gap: var(--rh-space-md, 16px); max-width: 800px;
+    }
+    .check-list li {
+      font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-lg, 1.125rem);
+      color: var(--text-secondary); display: flex; align-items: flex-start;
+      gap: var(--rh-space-sm, 8px);
+    }
+    .check-mark {
+      color: #73c479; font-weight: 700; flex-shrink: 0;
+      font-size: var(--rh-font-size-body-text-xl, 1.25rem);
+    }
+
+    .logo-footer { text-align: center; margin-top: var(--rh-space-xl, 32px); }
+
+    /* Animated terminal mockup */
+    .terminal {
+      background: #0d1117; border-radius: 8px; overflow: hidden;
+      max-width: 700px; width: 100%; font-family: var(--font-mono);
+      font-size: 0.78rem; box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .terminal.wide { max-width: 100%; }
+    .terminal-header {
+      background: #161b22; padding: 8px 14px;
+      display: flex; gap: 6px; align-items: center;
+    }
+    .terminal-title {
+      margin-left: 8px; font-size: 0.7rem; color: #8b949e;
+      font-family: var(--font-mono);
+    }
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-dot.r { background: #ff5f56; }
+    .terminal-dot.y { background: #ffbd2e; }
+    .terminal-dot.g { background: #27c93f; }
+    .terminal-body { padding: 14px 16px; line-height: 1.9; }
+    .terminal-line {
+      opacity: 0; white-space: pre;
+      animation: termReveal 0.3s ease forwards;
+    }
+    .slide.active .terminal-line { opacity: 0; }
+    .slide.active .terminal-line:nth-child(1)  { animation-delay: 0.4s; }
+    .slide.active .terminal-line:nth-child(2)  { animation-delay: 0.8s; }
+    .slide.active .terminal-line:nth-child(3)  { animation-delay: 1.2s; }
+    .slide.active .terminal-line:nth-child(4)  { animation-delay: 1.6s; }
+    .slide.active .terminal-line:nth-child(5)  { animation-delay: 2.0s; }
+    .slide.active .terminal-line:nth-child(6)  { animation-delay: 2.4s; }
+    .slide.active .terminal-line:nth-child(7)  { animation-delay: 2.8s; }
+    .slide.active .terminal-line:nth-child(8)  { animation-delay: 3.2s; }
+    .slide.active .terminal-line:nth-child(9)  { animation-delay: 3.6s; }
+    .slide.active .terminal-line:nth-child(10) { animation-delay: 4.0s; }
+    .slide.active .terminal-line:nth-child(11) { animation-delay: 4.4s; }
+    .slide.active .terminal-line:nth-child(12) { animation-delay: 4.8s; }
+    @keyframes termReveal {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .t-prompt { color: #79c0ff; }
+    .t-cmd    { color: #e6edf3; }
+    .t-pass   { color: #3fb950; font-weight: 700; }
+    .t-miss   { color: #f85149; font-weight: 700; }
+    .t-info   { color: #8b949e; }
+    .t-accent { color: #f97583; }
+    .t-string { color: #a5d6ff; }
+    .t-dim    { color: #484f58; }
+
+    /* File viewer */
+    .file-viewer {
+      background: #0d1117; border-radius: 8px; overflow: hidden;
+      max-width: 700px; width: 100%; font-family: var(--font-mono);
+      font-size: 0.78rem; box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .file-header {
+      background: #161b22; padding: 8px 14px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid #30363d;
+    }
+    .file-tab {
+      background: #0d1117; padding: 6px 14px; border-radius: 6px 6px 0 0;
+      color: #e6edf3; font-size: 0.75rem; border: 1px solid #30363d;
+      border-bottom: 1px solid #0d1117; margin-bottom: -1px;
+    }
+    .file-body { padding: 14px 0; }
+    .file-line {
+      display: flex; padding: 0 16px; line-height: 1.9;
+    }
+    .file-num {
+      color: #484f58; width: 32px; text-align: right;
+      margin-right: 16px; flex-shrink: 0; user-select: none;
+    }
+    .file-text { color: #e6edf3; }
+    .file-text .hl { color: #ffa657; }
+    .file-text .val { color: #a5d6ff; }
+    .file-text .comment { color: #8b949e; }
+    .file-text .key { color: #ff7b72; }
+
+    /* Side by side terminals */
+    .term-pair {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--rh-space-lg, 24px); max-width: 1000px; width: 100%;
+    }
+    .term-pair .terminal { max-width: 100%; }
+
+    .controls {
+      position: fixed; bottom: var(--rh-space-md, 16px);
+      left: 0; right: 0; display: flex; justify-content: space-between;
+      padding: 0 var(--rh-space-xl, 32px); z-index: 100;
+    }
+    .nav-hint {
+      font-family: var(--font-mono);
+      font-size: var(--rh-font-size-body-text-xs, 0.75rem);
+      color: var(--text-muted);
+    }
+    .progress {
+      font-family: var(--font-mono);
+      font-size: var(--rh-font-size-body-text-xs, 0.75rem);
+      color: var(--text-muted);
+    }
+    .progress .current { color: var(--accent); font-weight: 700; }
+
+    .notes-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: 360px;
+      background: var(--bg-secondary); border-left: 1px solid var(--tag-border);
+      padding: var(--rh-space-xl, 32px); font-family: var(--font-body);
+      font-size: var(--rh-font-size-body-text-sm, 0.875rem);
+      color: var(--text-secondary); line-height: 1.6; overflow-y: auto;
+      transform: translateX(100%); transition: transform 0.3s ease; z-index: 200;
+    }
+    .notes-panel.visible { transform: translateX(0); }
+
+    @media print {
+      @page { size: 13.33in 7.5in; margin: 0; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      html, body { height: auto !important; width: auto !important; overflow: visible !important; background: #fff !important; }
+      .deck { height: auto !important; width: auto !important; position: static !important; overflow: visible !important; }
+      .slide {
+        display: flex !important; position: relative !important; inset: auto !important;
+        width: 13.33in !important; height: 7.5in !important;
+        padding: 0.55in 0.85in !important; gap: 0.14in !important;
+        box-sizing: border-box !important;
+        break-after: page; page-break-after: always;
+        break-inside: avoid; page-break-inside: avoid; overflow: hidden !important;
+      }
+      .slide:last-child { break-after: auto; page-break-after: auto; }
+      .slide::before, .slide::after { display: none !important; }
+      .slide .animate-in, .slide.active .animate-in {
+        animation: none !important; opacity: 1 !important; transform: none !important;
+      }
+      .controls, .nav-hint, .notes-panel { display: none !important; }
+
+      :root { color-scheme: light; }
+      body, .deck, .slide { background: #fff !important; color: #151515 !important; }
+      h1, h2, h3, .big-number { color: #151515 !important; }
+      .subtitle, .body-text, p, li, .bullet-list li { color: #3c3f42 !important; }
+      .bullet-list li strong, p strong, li strong { color: #151515 !important; font-weight: 700 !important; }
+      .breadcrumb, .slide-label, .source, .attribution, .tag { color: #6a6e73 !important; }
+      .accent, .big-number, .step-num { color: #ee0000 !important; }
+      .tag { background: transparent !important; border-color: #3c3f42 !important; color: #151515 !important; }
+      .col, .workflow-step { background: #fff !important; border-color: #c7c7c7 !important; }
+      .workflow-step.highlight { border-color: #ee0000 !important; background: rgba(238,0,0,0.04) !important; }
+      body.printing .rh-logo path[fill="#fff"] { fill: #151515 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide" data-notes="Arrow keys or click to navigate. Press N to toggle contextual notes with references and links for each slide. Works in any modern browser. For PDF export: Cmd/Ctrl+P, Save as PDF.">
+      <div class="breadcrumb">
+        <svg class="rh-logo small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613 145" role="img" aria-label="Red Hat">
+          <title>Red Hat</title>
+          <path d="M127.47,83.49c12.51,0,30.61-2.58,30.61-17.46a14,14,0,0,0-.31-3.42l-7.45-32.36c-1.72-7.12-3.23-10.35-15.73-16.6C124.89,8.69,103.76.5,97.51.5,91.69.5,90,8,83.06,8c-6.68,0-11.64-5.6-17.89-5.6-6,0-9.91,4.09-12.93,12.5,0,0-8.41,23.72-9.49,27.16A6.43,6.43,0,0,0,42.53,44c0,9.22,36.3,39.45,84.94,39.45M160,72.07c1.73,8.19,1.73,9.05,1.73,10.13,0,14-15.74,21.77-36.43,21.77C78.54,104,37.58,76.6,37.58,58.49a18.45,18.45,0,0,1,1.51-7.33C22.27,52,.5,55,.5,74.22c0,31.48,74.59,70.28,133.65,70.28,45.28,0,56.7-20.48,56.7-36.65,0-12.72-11-27.16-30.83-35.78" fill="#e00"/>
+          <path d="M160,72.07c1.73,8.19,1.73,9.05,1.73,10.13,0,14-15.74,21.77-36.43,21.77C78.54,104,37.58,76.6,37.58,58.49a18.45,18.45,0,0,1,1.51-7.33l3.66-9.06A6.43,6.43,0,0,0,42.53,44c0,9.22,36.3,39.45,84.94,39.45,12.51,0,30.61-2.58,30.61-17.46a14,14,0,0,0-.31-3.42Z"/>
+          <path d="M579.74,92.8c0,11.89,7.15,17.67,20.19,17.67a52.11,52.11,0,0,0,11.89-1.68V95a24.84,24.84,0,0,1-7.68,1.16c-5.37,0-7.36-1.68-7.36-6.73V68.3h15.56V54.1H596.78v-18l-17,3.68V54.1H568.49V68.3h11.25Zm-53,.32c0-3.68,3.69-5.47,9.26-5.47a43.12,43.12,0,0,1,10.1,1.26v7.15a21.51,21.51,0,0,1-10.63,2.63c-5.46,0-8.73-2.1-8.73-5.57m5.2,17.56c6,0,10.84-1.26,15.36-4.31v3.37h16.82V74.08c0-13.56-9.14-21-24.39-21-8.52,0-16.94,2-26,6.1l6.1,12.52c6.52-2.74,12-4.42,16.83-4.42,7,0,10.62,2.73,10.62,8.31v2.73a49.53,49.53,0,0,0-12.62-1.58c-14.31,0-22.93,6-22.93,16.73,0,9.78,7.78,17.24,20.19,17.24m-92.44-.94h18.09V80.92h30.29v28.82H506V36.12H487.93V64.41H457.64V36.12H439.55ZM370.62,81.87c0-8,6.31-14.1,14.62-14.1A17.22,17.22,0,0,1,397,72.09V91.54A16.36,16.36,0,0,1,385.24,96c-8.2,0-14.62-6.1-14.62-14.09m26.61,27.87h16.83V32.44l-17,3.68V57.05a28.3,28.3,0,0,0-14.2-3.68c-16.19,0-28.92,12.51-28.92,28.5a28.25,28.25,0,0,0,28.4,28.6,25.12,25.12,0,0,0,14.93-4.83ZM320,67c5.36,0,9.88,3.47,11.67,8.83H308.47C310.15,70.3,314.36,67,320,67M291.33,82c0,16.2,13.25,28.82,30.28,28.82,9.36,0,16.2-2.53,23.25-8.42l-11.26-10c-2.63,2.74-6.52,4.21-11.14,4.21a14.39,14.39,0,0,1-13.68-8.83h39.65V83.55c0-17.67-11.88-30.39-28.08-30.39a28.57,28.57,0,0,0-29,28.81M262,51.58c6,0,9.36,3.78,9.36,8.31S268,68.2,262,68.2H244.11V51.58Zm-36,58.16h18.09V82.92h13.77l13.89,26.82H292l-16.2-29.45a22.27,22.27,0,0,0,13.88-20.72c0-13.25-10.41-23.45-26-23.45H226Z" fill="#fff"/>
+        </svg>
+        <span>RHDP TEAM</span>
+      </div>
+      <div class="slide-label animate-in">-- CLAUDE CODE COURSEWARE - MAY 2026</div>
+      <h1 class="animate-in">Getting Started with<br><span class="accent">Claude Code Courseware</span></h1>
+      <p class="subtitle animate-in">Two ways to install. Same 11 learning modules. Clone for development, install as a plugin for instant access.</p>
+      <div class="tags animate-in">
+        <span class="tag accent">Plugin</span>
+        <span class="tag">Clone</span>
+        <span class="tag">11 Modules</span>
+        <span class="tag">MCP Servers</span>
+        <span class="tag">Skills</span>
+      </div>
+      <div class="attribution">RHDP Team - Red Hat</div>
+    </div>
+
+    <!-- SLIDE 2: WHAT IS IT -->
+    <div class="slide" data-notes="The courseware repo lives at github.com/rhpds/claude-code-courseware. Each module is a guided walkthrough with preflight checks, step-by-step instructions, verification, and a hands-on challenge against real team data.">
+      <div class="slide-label animate-in">-- OVERVIEW</div>
+      <h2 class="animate-in"><img class="rh-icon small accent" src="https://cdn.jsdelivr.net/npm/@rhds/icons@2.1.0/standard/developer.svg" alt=""> What Is <span class="accent">Courseware</span>?</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1000px; align-items: start;" class="animate-in">
+        <div>
+          <p class="body-text" style="margin-bottom: 16px;">Interactive, hands-on learning modules for Claude Code. Each module teaches a specific tool or integration through guided walkthroughs with built-in verification.</p>
+          <ul class="bullet-list">
+            <li><strong>11 modules</strong> covering MCP servers, CLAUDE.md, custom skills, review agents, and more</li>
+            <li><strong>Self-paced</strong> with preflight checks that skip what you already have</li>
+            <li><strong>Real team data</strong> in every challenge (RHDPOPS Jira, team MCP servers)</li>
+            <li><strong>Two install modes</strong> from the same repo: clone or plugin</li>
+          </ul>
+        </div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+            <span class="terminal-title">Module 02 -- Preflight</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">/learn-02-atlassian-mcp</span></div>
+            <div class="terminal-line"><span class="t-info">Running preflight checks...</span></div>
+            <div class="terminal-line"><span class="t-pass">EXISTS</span> <span class="t-info">Claude Code</span></div>
+            <div class="terminal-line"><span class="t-pass">EXISTS</span> <span class="t-info">mcp-atlassian-prod in settings.json</span></div>
+            <div class="terminal-line"><span class="t-miss">MISSING</span> <span class="t-info">OAuth token (needs auth)</span></div>
+            <div class="terminal-line"><span class="t-dim">---</span></div>
+            <div class="terminal-line"><span class="t-info">Skipping Step 1 (config exists)</span></div>
+            <div class="terminal-line"><span class="t-info">Starting at Step 2: Authenticate</span></div>
+            <div class="terminal-line"><span class="t-dim">---</span></div>
+            <div class="terminal-line"><span class="t-accent">Authenticate with your Red Hat</span></div>
+            <div class="terminal-line"><span class="t-accent">Atlassian account to continue.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: TWO MODES -->
+    <div class="slide" data-notes="Clone mode gives you the full repo with all files. Plugin mode installs just the skills globally so you can access /learn-* commands from any directory. Both read the same module content and reference data.">
+      <div class="slide-label animate-in">-- INSTALLATION</div>
+      <h2 class="animate-in">Two Ways to <span class="accent">Install</span></h2>
+      <div class="term-pair animate-in">
+        <div>
+          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 12px;"><img class="rh-icon small" src="https://cdn.jsdelivr.net/npm/@rhds/icons@2.1.0/standard/code-branch.svg" alt=""> Option A: Clone</h3>
+          <p style="font-family: var(--font-body); color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">Full repo access. Best for contributors and developers.</p>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+              <span class="terminal-title">Terminal</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">git clone git@github.com:rhpds/claude-code-courseware.git</span></div>
+              <div class="terminal-line"><span class="t-info">Cloning into 'claude-code-courseware'...</span></div>
+              <div class="terminal-line"><span class="t-info">done.</span></div>
+              <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">cd claude-code-courseware</span></div>
+              <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">claude .</span></div>
+              <div class="terminal-line"><span class="t-pass">Ready.</span> <span class="t-info">Type /courseware to begin.</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; color: var(--accent);"><img class="rh-icon small accent" src="https://cdn.jsdelivr.net/npm/@rhds/icons@2.1.0/standard/cloud-deploy.svg" alt=""> Option B: Plugin (Recommended)</h3>
+          <p style="font-family: var(--font-body); color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">Global install. Commands available from any directory.</p>
+          <div class="terminal" style="border: 1px solid var(--accent);">
+            <div class="terminal-header">
+              <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+              <span class="terminal-title">Claude Code</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line"><span class="t-prompt">&gt;</span> <span class="t-cmd">/plugin marketplace add rhpds/rhpds-utils/marketplace</span></div>
+              <div class="terminal-line"><span class="t-pass">Registered:</span> <span class="t-info">rhpds-marketplace (5 plugins)</span></div>
+              <div class="terminal-line"><span class="t-prompt">&gt;</span> <span class="t-cmd">/plugin install claude-code-courseware</span></div>
+              <div class="terminal-line"><span class="t-info">Cloning courseware repo...</span></div>
+              <div class="terminal-line"><span class="t-info">Symlinking 13 skills...</span></div>
+              <div class="terminal-line"><span class="t-pass">Plugin 'claude-code-courseware' v1.0.0 installed</span></div>
+              <div class="terminal-line"><span class="t-info">  Skills: /courseware, /learn-* available</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: WORKFLOW DIAGRAM -->
+    <div class="slide" data-notes="The plugin install workflow: register the marketplace (one-time), install the plugin, then use /courseware to browse and /learn-* to start any module. The marketplace registration only needs to happen once per user.">
+      <div class="slide-label animate-in">-- PLUGIN INSTALL WORKFLOW</div>
+      <h2 class="animate-in"><img class="rh-icon small accent" src="https://cdn.jsdelivr.net/npm/@rhds/icons@2.1.0/standard/flowchart.svg" alt=""> Plugin Install <span class="accent">Step by Step</span></h2>
+      <div class="workflow animate-in">
+        <div class="workflow-row">
+          <div class="workflow-step">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-text">Register Marketplace</div>
+              <div class="step-cmd">/plugin marketplace add rhpds/rhpds-utils/marketplace</div>
+            </div>
+          </div>
+          <div class="workflow-arrow">&#8594;</div>
+          <div class="workflow-step highlight">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-text">Install Plugin</div>
+              <div class="step-cmd">/plugin install claude-code-courseware</div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 1.5rem;">&#8595;</div>
+        <div class="workflow-row">
+          <div class="workflow-step">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-text">Browse Catalog</div>
+              <div class="step-cmd">/courseware</div>
+            </div>
+          </div>
+          <div class="workflow-arrow">&#8594;</div>
+          <div class="workflow-step highlight">
+            <div class="step-num">4</div>
+            <div>
+              <div class="step-text">Start Learning</div>
+              <div class="step-cmd">/learn-01-vertex-setup</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="body-text animate-in" style="margin-top: 8px;">Step 1 is one-time setup. After that, just <code style="font-family: var(--font-mono); color: var(--accent);">/plugin install</code> and go.</p>
+    </div>
+
+    <!-- SLIDE 5: MODULE CATALOG -->
+    <div class="slide" data-notes="All module numbers are preserved from the original courseware. Modules 09 and 10 are not yet available. Module 08 (Hivemind) requires GitHub access to the rhpds org.">
+      <div class="slide-label animate-in">-- MODULES</div>
+      <h2 class="animate-in"><span class="accent">11</span> Modules Available</h2>
+      <div class="two-col animate-in" style="font-size: 0.9rem;">
+        <div class="col" style="padding: 20px;">
+          <h3 style="font-size: 1rem; margin-bottom: 12px;">Foundations</h3>
+          <p style="line-height: 2; font-size: 0.9rem;">
+            <span class="accent" style="font-weight: 700;">01</span> Vertex AI Setup<br>
+            <span class="accent" style="font-weight: 700;">02</span> Atlassian MCP (Jira)<br>
+            <span class="accent" style="font-weight: 700;">03</span> Memory MCP<br>
+            <span class="accent" style="font-weight: 700;">04</span> Git MCP<br>
+            <span class="accent" style="font-weight: 700;">05</span> Writing CLAUDE.md<br>
+            <span class="accent" style="font-weight: 700;">06</span> Playwright MCP
+          </p>
+        </div>
+        <div class="col" style="padding: 20px;">
+          <h3 style="font-size: 1rem; margin-bottom: 12px;">Advanced</h3>
+          <p style="line-height: 2; font-size: 0.9rem;">
+            <span class="accent" style="font-weight: 700;">07</span> Writing Custom Skills<br>
+            <span class="accent" style="font-weight: 700;">08</span> Hivemind Knowledge Base<br>
+            <span class="accent" style="font-weight: 700;">11</span> Building MCP Servers<br>
+            <span class="accent" style="font-weight: 700;">12</span> Review Agents<br>
+            <span class="accent" style="font-weight: 700;">13</span> Red Hat Quick Deck
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: QA VERIFICATION -->
+    <div class="slide" data-notes="QA verification was run across all 11 modules. Every skill symlink resolves, every module file is reachable via relative path, and all preflight commands execute without errors. Clone mode is unchanged -- zero diff on existing files.">
+      <div class="slide-label animate-in">-- VERIFICATION</div>
+      <h2 class="animate-in"><img class="rh-icon small" src="https://cdn.jsdelivr.net/npm/@rhds/icons@2.1.0/standard/check.svg" alt=""> QA <span class="accent">Results</span></h2>
+      <ul class="check-list animate-in">
+        <li><span class="check-mark">PASS</span> All 11 skill symlinks resolve to valid SKILL.md files</li>
+        <li><span class="check-mark">PASS</span> All 11 module files reachable via relative paths (../../modules/)</li>
+        <li><span class="check-mark">PASS</span> Clone-mode dispatchers unchanged (zero diff)</li>
+        <li><span class="check-mark">PASS</span> Module content files unchanged (zero diff)</li>
+        <li><span class="check-mark">PASS</span> /courseware catalog displays correctly from global skill</li>
+        <li><span class="check-mark">PASS</span> /learn-02-atlassian-mcp loads module and runs preflight</li>
+        <li><span class="check-mark">PASS</span> Preflight checks execute for all modules</li>
+      </ul>
+    </div>
+
+    <!-- SLIDE 7: FORK YOUR OWN -->
+    <div class="slide" data-notes="The fork guide is at docs/fork-your-own.md. All RHDP-specific data lives in .claude/commands/references/context.md -- a single file to edit. External teams can fork the repo, customize context.md, and add/remove modules.">
+      <div class="slide-label animate-in">-- EXTENSIBILITY</div>
+      <h2 class="animate-in">Fork Your Own <span class="accent">Courseware</span></h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1000px; align-items: start;" class="animate-in">
+        <div>
+          <p class="body-text" style="margin-bottom: 20px;">All RHDP-specific data lives in a single file. Fork the repo, edit one file, and you have courseware for your own team.</p>
+          <ul class="bullet-list" style="margin-bottom: 16px;">
+            <li>Fork the repo on GitHub</li>
+            <li>Edit <strong>context.md</strong> with your values</li>
+            <li>Add or remove modules as needed</li>
+            <li>Publish your own marketplace plugin</li>
+          </ul>
+          <p class="source">Full guide: docs/fork-your-own.md</p>
+        </div>
+        <div class="file-viewer">
+          <div class="file-header">
+            <div class="file-tab">.claude/commands/references/context.md</div>
+          </div>
+          <div class="file-body">
+            <div class="file-line"><span class="file-num">1</span><span class="file-text"><span class="hl"># Courseware Context Reference</span></span></div>
+            <div class="file-line"><span class="file-num">2</span><span class="file-text"><span class="comment">&gt; Edit these for your organization.</span></span></div>
+            <div class="file-line"><span class="file-num">3</span><span class="file-text"></span></div>
+            <div class="file-line"><span class="file-num">4</span><span class="file-text"><span class="hl">## Team Environment</span></span></div>
+            <div class="file-line"><span class="file-num">5</span><span class="file-text"></span></div>
+            <div class="file-line"><span class="file-num">6</span><span class="file-text"><span class="key">GCP project list</span>  <span class="val">https://docs.google...</span></span></div>
+            <div class="file-line"><span class="file-num">7</span><span class="file-text"><span class="key">Vertex AI region</span>  <span class="val">global</span></span></div>
+            <div class="file-line"><span class="file-num">8</span><span class="file-text"><span class="key">Atlassian instance</span> <span class="val">redhat.atlassian.net</span></span></div>
+            <div class="file-line"><span class="file-num">9</span><span class="file-text"><span class="key">Jira project</span>      <span class="val">RHDPOPS</span></span></div>
+            <div class="file-line"><span class="file-num">10</span><span class="file-text"></span></div>
+            <div class="file-line"><span class="file-num">11</span><span class="file-text"><span class="hl">## MCP Servers</span></span></div>
+            <div class="file-line"><span class="file-num">12</span><span class="file-text"><span class="key">Memory MCP</span>        <span class="val">built-in</span></span></div>
+            <div class="file-line"><span class="file-num">13</span><span class="file-text"><span class="key">Git MCP</span>           <span class="val">built-in</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: THANK YOU -->
+    <div class="slide" style="align-items: center; text-align: center;" data-notes="Repository: github.com/rhpds/claude-code-courseware. Marketplace: rhpds/rhpds-utils/marketplace. Fork guide: docs/fork-your-own.md.">
+      <h1 class="animate-in" style="font-size: clamp(3rem, 6vw, 4.5rem);">Thank <span class="accent">You</span></h1>
+      <p class="subtitle animate-in" style="text-align: center;">Start learning: <code style="font-family: var(--font-mono); color: var(--accent);">/courseware</code></p>
+      <div class="logo-footer animate-in">
+        <svg class="rh-logo large" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613 145" role="img" aria-label="Red Hat">
+          <title>Red Hat</title>
+          <path d="M127.47,83.49c12.51,0,30.61-2.58,30.61-17.46a14,14,0,0,0-.31-3.42l-7.45-32.36c-1.72-7.12-3.23-10.35-15.73-16.6C124.89,8.69,103.76.5,97.51.5,91.69.5,90,8,83.06,8c-6.68,0-11.64-5.6-17.89-5.6-6,0-9.91,4.09-12.93,12.5,0,0-8.41,23.72-9.49,27.16A6.43,6.43,0,0,0,42.53,44c0,9.22,36.3,39.45,84.94,39.45M160,72.07c1.73,8.19,1.73,9.05,1.73,10.13,0,14-15.74,21.77-36.43,21.77C78.54,104,37.58,76.6,37.58,58.49a18.45,18.45,0,0,1,1.51-7.33C22.27,52,.5,55,.5,74.22c0,31.48,74.59,70.28,133.65,70.28,45.28,0,56.7-20.48,56.7-36.65,0-12.72-11-27.16-30.83-35.78" fill="#e00"/>
+          <path d="M160,72.07c1.73,8.19,1.73,9.05,1.73,10.13,0,14-15.74,21.77-36.43,21.77C78.54,104,37.58,76.6,37.58,58.49a18.45,18.45,0,0,1,1.51-7.33l3.66-9.06A6.43,6.43,0,0,0,42.53,44c0,9.22,36.3,39.45,84.94,39.45,12.51,0,30.61-2.58,30.61-17.46a14,14,0,0,0-.31-3.42Z"/>
+          <path d="M579.74,92.8c0,11.89,7.15,17.67,20.19,17.67a52.11,52.11,0,0,0,11.89-1.68V95a24.84,24.84,0,0,1-7.68,1.16c-5.37,0-7.36-1.68-7.36-6.73V68.3h15.56V54.1H596.78v-18l-17,3.68V54.1H568.49V68.3h11.25Zm-53,.32c0-3.68,3.69-5.47,9.26-5.47a43.12,43.12,0,0,1,10.1,1.26v7.15a21.51,21.51,0,0,1-10.63,2.63c-5.46,0-8.73-2.1-8.73-5.57m5.2,17.56c6,0,10.84-1.26,15.36-4.31v3.37h16.82V74.08c0-13.56-9.14-21-24.39-21-8.52,0-16.94,2-26,6.1l6.1,12.52c6.52-2.74,12-4.42,16.83-4.42,7,0,10.62,2.73,10.62,8.31v2.73a49.53,49.53,0,0,0-12.62-1.58c-14.31,0-22.93,6-22.93,16.73,0,9.78,7.78,17.24,20.19,17.24m-92.44-.94h18.09V80.92h30.29v28.82H506V36.12H487.93V64.41H457.64V36.12H439.55ZM370.62,81.87c0-8,6.31-14.1,14.62-14.1A17.22,17.22,0,0,1,397,72.09V91.54A16.36,16.36,0,0,1,385.24,96c-8.2,0-14.62-6.1-14.62-14.09m26.61,27.87h16.83V32.44l-17,3.68V57.05a28.3,28.3,0,0,0-14.2-3.68c-16.19,0-28.92,12.51-28.92,28.5a28.25,28.25,0,0,0,28.4,28.6,25.12,25.12,0,0,0,14.93-4.83ZM320,67c5.36,0,9.88,3.47,11.67,8.83H308.47C310.15,70.3,314.36,67,320,67M291.33,82c0,16.2,13.25,28.82,30.28,28.82,9.36,0,16.2-2.53,23.25-8.42l-11.26-10c-2.63,2.74-6.52,4.21-11.14,4.21a14.39,14.39,0,0,1-13.68-8.83h39.65V83.55c0-17.67-11.88-30.39-28.08-30.39a28.57,28.57,0,0,0-29,28.81M262,51.58c6,0,9.36,3.78,9.36,8.31S268,68.2,262,68.2H244.11V51.58Zm-36,58.16h18.09V82.92h13.77l13.89,26.82H292l-16.2-29.45a22.27,22.27,0,0,0,13.88-20.72c0-13.25-10.41-23.45-26-23.45H226Z" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <div class="nav-hint">&larr; &rarr; or click to navigate &middot; N for notes</div>
+    <div class="progress"><span class="current">1</span> / <span class="total">8</span></div>
+  </div>
+
+  <div class="notes-panel"></div>
+
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const currentEl = document.querySelector('.current');
+      const totalEl = document.querySelector('.total');
+      const notesPanel = document.querySelector('.notes-panel');
+      let idx = 0;
+      let notesVisible = false;
+
+      totalEl.textContent = slides.length;
+
+      function show(i) {
+        slides.forEach((s, j) => {
+          s.classList.toggle('active', j === i);
+          s.style.display = j === i ? 'flex' : 'none';
+        });
+        currentEl.textContent = i + 1;
+        if (notesVisible && notesPanel) {
+          const note = slides[i].dataset.notes || '';
+          notesPanel.innerHTML = note;
+        }
+      }
+
+      function next() { if (idx < slides.length - 1) { idx++; show(idx); } }
+      function prev() { if (idx > 0) { idx--; show(idx); } }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+        if (e.key === 'ArrowLeft') { prev(); }
+        if (e.key === 'n' || e.key === 'N') {
+          notesVisible = !notesVisible;
+          if (notesPanel) notesPanel.classList.toggle('visible', notesVisible);
+          show(idx);
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.controls') || e.target.closest('.notes-panel')) return;
+        const x = e.clientX / window.innerWidth;
+        x > 0.5 ? next() : prev();
+      });
+
+      let touchStartX = 0;
+      document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+      document.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(diff) > 50) { diff < 0 ? next() : prev(); }
+      });
+
+      window.addEventListener('beforeprint', () => {
+        slides.forEach(s => { s.style.display = ''; });
+        document.body.classList.add('printing');
+      });
+      window.addEventListener('afterprint', () => {
+        document.body.classList.remove('printing');
+        show(idx);
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
