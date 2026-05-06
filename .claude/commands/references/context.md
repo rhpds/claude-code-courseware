@@ -1,5 +1,8 @@
 # Courseware Context Reference
 
+> **Forking this repo?** Edit the values below for your organization.
+> See `docs/fork-your-own.md` for the full customization guide.
+
 Shared reference data for all learning modules.
 
 ---
