@@ -1,6 +1,6 @@
 # Getting Started with Claude Code Courseware
 
-Two ways to install. Same 11 learning modules.
+Two ways to install. Same 12 learning modules.
 
 **RHDP Team** - May 2026
 _RHDP Team - Red Hat_
@@ -11,9 +11,9 @@ _RHDP Team - Red Hat_
 
 Getting Started with **Claude Code Courseware**
 
-Two ways to install. Same 11 learning modules. Clone for development, install as a plugin for instant access.
+Two ways to install. Same 12 learning modules. Clone for development, install as a plugin for instant access.
 
-Tags: Plugin, Clone, 11 Modules, MCP Servers, Skills
+Tags: Plugin, Clone, 12 Modules, MCP Servers, Skills
 
 ---
 
@@ -68,20 +68,20 @@ Step 1 is one-time setup. After that, just `/plugin install` and go.
 
 ---
 
-## Slide 5 -- 11 Modules Available
+## Slide 5 -- 12 Modules Available
 
 **Foundations:**
 01 Vertex AI Setup, 02 Atlassian MCP (Jira), 03 Memory MCP, 04 Git MCP, 05 Writing CLAUDE.md, 06 Playwright MCP
 
 **Advanced:**
-07 Writing Custom Skills, 08 Hivemind Knowledge Base, 11 Building MCP Servers, 12 Review Agents, 13 Red Hat Quick Deck
+07 Writing Custom Skills, 08 Hivemind Knowledge Base, 11 Building MCP Servers, 12 Review Agents, 13 Red Hat Quick Deck, 14 Agent Teams vs Superpowers
 
 ---
 
 ## Slide 6 -- QA Results
 
-- PASS: All 11 skill symlinks resolve to valid SKILL.md files
-- PASS: All 11 module files reachable via relative paths
+- PASS: All 12 skill symlinks resolve to valid SKILL.md files
+- PASS: All 12 module files reachable via relative paths
 - PASS: Clone-mode dispatchers unchanged (zero diff)
 - PASS: Module content files unchanged (zero diff)
 - PASS: /courseware catalog displays correctly from global skill

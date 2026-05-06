@@ -50,13 +50,17 @@ Claude Code Courseware — Learning Modules
       Use Claude Code's agent system for specialized code reviews.
       Prerequisites: Module 01, Module 07 recommended
 
-  ---  Coming Soon  ---
-
-  10  Workshop Intake                        ~15 min
-
   13  Red Hat Quick Deck                     ~10 min
       Generate branded HTML slide presentations with the Quick Deck skill.
       Prerequisites: Module 01
+
+  14  Agent Teams vs Superpowers             ~20 min
+      Compare multi-agent coordination patterns for reviews and implementation.
+      Prerequisites: Module 01, Module 12 recommended
+
+  ---  Coming Soon  ---
+
+  10  Workshop Intake                        ~15 min
 
 To start a module, type: /learn-01-vertex-setup
 Tab completion works after typing /learn-
@@ -67,3 +71,4 @@ After printing the catalog, ask:
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
 If they pick a "Coming Soon" module (10), tell them it's not yet available and suggest other modules.
+If they pick module 14, tell them to run `/learn-14-agent-teams-vs-superpowers`.

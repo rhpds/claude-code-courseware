@@ -301,5 +301,5 @@ The skill follows Red Hat brand standards automatically:
   Red Hat Display for headlines, Red Hat Text for body,
   official logo, design tokens for spacing and typography.
 
-You've completed all available modules. Check /courseware for updates.
+Next module: /learn-14-agent-teams-vs-superpowers
 ```
