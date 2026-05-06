@@ -1,0 +1,9 @@
+{
+  "name": "claude-code-courseware",
+  "description": "Interactive learning modules for Claude Code — MCP servers, skills, agents, and more",
+  "version": "1.0.0",
+  "author": { "name": "RHDP Team" },
+  "repository": "https://github.com/rhpds/claude-code-courseware",
+  "license": "Apache-2.0",
+  "keywords": ["courseware", "training", "learning", "mcp", "skills"]
+}
