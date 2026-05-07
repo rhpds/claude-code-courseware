@@ -5,7 +5,29 @@ description: "Claude Code Courseware — browse the module catalog and pick a le
 
 # Claude Code Courseware
 
-Display the module catalog below, then ask the user which module they'd like to start.
+Before displaying the catalog, check if the courseware plugin has updates available.
+
+## Update Check
+
+Run this check silently before printing the catalog:
+
+```bash
+PLUGIN_REPO="$HOME/.claude/plugins/claude-code-courseware/repo"
+if [ -d "$PLUGIN_REPO/.git" ]; then
+  git -C "$PLUGIN_REPO" fetch origin main --quiet 2>/dev/null
+  LOCAL=$(git -C "$PLUGIN_REPO" rev-parse HEAD 2>/dev/null)
+  REMOTE=$(git -C "$PLUGIN_REPO" rev-parse origin/main 2>/dev/null)
+  if [ -n "$LOCAL" ] && [ -n "$REMOTE" ] && [ "$LOCAL" != "$REMOTE" ]; then
+    BEHIND=$(git -C "$PLUGIN_REPO" rev-list HEAD..origin/main --count 2>/dev/null)
+    echo "UPDATE AVAILABLE: courseware plugin is $BEHIND commit(s) behind."
+    echo "  New or updated modules may be available."
+    echo "  Run /update-courseware to get the latest content."
+    echo ""
+  fi
+fi
+```
+
+If the update check prints "UPDATE AVAILABLE", show that message to the user before the catalog. If the check prints nothing (plugin is current or not installed via plugin), proceed directly to the catalog.
 
 ## Catalog
 
