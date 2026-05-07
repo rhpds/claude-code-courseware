@@ -14,6 +14,28 @@ You are building a new learning module for the claude-code-courseware project.
 4. Ask: "Any specific source material I should read?" (e.g., a repo path, skill file, or MCP server docs)
    If the user provides a path, read it for content. If not, use your built-in knowledge of the tool.
 
+4b. **Detect MCP module**: If the topic contains "MCP" or the user mentions
+    an MCP server, ask: "This looks like an MCP module. What's the npm package name?"
+    Then gather:
+    - **npm package**: e.g., `@playwright/mcp`
+    - **server name**: key in mcpServers (e.g., `playwright`)
+    - **npx args**: args array (e.g., `["@playwright/mcp@latest", "--browser", "chrome"]`)
+    - **tool prefix**: expected MCP tool prefix (e.g., `mcp__playwright__`)
+    - **extra deps**: any server-specific dependencies (e.g., Chrome)
+
+    When generating the module content in step 5, use the **MCP Module Variant**
+    section from `modules/TEMPLATE.md` instead of the generic Preflight and Step 1.
+    Fill in all `<PLACEHOLDER>` values with the gathered information.
+
+    The generated module MUST include:
+    - Phase 1 dependency checks (node, npm, npx, PATH consistency, extra deps)
+    - Phase 2 global npm install + smoke test (Step 1a + 1b)
+    - Phase 3 full-path config write using `shutil.which("npx")` (Step 1c)
+    - Phase 4 post-restart verification with diagnostic ladder
+    - The restart instruction with the verification contract wording:
+      "On re-entry, we'll verify the server is live before continuing.
+       If it isn't, we'll diagnose why — you won't be left stuck."
+
 5. Generate four files:
 
    **Module content** — `modules/NN-TOPIC.md`
