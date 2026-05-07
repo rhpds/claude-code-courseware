@@ -5,6 +5,72 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Connect Claude Code to your container runtime so you can build, run, inspect, and debug containers from the CLI.
 
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Container MCP ecosystem** — the container/Podman MCP server landscape is immature and changing rapidly. Available packages may not install cleanly, may lack features, or may be deprecated without notice. This module has a built-in fallback to shell commands if no MCP server works.
+- **Container runtime** — requires Podman or Docker installed and running. The module auto-detects which is available.
+- **npm registry** (conditional) — if a container MCP package is attempted, it comes from npmjs.org. Package names and availability may change.
+
+## Install-Only Option
+
+After printing the Orientation, check if a container MCP server is already configured:
+
+```bash
+python3 -c "
+import json, os
+path = os.path.expanduser('~/.claude/settings.json')
+if os.path.exists(path):
+    s = json.load(open(path))
+    servers = s.get('mcpServers', {})
+    container_found = any(k for k in servers if any(w in k.lower() for w in ['podman', 'docker', 'container']))
+    print('INSTALLED' if container_found else 'NOT_INSTALLED')
+else:
+    print('NOT_INSTALLED')
+"
+```
+
+If INSTALLED: print "A container MCP server is already configured. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT_INSTALLED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~3 min)
+    Detect your container runtime, configure MCP if a server
+    package is available, or confirm shell fallback.
+
+  FULL WALKTHROUGH (~15 min)
+    Step-by-step tutorial covering container builds, inspection,
+    debugging, and MCP vs shell workflows.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Detect container runtime (podman or docker)
+3. If no runtime found, stop and tell the user to install one first
+4. Attempt to find and install a container MCP server package
+5. If no MCP server works, confirm shell fallback is available
+6. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/08.done
+   ```
+7. Print:
+   ```
+   Module 08 complete (install-only path).
+
+   Container runtime detected. MCP server configured (or shell fallback active).
+   Run /learn-08-container-podman-mcp again any time for the full walkthrough.
+
+   Next module: /learn-09-writing-custom-skills
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
 ## Orientation
 
 Print this once at the start:

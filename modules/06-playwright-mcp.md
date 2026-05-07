@@ -5,6 +5,73 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Use browser automation from inside Claude Code via the Playwright MCP server. When complete, Claude can navigate to pages, take screenshots, click elements, fill forms, and inspect page content — all through structured MCP tools.
 
+## Install-Only Option
+
+After printing the Orientation, check if Playwright MCP is already installed:
+
+```bash
+python3 -c "
+import json, os
+path = os.path.expanduser('~/.claude/settings.json')
+if os.path.exists(path):
+    s = json.load(open(path))
+    if 'playwright' in s.get('mcpServers', {}):
+        print('INSTALLED')
+    else:
+        print('NOT_INSTALLED')
+else:
+    print('NOT_INSTALLED')
+"
+```
+
+If INSTALLED: print "Playwright MCP is already installed and configured. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT_INSTALLED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~2 min)
+    Install Playwright MCP, verify it works, done.
+
+  FULL WALKTHROUGH (~10 min)
+    Step-by-step tutorial covering browser navigation, snapshots,
+    element interaction, and screenshot capture.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Run Phase 1 through Phase 4 from Step 1 (dependency check including Chrome, npm install, smoke test, config write)
+3. Print restart instructions
+4. On re-entry after restart, verify `mcp__plugin_playwright_playwright__*` tools are available
+5. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/06.done
+   ```
+6. Print:
+   ```
+   Module 06 complete (install-only path).
+
+   Playwright MCP is installed and configured.
+   Run /learn-06-playwright-mcp again any time for the full walkthrough.
+
+   Next module: /learn-07-notion-mcp
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **npm registry** — the `@playwright/mcp` package is installed from npmjs.org. The Playwright team actively maintains this, but the package name or args could change.
+- **Google Chrome** — required as the browser backend. Must be installed at the standard system path (`/Applications/Google Chrome.app` on macOS).
+- **Node.js / npx** — the MCP server runs via `npx`. Config must use the full path to `npx`.
+
+The server runs locally and controls a local Chrome instance. No cloud dependencies after installation.
+
 ## Orientation
 
 Print this once at the start:

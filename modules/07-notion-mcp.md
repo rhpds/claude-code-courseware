@@ -5,6 +5,56 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Connect Claude Code to Notion so you can search, read, create, and update pages and databases directly from the CLI.
 
+## Install-Only Option
+
+After printing the Orientation, check if Notion MCP is already connected by testing whether any `mcp__claude_ai_Notion__*` tools are available in the current session. If they are, Notion is already set up.
+
+If CONNECTED: print "Notion MCP is already connected. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT CONNECTED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~2 min)
+    Trigger Notion OAuth, grant access, done.
+
+  FULL WALKTHROUGH (~15 min)
+    Step-by-step tutorial covering Notion search, reading pages,
+    creating content, and working with databases.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Trigger OAuth by calling any Notion MCP tool (e.g., `notion-search` with query "test")
+3. Guide the user through the browser authentication
+4. Verify Notion tools are working
+5. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/07.done
+   ```
+6. Print:
+   ```
+   Module 07 complete (install-only path).
+
+   Notion MCP is connected and working.
+   Run /learn-07-notion-mcp again any time for the full walkthrough.
+
+   Next module: /learn-08-container-podman-mcp
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Anthropic built-in integration** — the Notion MCP is provided by Anthropic as a first-party integration, not an npm package. If Anthropic changes how built-in integrations work, this module may need updating.
+- **Notion OAuth** — authentication uses browser-based OAuth. Requires an active Notion workspace and permission to grant third-party access.
+- **Notion API availability** — all operations go through Notion's cloud API. Requires network access and a Notion account.
+
 ## Orientation
 
 Print this once at the start:

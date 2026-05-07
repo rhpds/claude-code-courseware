@@ -5,6 +5,72 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Use Git operations from inside Claude Code via the Git MCP server. When complete, Claude can check status, read history, diff branches, and manage branches — all through structured MCP tools instead of parsing shell output.
 
+## Install-Only Option
+
+After printing the Orientation, check if Git MCP is already installed:
+
+```bash
+python3 -c "
+import json, os
+path = os.path.expanduser('~/.claude/settings.json')
+if os.path.exists(path):
+    s = json.load(open(path))
+    if 'git' in s.get('mcpServers', {}):
+        print('INSTALLED')
+    else:
+        print('NOT_INSTALLED')
+else:
+    print('NOT_INSTALLED')
+"
+```
+
+If INSTALLED: print "Git MCP is already installed and configured. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT_INSTALLED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~2 min)
+    Install Git MCP, verify it works, done.
+
+  FULL WALKTHROUGH (~10 min)
+    Step-by-step tutorial covering Git MCP tools for status, diffs,
+    history, and branch management.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Run Phase 1 through Phase 4 from Step 1 (dependency check, npm install, smoke test, config write)
+3. Print restart instructions
+4. On re-entry after restart, verify `mcp__git__*` tools are available
+5. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/04.done
+   ```
+6. Print:
+   ```
+   Module 04 complete (install-only path).
+
+   Git MCP is installed and configured.
+   Run /learn-04-git-mcp again any time for the full walkthrough.
+
+   Next module: /learn-05-atlassian-mcp
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **npm registry** — the `@modelcontextprotocol/server-git` package is installed from npmjs.org. If the package is renamed or unpublished, installation will fail.
+- **Node.js / npx** — the MCP server runs via `npx`. Config must use the full path to `npx`.
+
+The server runs entirely locally and wraps Git CLI operations. No network calls beyond the initial npm install.
+
 ## Orientation
 
 Print this once at the start:

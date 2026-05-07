@@ -5,6 +5,72 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Teach Claude Code to remember across sessions using the Memory MCP knowledge graph. When complete, you can persist project context, team findings, and cross-session notes that survive restarts.
 
+## Install-Only Option
+
+After printing the Orientation, check if Memory MCP is already installed:
+
+```bash
+python3 -c "
+import json, os
+path = os.path.expanduser('~/.claude/settings.json')
+if os.path.exists(path):
+    s = json.load(open(path))
+    if 'memory' in s.get('mcpServers', {}):
+        print('INSTALLED')
+    else:
+        print('NOT_INSTALLED')
+else:
+    print('NOT_INSTALLED')
+"
+```
+
+If INSTALLED: print "Memory MCP is already installed and configured. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT_INSTALLED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~2 min)
+    Install Memory MCP, verify it works, done.
+
+  FULL WALKTHROUGH (~10 min)
+    Step-by-step tutorial covering what Memory MCP does, knowledge
+    graph basics, and hands-on practice with entities and relations.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Run Phase 1 through Phase 4 from Step 1 (dependency check, npm install, smoke test, config write)
+3. Print restart instructions
+4. On re-entry after restart, verify `mcp__memory__*` tools are available
+5. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/03.done
+   ```
+6. Print:
+   ```
+   Module 03 complete (install-only path).
+
+   Memory MCP is installed and configured.
+   Run /learn-03-memory-mcp again any time for the full walkthrough.
+
+   Next module: /learn-04-git-mcp
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **npm registry** — the `@modelcontextprotocol/server-memory` package is installed from npmjs.org. If the package is renamed, deprecated, or unpublished, installation will fail.
+- **Node.js / npx** — the MCP server runs via `npx`. Config must use the full path to `npx` (not bare `npx`) or Claude Code may fail to find it on restart.
+
+The server itself runs entirely locally with no network calls after installation. Data is stored in a local JSON file.
+
 ## Orientation
 
 Print this once at the start:

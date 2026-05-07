@@ -5,6 +5,71 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Connect Claude Code to Jira via the Atlassian Rovo MCP server. When complete, you can search issues, create tickets, add comments, and transition workflows — all from inside Claude Code. No containers or local server required.
 
+## Install-Only Option
+
+After printing the Orientation, check if Atlassian MCP is already installed:
+
+```bash
+python3 -c "
+import json, os
+path = os.path.expanduser('~/.claude/settings.json')
+if os.path.exists(path):
+    s = json.load(open(path))
+    if 'mcp-atlassian-prod' in s.get('mcpServers', {}):
+        print('INSTALLED')
+    else:
+        print('NOT_INSTALLED')
+else:
+    print('NOT_INSTALLED')
+"
+```
+
+If INSTALLED: print "Atlassian MCP is already installed and configured. Proceeding with the full walkthrough." Then continue to Progress Tracking.
+
+If NOT_INSTALLED, ask the user:
+
+```
+Two paths available:
+
+  INSTALL ONLY (~2 min)
+    Configure Atlassian MCP, authenticate, done.
+
+  FULL WALKTHROUGH (~5 min)
+    Step-by-step tutorial covering Jira search, issue creation,
+    comments, and workflow transitions.
+
+Which do you prefer? (install-only / full)
+```
+
+If the user chooses "install only":
+1. Write the progress marker (see Progress Tracking below)
+2. Run Step 1 (config write to settings.json)
+3. Print restart and OAuth instructions
+4. On re-entry after restart, verify Atlassian tools are available
+5. Write completion marker:
+   ```bash
+   date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/05.done
+   ```
+6. Print:
+   ```
+   Module 05 complete (install-only path).
+
+   Atlassian MCP is installed and configured.
+   Run /learn-05-atlassian-mcp again any time for the full walkthrough.
+
+   Next module: /learn-06-playwright-mcp
+   ```
+
+If the user chooses "full" or gives no clear answer: continue with the existing module content from Progress Tracking onward.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Atlassian cloud endpoint** — the MCP server is hosted at `mcp.atlassian.com`. If Atlassian changes the URL, renames the service, or deprecates the Rovo MCP protocol, the config will need updating.
+- **Atlassian OAuth** — authentication uses browser-based OAuth with your Red Hat Atlassian identity. Requires an active account on `redhat.atlassian.net`.
+- **No local installation** — unlike other MCP servers, this one is fully cloud-hosted. Nothing to install via npm.
+
 ## Orientation
 
 Print this once at the start:
