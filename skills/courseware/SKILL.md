@@ -83,6 +83,10 @@ Claude Code Courseware — Learning Modules
       Pre/post command hooks for guardrails and automation.
       Prerequisites: Module 01
 
+  21  Plugin Marketplace                     ~15 min
+      Discover, install, and manage Claude Code plugins from marketplace registries.
+      Prerequisites: Module 01, Module 09 recommended
+
   --- Advanced Patterns ---
 
   11  Building MCP Servers                   ~30 min
@@ -131,7 +135,7 @@ Claude Code Courseware — Learning Modules
 
   ---  Coming Soon  ---
 
-  21  Workshop Intake                        ~15 min
+  22  Workshop Intake                        ~15 min
 
 To start a module, type: /learn-01-vertex-setup
 Tab completion works after typing /learn-
@@ -141,4 +145,4 @@ After printing the catalog, ask:
 > "Which module would you like to start? You can type the number or the full command."
 
 If the user picks a module number, tell them to run the corresponding `/learn-NN-*` command.
-If they pick a "Coming Soon" module (21), tell them it's not yet available and suggest other modules.
+If they pick a "Coming Soon" module (22), tell them it's not yet available and suggest other modules.

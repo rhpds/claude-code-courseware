@@ -33,7 +33,7 @@ Run this silently to detect completion/in-progress state:
 ```bash
 PROGRESS_DIR="$HOME/.claude/courseware-progress"
 if [ -d "$PROGRESS_DIR" ]; then
-  for n in $(seq -w 1 20); do
+  for n in $(seq -w 1 21); do
     if [ -f "$PROGRESS_DIR/$n.done" ]; then
       echo "DONE:$n"
     elif [ -f "$PROGRESS_DIR/$n.started" ]; then
@@ -49,7 +49,7 @@ Use the output to add status tags to the catalog. See the tag rules below.
 
 Show this blurb once, before the catalog:
 
-> **20 modules available.** Modules marked **NEW** were recently added. Run `/preflight` to check your prerequisites before starting.
+> **21 modules available.** Modules marked **NEW** were recently added. Run `/preflight` to check your prerequisites before starting. Run `/quick-install` to install MCP servers or plugins without a tutorial.
 
 ## Catalog
 
@@ -61,7 +61,7 @@ Print the catalog using markdown (NOT inside a code block).
 - If the module is in the NEW list below, show **NEW**
 - Otherwise, no tag
 
-**NEW modules:** 07, 08, 10, 14, 15, 16, 17
+**NEW modules:** 07, 08, 10, 14, 15, 16, 17, 21
 
 ## Claude Code Courseware
 
@@ -80,6 +80,7 @@ Print the catalog using markdown (NOT inside a code block).
 ### Skills & Customization
 `09`  Writing Custom Skills · 15 min
 `10`  Hooks · 15 min · **NEW**
+`21`  Plugin Marketplace · 15 min · **NEW**
 
 ### Advanced Patterns
 `11`  Building MCP Servers · 30 min
@@ -98,7 +99,7 @@ Print the catalog using markdown (NOT inside a code block).
 `20`  Hivemind Knowledge Base · 15 min
 
 ### Coming Soon
-`21`  Workshop Intake · 15 min
+`22`  Workshop Intake · 15 min
 
 ## Recommended Paths
 
@@ -118,7 +119,7 @@ After the catalog, show the role-based recommendations:
 
 After the recommendations, print:
 
-> Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, or `/preflight` to check your prerequisites.
+> Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, `/quick-install` to install MCP servers or plugins without a tutorial, or `/preflight` to check your prerequisites.
 >
 > Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).
 
@@ -162,7 +163,7 @@ Connect Claude Code to Notion for pages, databases, and search.
 Build, run, inspect, and debug containers from Claude Code.
 *Prereq: Module 01, container runtime (Podman or Docker)*
 
-**Section 3 -- Skills & Customization (09-10)**
+**Section 3 -- Skills & Customization (09-10, 21)**
 
 **`09` Writing Custom Skills** -- ~15 min
 Create skills for repeatable workflows.
@@ -171,6 +172,10 @@ Create skills for repeatable workflows.
 **`10` Hooks** -- ~15 min · **NEW**
 Pre/post command hooks for guardrails and automation.
 *Prereq: Module 01*
+
+**`21` Plugin Marketplace** -- ~15 min · **NEW**
+Discover, install, and manage Claude Code plugins from marketplace registries.
+*Prereq: Module 01, Module 09 recommended*
 
 **Section 4 -- Advanced Patterns (11-13)**
 
@@ -218,9 +223,9 @@ Generate branded HTML slide presentations with the Quick Deck skill.
 Contribute to and search the team's shared knowledge base.
 *Prereq: Module 01, GitHub access to rhpds org*
 
-**Section 7 -- Coming Soon (21)**
+**Section 7 -- Coming Soon (22)**
 
-**`21` Workshop Intake** -- ~15 min
+**`22` Workshop Intake** -- ~15 min
 *Not yet available.*
 
 ## Module Routing
@@ -249,5 +254,6 @@ When the user picks a module, tell them to run the corresponding command:
 | 18 | `/learn-18-profile-cleanup` |
 | 19 | `/learn-19-red-hat-quick-deck` |
 | 20 | `/learn-20-hivemind-knowledge-base` |
+| 21 | `/learn-21-plugin-marketplace` |
 
-If they pick module 21 (Coming Soon), tell them it's not yet available and suggest other modules.
+If they pick module 22 (Coming Soon), tell them it's not yet available and suggest other modules.

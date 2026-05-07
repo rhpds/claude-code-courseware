@@ -48,6 +48,10 @@ Tab completion works after typing `/learn-` -- it shows all available modules.
 
 Run `/preflight` to verify your environment before starting modules.
 
+### Quick Install (No Tutorial)
+
+Run `/quick-install` to install MCP servers or plugins without going through a full module walkthrough.
+
 ## Modules
 
 ### Setup & Foundation
@@ -74,6 +78,7 @@ Run `/preflight` to verify your environment before starting modules.
 |---|-------|------|-------------|
 | 09 | Writing Custom Skills | ~15 min | Create skills for repeatable workflows |
 | 10 | Hooks | ~15 min | Pre/post command hooks for guardrails and automation |
+| 21 | Plugin Marketplace | ~15 min | Discover, install, and manage Claude Code plugins from marketplace registries |
 
 ### Advanced Patterns
 
@@ -104,7 +109,7 @@ Run `/preflight` to verify your environment before starting modules.
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 21 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
+| 22 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
 
 ## Recommended Paths
 

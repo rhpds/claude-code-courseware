@@ -131,6 +131,20 @@ Shared reference data for all learning modules.
 
 ---
 
+## Plugin Marketplace
+
+| Item | Value |
+|------|-------|
+| Plugin cache | `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` |
+| Known marketplaces | `~/.claude/plugins/known_marketplaces.json` |
+| Plugin manifest | `plugin.json` in each plugin directory |
+| Skills directory | `skills/` inside each plugin |
+| Install command | `claude plugin add github:<org>/<repo>` |
+| Remove command | `claude plugin remove <plugin-name>` |
+| Quick install skill | `/quick-install` (menu-driven, no tutorial) |
+
+---
+
 ## Module Prerequisites
 
 | Module | Requires |
@@ -146,3 +160,4 @@ Shared reference data for all learning modules.
 | 11 — Building MCP Servers | Module 01 complete, Module 04 recommended |
 | 12 — Review Agents | Module 01 complete, Module 07 recommended |
 | 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
+| 21 — Plugin Marketplace | Module 01 complete, Module 09 recommended |
