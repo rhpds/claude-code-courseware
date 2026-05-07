@@ -1,4 +1,4 @@
-# Module 08 — Hivemind Knowledge Base
+# Module 20 — Hivemind Knowledge Base
 
 **RHDP Team only** — requires access to the rhpds GitHub org.
 
@@ -308,7 +308,7 @@ restart Claude Code for them to become available.
 
 1. Exit this session (Ctrl+C or /exit)
 2. Relaunch: claude .
-3. Re-run: /learn-08-hivemind-knowledge-base
+3. Re-run: /learn-20-hivemind-knowledge-base
 
 The preflight will skip the setup steps on re-entry.
 ```
@@ -663,7 +663,7 @@ for tag, count in sorted(tags.items(), key=lambda x: -x[1])[:5]:
 
 If the answers are reasonable, print:
 ```
-Module 08 complete.
+Module 20 complete.
 
 You can now contribute to and search the Hive Mind knowledge base.
 Key skills:
@@ -681,5 +681,5 @@ Best practices:
   - Write articles when you fix something non-obvious
   - Search before writing — someone may have documented it already
 
-Next module: /learn-11-building-mcp-servers
+Next module: /learn-21-workshop-intake
 ```

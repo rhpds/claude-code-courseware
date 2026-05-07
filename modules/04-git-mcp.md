@@ -558,5 +558,5 @@ When to use Git MCP vs shell commands:
   Git MCP  — read operations (status, log, diff, show, branch listing)
   Shell    — interactive operations (rebase -i, merge conflicts, push, pull)
 
-Next module: /learn-05-writing-claude-md
+Next module: /learn-05-atlassian-mcp
 ```

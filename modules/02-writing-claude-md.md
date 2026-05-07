@@ -1,4 +1,4 @@
-# Module 05 — Writing CLAUDE.md
+# Module 02 — Writing CLAUDE.md
 
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -365,7 +365,7 @@ To verify, ask the user to share the contents of their CLAUDE.md or confirm the 
 
 If successful, print:
 ```
-Module 05 complete.
+Module 02 complete.
 
 You can now write CLAUDE.md files that shape Claude Code's behavior.
 Key things to remember:
@@ -386,5 +386,5 @@ Common CLAUDE.md sections:
   - Cost-saving patterns
   - Preferences
 
-Next module: /learn-06-playwright-mcp
+Next module: /learn-03-memory-mcp
 ```

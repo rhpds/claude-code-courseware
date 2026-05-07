@@ -1,7 +1,7 @@
 # Module 12 — Review Agents
 
 Estimated time: 15 minutes
-Prerequisites: Module 01 (Claude Code installed and working), Module 07 recommended (Writing Custom Skills)
+Prerequisites: Module 01 (Claude Code installed and working), Module 09 recommended (Writing Custom Skills)
 
 Use Claude Code's built-in agent system to run specialized code reviews, and create custom review agent definitions. When complete, you'll know how to spawn review agents, write your own agent definitions, and coordinate multiple agents for comprehensive reviews.
 
@@ -564,5 +564,5 @@ When to use agents vs manual review:
   Agents     — repeatable checks, standard criteria, large codebases
   Manual     — nuanced judgment, architectural decisions, trade-offs
 
-Next module: /learn-13-red-hat-quick-deck
+Next module: /learn-13-agent-teams-vs-superpowers
 ```

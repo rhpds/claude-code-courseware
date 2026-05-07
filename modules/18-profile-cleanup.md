@@ -1,4 +1,4 @@
-# Module 15 — Claude Code Profile Cleanup
+# Module 18 — Claude Code Profile Cleanup
 
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -850,7 +850,7 @@ Accept any reasonable answers — the specific numbers depend on their profile. 
 
 If successful, print:
 ```
-Module 15 complete.
+Module 18 complete.
 
 You can now audit and clean your Claude Code profile.
 Key concepts:
@@ -861,7 +861,9 @@ Key concepts:
   - The context impact report shows your total profile footprint
 
 Run this module periodically to keep your profile lean.
-Re-run anytime: /learn-15-profile-cleanup
+Re-run anytime: /learn-18-profile-cleanup
+
+Next module: /learn-19-red-hat-quick-deck
 
 Cleanup priority:
   1. Broken symlinks (zero risk)

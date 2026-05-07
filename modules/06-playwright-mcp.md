@@ -588,5 +588,5 @@ Common workflows:
   Documentation   — navigate, take_screenshot, save for review
   Web scraping    — navigate, snapshot, extract structured data
 
-Next module: /learn-07-writing-custom-skills
+Next module: /learn-07-notion-mcp
 ```

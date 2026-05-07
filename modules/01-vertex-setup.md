@@ -295,5 +295,5 @@ Your setup:
   Region: $CLOUD_ML_REGION
   Auth: Application Default Credentials
 
-Next module: /learn-02-atlassian-mcp
+Next module: /learn-02-writing-claude-md
 ```

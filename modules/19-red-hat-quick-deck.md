@@ -1,4 +1,4 @@
-# Module 13 — Red Hat Quick Deck
+# Module 19 — Red Hat Quick Deck
 
 Estimated time: 10 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -313,7 +313,7 @@ To verify, ask the user to confirm they can see the deck in their browser. The f
 
 If successful, print:
 ```
-Module 13 complete.
+Module 19 complete.
 
 You can now create Red Hat-branded presentations with Claude Code.
 Key things to remember:
@@ -328,5 +328,5 @@ The skill follows Red Hat brand standards automatically:
   Red Hat Display for headlines, Red Hat Text for body,
   official logo, design tokens for spacing and typography.
 
-Next module: /learn-14-agent-teams-vs-superpowers
+Next module: /learn-20-hivemind-knowledge-base
 ```

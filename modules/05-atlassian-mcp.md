@@ -1,4 +1,4 @@
-# Module 02 — Atlassian MCP Server (Jira)
+# Module 05 — Atlassian MCP Server (Jira)
 
 Estimated time: 5 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -150,7 +150,7 @@ IMPORTANT: Claude Code needs to be restarted to pick up the new MCP server.
 5. Sign in with your @redhat.com account in the browser
 6. Grant access when prompted
 7. Return to Claude Code — the MCP tools are now available
-8. Re-run this module: /learn-02-atlassian-mcp
+8. Re-run this module: /learn-05-atlassian-mcp
 
 The preflight will show your auth status when you return.
 ```
@@ -302,7 +302,7 @@ Alternative challenge: Find the 5 most recently created issues in RHDPOPS
 
 If successful, print:
 ```
-Module 02 complete.
+Module 05 complete.
 
 Claude Code is connected to Jira via the Atlassian Rovo MCP server.
 You can now:
@@ -314,5 +314,5 @@ You can now:
 
 All from inside Claude Code, across any project.
 
-Next module: /learn-03-memory-mcp
+Next module: /learn-06-playwright-mcp
 ```

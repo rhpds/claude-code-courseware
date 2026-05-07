@@ -1,4 +1,4 @@
-# Module 07 — Writing Custom Skills
+# Module 09 — Writing Custom Skills
 
 Estimated time: 20 minutes
 Prerequisites: Module 01 (Claude Code installed and working)
@@ -506,7 +506,7 @@ fi
 
 If the answers match, print:
 ```
-Module 07 complete.
+Module 09 complete.
 
 You can now write and install Claude Code skills.
 Key concepts:
@@ -521,5 +521,5 @@ Cost-saving tiers:
   sonnet  — analysis tasks (review, search, summarize, explore)
   opus    — complex reasoning (plan, debug, architect, brainstorm)
 
-Next module: /learn-08-hivemind-knowledge-base
+Next module: /learn-10-hooks
 ```

@@ -1,4 +1,4 @@
-# Module 14 — Agent Teams vs Superpowers
+# Module 13 — Agent Teams vs Superpowers
 
 Estimated time: 20 minutes
 Prerequisites: Module 01 (Claude Code installed and working), Module 12 recommended (Review Agents)
@@ -655,7 +655,7 @@ Run both patterns against this courseware repository and compare:
 The user should provide:
 1. Number of specialists dispatched (should be at least 2)
 2. Total findings count from the agent team
-3. Spec-compliance result for Module 14
+3. Spec-compliance result for Module 13
 4. Their assessment of which pattern was more useful
 
 To verify, confirm:
@@ -667,7 +667,7 @@ Accept any reasonable answer for item 4 — both patterns have valid strengths f
 
 If successful, print:
 ```
-Module 14 complete.
+Module 13 complete.
 
 You now understand two multi-agent coordination patterns:
 
@@ -700,5 +700,5 @@ These agents are available in this project now. You can run them
 anytime by asking Claude Code to "run the courseware review team"
 or by spawning individual specialists.
 
-Next module: /learn-15-profile-cleanup
+Next module: /learn-14-debugging-troubleshooting
 ```
