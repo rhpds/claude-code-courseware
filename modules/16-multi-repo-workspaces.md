@@ -24,6 +24,14 @@ You'll need:
   - At least two git repositories in a parent directory
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/16.started
+```
+
 ## Preflight
 
 Audit current state:
@@ -288,6 +296,12 @@ Tell me:
 
 Any reasonable audit results pass.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/16.done
+```
+
 If successful, print:
 ```
 Module 16 complete.
@@ -307,4 +321,6 @@ File hierarchy:
   ~/.claude/settings.json              Global MCP servers
 
 Next module: /learn-17-ci-cd-integration
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

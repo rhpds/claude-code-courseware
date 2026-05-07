@@ -33,6 +33,14 @@ Real-world examples:
   - The claude-cost-saving repo has 10 utility skills
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/09.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -504,6 +512,12 @@ for field, ok in checks.items():
 fi
 ```
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/09.done
+```
+
 If the answers match, print:
 ```
 Module 09 complete.
@@ -522,4 +536,6 @@ Cost-saving tiers:
   opus    — complex reasoning (plan, debug, architect, brainstorm)
 
 Next module: /learn-10-hooks
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

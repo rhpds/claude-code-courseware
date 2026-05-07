@@ -32,6 +32,14 @@ Two skills power the Hive Mind:
   hivemind-query  — search across all team knowledge
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/20.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -661,6 +669,12 @@ for tag, count in sorted(tags.items(), key=lambda x: -x[1])[:5]:
 " 2>/dev/null
 ```
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/20.done
+```
+
 If the answers are reasonable, print:
 ```
 Module 20 complete.
@@ -682,4 +696,6 @@ Best practices:
   - Search before writing — someone may have documented it already
 
 Next module: /learn-21-workshop-intake
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

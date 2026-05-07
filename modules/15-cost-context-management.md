@@ -23,6 +23,14 @@ You'll need:
   - Claude Code installed and working (Module 01)
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/15.started
+```
+
 ## Preflight
 
 ```bash
@@ -254,6 +262,12 @@ Tell me:
 
 Any reasonable answers pass. The key insight is that context size drives cost, and managing it is an active practice.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/15.done
+```
+
 If successful, print:
 ```
 Module 15 complete.
@@ -276,4 +290,6 @@ Cost reduction checklist:
   [ ] Exit and restart between unrelated tasks
 
 Next module: /learn-16-multi-repo-workspaces
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

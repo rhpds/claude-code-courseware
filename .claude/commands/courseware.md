@@ -1,6 +1,6 @@
 # Claude Code Courseware
 
-Before displaying the catalog, check if the courseware plugin has updates available.
+Before displaying the catalog, run the update check and progress scan.
 
 ## Update Check
 
@@ -22,21 +22,46 @@ if [ -d "$PLUGIN_REPO/.git" ]; then
 fi
 ```
 
-If the update check prints "UPDATE AVAILABLE", show that message to the user before the catalog.
+If the update check prints "UPDATE AVAILABLE", show that message to the user before the catalog. Also append:
+
+> Run `/update-courseware` to pull the latest content before starting a module.
+
+## Progress Scan
+
+Run this silently to detect completion/in-progress state:
+
+```bash
+PROGRESS_DIR="$HOME/.claude/courseware-progress"
+if [ -d "$PROGRESS_DIR" ]; then
+  for n in $(seq -w 1 20); do
+    if [ -f "$PROGRESS_DIR/$n.done" ]; then
+      echo "DONE:$n"
+    elif [ -f "$PROGRESS_DIR/$n.started" ]; then
+      echo "IN_PROGRESS:$n"
+    fi
+  done
+fi
+```
+
+Use the output to add status tags to the catalog. See the tag rules below.
 
 ## What's New
 
 Show this blurb once, before the catalog:
 
-> **20 modules available.** Modules marked **NEW** were recently added: Notion MCP, Container/Podman MCP, Hooks, Debugging, Cost/Context Management, Multi-Repo Workspaces, and CI/CD Integration.
-
-If the update check (above) printed "UPDATE AVAILABLE", also append:
-
-> Run `/update-courseware` to pull the latest content before starting a module.
+> **20 modules available.** Modules marked **NEW** were recently added. Run `/preflight` to check your prerequisites before starting.
 
 ## Catalog
 
-Print the catalog using markdown (NOT inside a code block). Modules tagged **NEW** were added in the latest expansion.
+Print the catalog using markdown (NOT inside a code block).
+
+**Tag rules** (append after the duration, in this priority order):
+- If the progress scan printed `DONE:NN` for a module, show `done`
+- If the progress scan printed `IN_PROGRESS:NN`, show `in progress`
+- If the module is in the NEW list below, show **NEW**
+- Otherwise, no tag
+
+**NEW modules:** 07, 08, 10, 14, 15, 16, 17
 
 ## Claude Code Courseware
 
@@ -75,11 +100,27 @@ Print the catalog using markdown (NOT inside a code block). Modules tagged **NEW
 ### Coming Soon
 `21`  Workshop Intake · 15 min
 
+## Recommended Paths
+
+After the catalog, show the role-based recommendations:
+
+> **Not sure where to start?** Here are suggested paths by role:
+>
+> **Developer:** 01, 02, 03, 04, 06, 09 -- get your environment set up and learn the tools you'll use daily.
+>
+> **Ops engineer:** 01, 02, 03, 05, 08, 10, 14 -- focus on Jira integration, containers, hooks, and debugging.
+>
+> **Team lead / manager:** 01, 02, 15 -- understand the setup, project configuration, and cost management.
+>
+> **Power user (all modules):** start at 01 and go in order. Each module builds on the previous ones.
+
 ## Footer
 
-After the catalog, print:
+After the recommendations, print:
 
-> Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules.
+> Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, or `/preflight` to check your prerequisites.
+>
+> Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).
 
 ## On Request: Expanded Section View
 

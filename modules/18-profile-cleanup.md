@@ -35,6 +35,14 @@ We'll run:
 No files are deleted without your confirmation.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/18.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -848,6 +856,12 @@ The user should provide the five answers from the audit output. Verify by re-run
 
 Accept any reasonable answers — the specific numbers depend on their profile. The important thing is that they ran the audit and understand the impact.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/18.done
+```
+
 If successful, print:
 ```
 Module 18 complete.
@@ -874,4 +888,6 @@ Cleanup priority:
   6. Duplicate agents
 
 A lean profile means more context for your actual work.
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

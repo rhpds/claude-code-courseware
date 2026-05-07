@@ -31,6 +31,14 @@ Use cases:
   - Screenshot capture — document UI state for reviews
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/06.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -570,6 +578,12 @@ The user should report:
 To verify, use the Playwright MCP tools to independently check the GitHub page.
 Compare the user's answers with what the tools return.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/06.done
+```
+
 If the answers are reasonable (the repo may be private — accept descriptions of what they found or any access error they encountered), print:
 ```
 Module 06 complete.
@@ -589,4 +603,6 @@ Common workflows:
   Web scraping    — navigate, snapshot, extract structured data
 
 Next module: /learn-07-notion-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

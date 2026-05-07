@@ -26,6 +26,14 @@ You'll need your Red Hat Atlassian credentials (your @redhat.com identity
 on redhat.atlassian.net).
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/05.started
+```
+
 ## Preflight
 
 Check prerequisites and current state:
@@ -300,6 +308,12 @@ Alternative challenge: Find the 5 most recently created issues in RHDPOPS
 (assigned to anyone) and tell me the keys and summaries.
 ```
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/05.done
+```
+
 If successful, print:
 ```
 Module 05 complete.
@@ -315,4 +329,6 @@ You can now:
 All from inside Claude Code, across any project.
 
 Next module: /learn-06-playwright-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

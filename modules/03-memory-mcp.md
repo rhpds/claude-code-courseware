@@ -29,6 +29,14 @@ Why this matters:
   decisions, and team knowledge so Claude can pick up where it left off.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/03.started
+```
+
 ## Preflight
 
 Check prerequisites and current state:
@@ -605,6 +613,12 @@ Here's an example of what to tell me:
 Then create a relation: Josh enrolled-in claude-code-courseware"
 ```
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/03.done
+```
+
 If successful, print:
 ```
 Module 03 complete.
@@ -624,4 +638,6 @@ Your knowledge graph: ~/.claude/memory.json
 Entities so far: <count>
 
 Next module: /learn-04-git-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

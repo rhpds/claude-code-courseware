@@ -23,6 +23,14 @@ You'll need:
   - Claude Code installed and working (Module 01)
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/10.started
+```
+
 ## Preflight
 
 Audit current state before doing anything. Each check prints EXISTS or MISSING.
@@ -360,6 +368,12 @@ Review the user's hook script and settings entry. Check:
 - The matcher targets the right tool(s)
 - The script handles the JSON input correctly
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/10.done
+```
+
 If successful, print:
 ```
 Module 10 complete.
@@ -380,4 +394,6 @@ Common hook patterns:
   - Enforce naming conventions
 
 Next module: /learn-11-building-mcp-servers
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

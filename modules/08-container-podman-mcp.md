@@ -23,6 +23,14 @@ You'll need:
   - A container runtime (Podman or Docker) installed
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/08.started
+```
+
 ## Preflight
 
 Audit current state before doing anything. Each check prints EXISTS or MISSING.
@@ -273,6 +281,12 @@ Verify by checking:
 
 If the container is still running, clean it up.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/08.done
+```
+
 If successful, print:
 ```
 Module 08 complete.
@@ -292,4 +306,6 @@ Natural language workflows:
   "Show me the environment variables in the running container"
 
 Next module: /learn-09-writing-custom-skills
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

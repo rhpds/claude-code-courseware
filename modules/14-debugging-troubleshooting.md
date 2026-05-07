@@ -23,6 +23,14 @@ You'll need:
   - Claude Code installed and working (Module 01)
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/14.started
+```
+
 ## Preflight
 
 Audit current state — this module is about diagnosis, so we start by checking the health of the current setup.
@@ -277,6 +285,12 @@ Tell me:
 
 Review the user's answers. Any reasonable health check results pass.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/14.done
+```
+
 If successful, print:
 ```
 Module 14 complete.
@@ -296,4 +310,6 @@ Key rules of thumb:
   - /mcp shows current server and tool status
 
 Next module: /learn-15-cost-context-management
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

@@ -29,6 +29,14 @@ Why use Git MCP instead of shell commands?
   recommended approach in most CLAUDE.md configurations.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/04.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -542,6 +550,12 @@ To verify, use the Git MCP tools:
 - `git_show` on the earliest commit hash — check author and message
 - Search the log for a commit mentioning "Module 02" or "atlassian-mcp" and `git_show` it — list changed files
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/04.done
+```
+
 If the answers match, print:
 ```
 Module 04 complete.
@@ -559,4 +573,6 @@ When to use Git MCP vs shell commands:
   Shell    — interactive operations (rebase -i, merge conflicts, push, pull)
 
 Next module: /learn-05-atlassian-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

@@ -25,6 +25,14 @@ You'll need your GCP project ID. Find yours in the project list:
 https://docs.google.com/spreadsheets/d/1qWoCx3i5jZ-t6BUD-2AIdutk9sMmkytoXqjBXh2oi4U/edit?gid=0#gid=0
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/01.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -285,6 +293,12 @@ If they got an auth error, check:
 - Wrong project: `echo $ANTHROPIC_VERTEX_PROJECT_ID`
 - Region issue: `echo $CLOUD_ML_REGION` (should be `global`)
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/01.done
+```
+
 If successful, print:
 ```
 Module 01 complete.
@@ -296,4 +310,6 @@ Your setup:
   Auth: Application Default Credentials
 
 Next module: /learn-02-writing-claude-md
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

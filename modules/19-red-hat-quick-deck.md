@@ -28,6 +28,14 @@ After this module, you'll restart Claude Code and create your first
 presentation as the challenge.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/19.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -311,6 +319,12 @@ The user should report:
 
 To verify, ask the user to confirm they can see the deck in their browser. The file should be a `.html` file they can open directly.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/19.done
+```
+
 If successful, print:
 ```
 Module 19 complete.
@@ -329,4 +343,6 @@ The skill follows Red Hat brand standards automatically:
   official logo, design tokens for spacing and typography.
 
 Next module: /learn-20-hivemind-knowledge-base
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

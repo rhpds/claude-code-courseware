@@ -33,6 +33,14 @@ You'll need:
   - Claude Code installed and working (Module 01)
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/11.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -564,6 +572,12 @@ python3 -c "import ast; ast.parse(open('$HOME/repos/my-mcp-server/server.py').re
 
 4. If the MCP tools are available, call `search_files` on the courseware repo to confirm it returns `.md` files.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/11.done
+```
+
 If all checks pass, print:
 ```
 Module 11 complete.
@@ -590,4 +604,6 @@ To remove the practice server later:
   rm -rf ~/repos/my-mcp-server
 
 Next module: /learn-12-review-agents
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

@@ -28,6 +28,14 @@ You can stop at any section if a particular CI/CD system
 doesn't apply to your workflow.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/17.started
+```
+
 ## Preflight
 
 ```bash
@@ -337,6 +345,12 @@ Review the user's design. Check:
 
 Accept any reasonable design.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/17.done
+```
+
 If successful, print:
 ```
 Module 17 complete.
@@ -363,4 +377,6 @@ Decision framework:
   Deterministic?      --> Use a dedicated tool
 
 Next module: /learn-18-profile-cleanup
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

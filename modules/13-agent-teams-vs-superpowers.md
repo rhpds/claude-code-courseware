@@ -37,6 +37,14 @@ You'll need:
   - Basic familiarity with agents (Module 12 recommended)
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/13.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -665,6 +673,12 @@ To verify, confirm:
 
 Accept any reasonable answer for item 4 — both patterns have valid strengths for different situations. The point is that the user understands the trade-offs.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/13.done
+```
+
 If successful, print:
 ```
 Module 13 complete.
@@ -701,4 +715,6 @@ anytime by asking Claude Code to "run the courseware review team"
 or by spawning individual specialists.
 
 Next module: /learn-14-debugging-troubleshooting
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

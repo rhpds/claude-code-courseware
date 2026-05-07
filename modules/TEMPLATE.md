@@ -21,6 +21,14 @@ We'll set up:
 You'll need: LIST WHAT THE USER NEEDS BEFORE STARTING.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/NN.started
+```
+
 ## Preflight
 
 Audit current state before doing anything. Each check prints EXISTS or MISSING.
@@ -95,13 +103,21 @@ Tell me:
 DESCRIBE HOW TO VERIFY THE USER'S ANSWERS.
 Use MCP tools, bash commands, or ask the user to show output.
 
-If successful, print:
+If successful, write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/NN.done
+```
+
+Then print:
 ```
 Module NN complete.
 
 SUMMARY OF WHAT THE USER CAN NOW DO.
 
 Next module: /learn-NN+1-NEXT-TOPIC
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
 
 ---

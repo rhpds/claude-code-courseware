@@ -35,6 +35,14 @@ Custom agents live in .claude/agents/ directories and extend the system
 with project-specific or team-specific review capabilities.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/12.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -540,6 +548,12 @@ else:
 fi
 ```
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/12.done
+```
+
 If the answers match, print:
 ```
 Module 12 complete.
@@ -565,4 +579,6 @@ When to use agents vs manual review:
   Manual     — nuanced judgment, architectural decisions, trade-offs
 
 Next module: /learn-13-agent-teams-vs-superpowers
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

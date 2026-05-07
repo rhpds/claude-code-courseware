@@ -24,6 +24,14 @@ You'll need:
   - A web browser for OAuth
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/07.started
+```
+
 ## Preflight
 
 Audit current state before doing anything. Each check prints EXISTS or MISSING.
@@ -171,6 +179,12 @@ Verify the user's answers by:
 1. Fetching the page they found — confirm it exists and matches their summary
 2. Fetching their new "Notion MCP Module Complete" page — confirm it was created
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/07.done
+```
+
 If successful, print:
 ```
 Module 07 complete.
@@ -191,4 +205,6 @@ Common workflows:
   "What's in the Q2 planning database?"
 
 Next module: /learn-08-container-podman-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

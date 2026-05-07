@@ -27,6 +27,14 @@ We'll cover:
 You'll need: Claude Code installed and at least one project directory.
 ```
 
+## Progress Tracking
+
+On module start, write a progress marker:
+
+```bash
+mkdir -p ~/.claude/courseware-progress && date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/02.started
+```
+
 ## Preflight
 
 Audit current state before doing anything:
@@ -363,6 +371,12 @@ The user should report:
 
 To verify, ask the user to share the contents of their CLAUDE.md or confirm the section count. Any reasonable CLAUDE.md with project-specific content passes.
 
+Write the completion marker:
+
+```bash
+date -u +%Y-%m-%dT%H:%M:%SZ > ~/.claude/courseware-progress/02.done
+```
+
 If successful, print:
 ```
 Module 02 complete.
@@ -387,4 +401,6 @@ Common CLAUDE.md sections:
   - Preferences
 
 Next module: /learn-03-memory-mcp
+
+Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

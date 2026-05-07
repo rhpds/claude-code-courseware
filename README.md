@@ -2,19 +2,19 @@
 
 Hands-on learning modules for the RHDP operations team, delivered as Claude Code skills.
 
-Each module is an interactive, guided walkthrough that runs inside Claude Code. Clone this repo, launch Claude Code, and start learning.
+Each module is an interactive, guided walkthrough that runs inside Claude Code. Install the plugin or clone the repo, launch Claude Code, and start learning.
 
 ## Getting Started
 
-### Option A: Plugin Install (global)
+### Option A: Plugin Install (recommended)
 
-If your team uses the rhpds-marketplace:
+Install the courseware plugin so `/courseware` and all `/learn-*` commands work from any directory:
 
 ```
-claude plugin install claude-code-courseware --marketplace rhpds-marketplace
+claude plugin add github:rhpds/claude-code-courseware
 ```
 
-Then from any directory:
+Then from any project:
 ```
 /courseware
 ```
@@ -42,41 +42,90 @@ Then from any directory:
    /learn-01-vertex-setup
    ```
 
-Tab completion works after typing `/learn-` — it shows all available modules.
+Tab completion works after typing `/learn-` -- it shows all available modules.
+
+### Check Prerequisites
+
+Run `/preflight` to verify your environment before starting modules.
 
 ## Modules
 
+### Setup & Foundation
+
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 01 | Claude Code + Vertex AI Setup | ~10 min | Install Claude Code and configure Vertex AI as the backend provider |
-| 02 | Atlassian MCP Server (Jira) | ~5 min | Connect Claude Code to Jira via the Atlassian Rovo MCP server |
+| 01 | Vertex AI Setup | ~10 min | Install Claude Code and configure Vertex AI as the backend provider |
+| 02 | Writing CLAUDE.md | ~15 min | Write project instructions that shape Claude Code's behavior |
+
+### Core MCP Servers
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
 | 03 | Memory MCP | ~10 min | Persistent knowledge graph for cross-session memory |
 | 04 | Git MCP | ~10 min | Structured Git operations via MCP for status, history, and diffs |
-| 05 | Writing CLAUDE.md | ~15 min | Write project instructions that shape Claude Code's behavior |
+| 05 | Atlassian MCP (Jira) | ~5 min | Connect Claude Code to Jira via the Atlassian Rovo MCP server |
 | 06 | Playwright MCP | ~10 min | Browser automation and visual testing via the Playwright MCP server |
-| 07 | Writing Custom Skills | ~20 min | Create skills for repeatable workflows |
-| 08 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared Hive Mind knowledge base (RHDP Team only) |
+| 07 | Notion MCP | ~15 min | Connect Claude Code to Notion for pages, databases, and search |
+| 08 | Container & Podman MCP | ~15 min | Build, run, inspect, and debug containers from Claude Code |
+
+### Skills & Customization
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 09 | Writing Custom Skills | ~15 min | Create skills for repeatable workflows |
+| 10 | Hooks | ~15 min | Pre/post command hooks for guardrails and automation |
+
+### Advanced Patterns
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
 | 11 | Building MCP Servers | ~30 min | Build a custom MCP server in Python and register it with Claude Code |
 | 12 | Review Agents | ~15 min | Use Claude Code's agent system for specialized code reviews |
-| 13 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
+| 13 | Agent Teams vs Superpowers | ~15 min | Compare multi-agent coordination patterns for reviews and implementation |
+
+### Workflow & Operations
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 14 | Debugging & Troubleshooting | ~15 min | What to do when things go wrong -- MCP failures, tool errors, context issues |
+| 15 | Cost & Context Management | ~15 min | Session budgets, model routing, and context discipline |
+| 16 | Multi-Repo Workspaces | ~15 min | Configure Claude Code across multiple repositories |
+| 17 | CI/CD Integration | ~15 min | Use Claude Code in GitHub Actions and OpenShift Pipelines |
+| 18 | Profile Cleanup | ~15 min | Audit and clean ~/.claude/ for duplicate skills, orphaned plugins, and context bloat |
+
+### Team-Customizable
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 19 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
+| 20 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared knowledge base |
 
 ### Coming Soon
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
-| 10 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
+| 21 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
+
+## Recommended Paths
+
+Not sure where to start? Here are suggested paths by role:
+
+- **Developer:** 01, 02, 03, 04, 06, 09 -- environment setup and daily tools.
+- **Ops engineer:** 01, 02, 03, 05, 08, 10, 14 -- Jira, containers, hooks, debugging.
+- **Team lead / manager:** 01, 02, 15 -- setup, project config, cost management.
+- **Power user:** start at 01 and go in order.
 
 ## How Modules Work
 
 Every module follows the same pattern:
 
-1. **Orientation** — what you'll learn
-2. **Preflight** — checks what's already set up, skips what's done
-3. **Steps** — guided walkthrough with verification at each step
-4. **Verification** — all-green final check
-5. **Challenge** — hands-on task using real team data
+1. **Orientation** -- what you'll learn
+2. **Preflight** -- checks what's already set up, skips what's done
+3. **Steps** -- guided walkthrough with verification at each step
+4. **Verification** -- all-green final check
+5. **Challenge** -- hands-on task using real team data
 
-If you've already completed some prerequisites, the module automatically skips those steps.
+If you've already completed some prerequisites, the module automatically skips those steps. Your progress is tracked in `~/.claude/courseware-progress/` so the catalog shows which modules you've completed.
 
 ## Alternative Setup (No Claude Code Yet)
 
