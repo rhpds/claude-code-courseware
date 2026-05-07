@@ -46,6 +46,24 @@ elif [ -d "$HOME/red-hat-quick-deck" ]; then
   echo "EXISTS: red-hat-quick-deck repo at ~/red-hat-quick-deck"
 else
   echo "MISSING: red-hat-quick-deck repo not found"
+  # Test GitHub access before telling user to clone
+  if git ls-remote https://github.com/rhpds/red-hat-quick-deck.git HEAD &>/dev/null 2>&1; then
+    echo "  EXISTS: GitHub access to rhpds/red-hat-quick-deck verified (will clone in Step 1)"
+  else
+    echo "  MISSING: Cannot access rhpds/red-hat-quick-deck repository"
+    echo ""
+    echo "  This module requires access to the red-hat-quick-deck repo."
+    echo "  Two options:"
+    echo ""
+    echo "  FULL EXPERIENCE (recommended):"
+    echo "    Request repo access from the repo owner or rhpds org admin."
+    echo "    Once granted, re-run this module."
+    echo ""
+    echo "  CONCEPTUAL OVERVIEW:"
+    echo "    Continue without access. You'll learn what the Quick Deck"
+    echo "    skill does and how skills are structured, but you won't be"
+    echo "    able to install or run it."
+  fi
 fi
 
 # Skill installed in Claude Code?
@@ -77,9 +95,24 @@ Claude Code is not installed. Complete Module 01 first:
 
 Print a summary of what was found. Skip steps where items already exist.
 
+If GitHub access to rhpds/red-hat-quick-deck is MISSING (and the repo is not already cloned locally), tell the user:
+```
+You don't have access to the rhpds/red-hat-quick-deck repository.
+
+You can continue for a conceptual overview of how the Quick Deck skill
+works — you'll learn the skill structure, reference file pattern, and
+how Claude Code generates branded presentations. Steps that require
+cloning or running the skill will be skipped with an explanation.
+
+To get the full hands-on experience, request access to the repo and
+re-run this module.
+```
+
+If the user continues without access, skip Steps 1-2 and the Challenge (which require the repo). Keep Steps 3-4 (understanding skill anatomy and generation process) as conceptual walkthroughs. Mark skipped steps with: "Skipped: requires access to rhpds/red-hat-quick-deck."
+
 ## Step 1 — Clone the red-hat-quick-deck repository
 
-Skip if the repo is already cloned (EXISTS in preflight).
+Skip if the repo is already cloned (EXISTS in preflight). Also skip if GitHub access was confirmed missing in the preflight — tell the user: "Skipped: requires access to rhpds/red-hat-quick-deck. This step clones the repo containing the Quick Deck skill and its reference files."
 
 Explain:
 ```
@@ -93,12 +126,6 @@ Tell the user:
 Clone the repository:
 
   ! mkdir -p ~/repos && git clone https://github.com/rhpds/red-hat-quick-deck.git ~/repos/red-hat-quick-deck
-```
-
-If the user doesn't have access to the GitHub repo, try the alternate:
-```
-If the repo is private or you don't have access, ask a teammate who
-has it cloned to share the folder, or check with the repo owner for access.
 ```
 
 Verify:
