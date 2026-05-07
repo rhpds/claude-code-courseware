@@ -36,11 +36,62 @@ Check prerequisites and current state:
 ```bash
 # Claude Code installed?
 command -v claude &>/dev/null && echo "EXISTS: Claude Code" || echo "MISSING: Claude Code — run /learn-01-vertex-setup first"
+```
 
-# Node.js (required to run the MCP server)
-command -v node &>/dev/null && echo "EXISTS: Node.js $(node --version)" || echo "MISSING: Node.js"
+If Claude Code is MISSING, stop and tell the user:
+```
+Claude Code is not installed. Complete Module 01 first:
+  /learn-01-vertex-setup
+```
 
-# Check for Memory MCP in user settings
+### Phase 1 — Dependency Check
+
+```bash
+# Node.js
+NODE_PATH=$(command -v node 2>/dev/null)
+if [ -z "$NODE_PATH" ]; then
+  echo "MISSING: Node.js — install from https://nodejs.org or via Homebrew: brew install node"
+else
+  echo "EXISTS: Node.js $(node --version) at $NODE_PATH"
+fi
+
+# npm
+NPM_PATH=$(command -v npm 2>/dev/null)
+if [ -z "$NPM_PATH" ]; then
+  echo "MISSING: npm — should come with Node.js, reinstall Node"
+else
+  echo "EXISTS: npm $(npm --version) at $NPM_PATH"
+fi
+
+# npx
+NPX_PATH=$(command -v npx 2>/dev/null)
+if [ -z "$NPX_PATH" ]; then
+  echo "MISSING: npx — should come with npm, reinstall Node"
+else
+  echo "EXISTS: npx at $NPX_PATH"
+fi
+```
+
+If any of Node.js, npm, or npx are MISSING, stop and tell the user what to install.
+
+```bash
+# PATH consistency — ensure Claude Code can find node on restart
+LOGIN_PATH=$(zsh -l -c 'echo $PATH' 2>/dev/null || bash -l -c 'echo $PATH' 2>/dev/null)
+NODE_DIR=$(dirname "$(command -v node)")
+if echo "$LOGIN_PATH" | tr ':' '\n' | grep -q "$NODE_DIR"; then
+  echo "PASS: Node directory ($NODE_DIR) is in login shell PATH"
+else
+  echo "WARNING: $NODE_DIR is not in login shell PATH"
+  echo "  Claude Code may not find node/npx on restart."
+  echo "  Add this to ~/.zshrc or ~/.zprofile:"
+  echo "    export PATH=\"$NODE_DIR:\$PATH\""
+fi
+```
+
+If PATH consistency fails, stop and tell the user to fix their PATH before continuing.
+
+```bash
+# Check for Memory MCP already configured in user settings
 if [ -f "$HOME/.claude/settings.json" ]; then
   python3 -c "
 import json
@@ -53,6 +104,10 @@ try:
         cmd = cfg.get('command', '')
         if 'memory' in name.lower() or 'memory' in args.lower():
             print(f'EXISTS: Memory MCP server \"{name}\" in ~/.claude/settings.json')
+            print(f'  Command: {cmd}')
+            if cmd == 'npx':
+                print(f'  WARNING: Config uses bare \"npx\" — should be a full path.')
+                print(f'  Step 1 will fix this.')
             found = True
             break
     if not found:
@@ -98,23 +153,73 @@ if [ "$MEMORY_FOUND" = false ]; then
 fi
 ```
 
-If Claude Code is MISSING, stop and tell the user:
-```
-Claude Code is not installed. Complete Module 01 first:
-  /learn-01-vertex-setup
-```
+Print a summary of what was found. If all Phase 1 checks pass and Memory MCP is already configured with a full path, skip to Step 2.
 
-Print a summary of what was found. Skip steps where the config already exists.
+## Step 1 — Install and configure the Memory MCP server
 
-## Step 1 — Configure the Memory MCP server
+Skip if Memory MCP is already configured with a full path to npx (not bare `npx`). If configured with bare `npx`, this step will fix it.
 
-Skip if a memory MCP server is already configured in user settings or project config.
+### Step 1a — Install the package globally
 
 Explain:
 ```
-The Memory MCP server runs locally via npx. It stores its knowledge graph
-in a JSON file on your machine. We'll add it to your user-level settings
-so it's available across all projects.
+We install the Memory MCP package globally so npx never needs to
+download it at runtime. This eliminates silent download failures that
+can prevent the server from starting.
+```
+
+```bash
+echo "Installing @modelcontextprotocol/server-memory globally..."
+npm install -g @modelcontextprotocol/server-memory
+npm list -g @modelcontextprotocol/server-memory --depth=0 2>/dev/null
+if [ $? -ne 0 ]; then
+  echo "FAIL: npm install failed"
+  echo "  Try: sudo npm install -g @modelcontextprotocol/server-memory"
+  echo "  Or configure a user prefix: npm config set prefix ~/.npm-global"
+  echo "  Then add ~/.npm-global/bin to your PATH"
+else
+  echo "PASS: @modelcontextprotocol/server-memory installed globally"
+fi
+```
+
+### Step 1b — Smoke test the server
+
+Explain:
+```
+Before writing any config, we verify the server actually starts.
+We'll launch it, wait a few seconds, and check if the process is alive.
+```
+
+```bash
+NPX_FULL=$(command -v npx)
+echo "Smoke test: launching server with $NPX_FULL..."
+$NPX_FULL -y @modelcontextprotocol/server-memory &
+SERVER_PID=$!
+sleep 3
+if kill -0 $SERVER_PID 2>/dev/null; then
+  echo "PASS: Server process started (PID $SERVER_PID)"
+  kill $SERVER_PID 2>/dev/null
+  wait $SERVER_PID 2>/dev/null
+else
+  wait $SERVER_PID 2>/dev/null
+  EXIT_CODE=$?
+  echo "FAIL: Server process exited immediately (exit code $EXIT_CODE)"
+  echo "  Possible causes:"
+  echo "    - Permission error on memory file"
+  echo "    - Package not installed correctly"
+  echo "  Debug with: $NPX_FULL -y @modelcontextprotocol/server-memory 2>&1"
+fi
+```
+
+If the smoke test fails, stop and help the user diagnose. Do not write config for a server that cannot start.
+
+### Step 1c — Write config with full npx path
+
+Explain:
+```
+Now we write the MCP server config to ~/.claude/settings.json using the
+fully resolved path to npx. This makes the config immune to PATH
+differences between your terminal and Claude Code's shell environment.
 ```
 
 Check if `~/.claude/settings.json` exists:
@@ -128,11 +233,11 @@ else
 fi
 ```
 
-Add the Memory MCP server:
+Write the config:
 
 ```bash
 python3 << 'PYEOF'
-import json, os
+import json, os, shutil, subprocess
 
 path = os.path.expanduser("~/.claude/settings.json")
 try:
@@ -144,10 +249,21 @@ except (FileNotFoundError, json.JSONDecodeError):
 if "mcpServers" not in settings:
     settings["mcpServers"] = {}
 
+# Resolve full path to npx — never use bare "npx"
+npx_path = shutil.which("npx")
+if not npx_path:
+    npx_path = subprocess.check_output(
+        "command -v npx", shell=True, text=True
+    ).strip()
+
+if not npx_path:
+    print("FAIL: Cannot find npx. Install Node.js first.")
+    raise SystemExit(1)
+
 memory_file = os.path.expanduser("~/.claude/memory.json")
 
 settings["mcpServers"]["memory"] = {
-    "command": "npx",
+    "command": npx_path,
     "args": ["-y", "@modelcontextprotocol/server-memory"],
     "env": {
         "MEMORY_FILE_PATH": memory_file
@@ -158,20 +274,27 @@ with open(path, "w") as f:
     json.dump(settings, f, indent=2)
 
 print(f"Memory MCP server added to ~/.claude/settings.json")
-print(f"Knowledge graph file: {memory_file}")
+print(f"  npx path: {npx_path}")
+print(f"  Knowledge graph file: {memory_file}")
 PYEOF
 ```
 
-Verify:
+Verify the config was written correctly:
+
 ```bash
 python3 -c "
-import json
-d = json.load(open('$HOME/.claude/settings.json'))
+import json, os
+d = json.load(open(os.path.expanduser('~/.claude/settings.json')))
 if 'memory' in d.get('mcpServers', {}):
     cfg = d['mcpServers']['memory']
+    cmd = cfg['command']
     print('PASS: Memory MCP server configured')
-    print(f'  Command: {cfg[\"command\"]} {\" \".join(cfg[\"args\"])}')
+    print(f'  Command: {cmd} {\" \".join(cfg[\"args\"])}')
     print(f'  Memory file: {cfg.get(\"env\", {}).get(\"MEMORY_FILE_PATH\", \"default\")}')
+    if '/' in cmd:
+        print(f'  PASS: Command uses full path')
+    else:
+        print(f'  FAIL: Command is bare \"{cmd}\" — should be a full path')
 else:
     print('FAIL: memory not found in mcpServers')
 "
@@ -185,10 +308,65 @@ IMPORTANT: Claude Code needs to be restarted to pick up the new MCP server.
 2. Relaunch Claude Code: claude .
 3. Re-run this module: /learn-03-memory-mcp
 
-The preflight will detect the config and skip Step 1 on re-entry.
+On re-entry, we'll verify the server is live before continuing.
+If it isn't, we'll diagnose why — you won't be left stuck.
 ```
 
 Note: If the user needed to restart, the module resumes from Step 2 when re-run.
+
+### Post-Restart Verification
+
+On re-entry after restart, verify the Memory MCP tools are actually available in this session before continuing to Step 2.
+
+Check if any `mcp__memory__*` tools are available. If they are:
+```
+PASS: Memory MCP tools are live in this session.
+Continuing to Step 2.
+```
+
+If config exists but tools are NOT available, run the diagnostic ladder:
+
+```bash
+# Diagnostic Step 1: Is the npx path in config still valid?
+NPX_IN_CONFIG=$(python3 -c "
+import json, os
+d = json.load(open(os.path.expanduser('~/.claude/settings.json')))
+print(d['mcpServers']['memory']['command'])
+")
+if [ -x "$NPX_IN_CONFIG" ]; then
+  echo "PASS: npx path in config ($NPX_IN_CONFIG) is executable"
+else
+  echo "FAIL: npx path in config ($NPX_IN_CONFIG) is not executable"
+  echo "  Node.js may have been reinstalled to a different location."
+  echo "  Current npx: $(command -v npx)"
+  echo "  Fix: re-run Step 1c to update the config path."
+fi
+```
+
+```bash
+# Diagnostic Step 2: Can we launch the server manually?
+NPX_IN_CONFIG=$(python3 -c "
+import json, os
+d = json.load(open(os.path.expanduser('~/.claude/settings.json')))
+print(d['mcpServers']['memory']['command'])
+")
+echo "Attempting manual server launch..."
+$NPX_IN_CONFIG -y @modelcontextprotocol/server-memory &
+SERVER_PID=$!
+sleep 3
+if kill -0 $SERVER_PID 2>/dev/null; then
+  echo "Server launches fine — Claude Code may need another restart."
+  echo "Try: exit and run 'claude .' again."
+  kill $SERVER_PID 2>/dev/null
+  wait $SERVER_PID 2>/dev/null
+else
+  wait $SERVER_PID 2>/dev/null
+  echo "FAIL: Server fails to launch. Checking stderr..."
+  $NPX_IN_CONFIG -y @modelcontextprotocol/server-memory 2>&1 | head -20
+fi
+```
+
+Print exactly what is wrong and what to do next.
 
 ## Step 2 — Read the knowledge graph
 
