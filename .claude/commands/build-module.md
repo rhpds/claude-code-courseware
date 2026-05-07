@@ -61,30 +61,7 @@ You are building a new learning module for the claude-code-courseware project.
    Use `.claude/commands/references/context.md` for team-specific values.
    ```
 
-   **Dispatcher skill** — `skills/learn-NN-TOPIC/SKILL.md`
-   Use this exact pattern (swap name, description, title, time, prerequisites, filename):
-   ```
-   ---
-   name: learn-NN-TOPIC
-   description: "TITLE — DESCRIPTION (~X min). Prerequisites: LIST"
-   ---
-
-   # TITLE
-
-   DESCRIPTION.
-   Estimated time: X minutes. Prerequisites: LIST.
-
-   Read and follow the module at `../../modules/NN-TOPIC.md` step by step.
-
-   Start with the Orientation section, then run the Preflight checks.
-   Skip any step where the prerequisite already exists.
-   Guide the user through each remaining step, then run Verification.
-   Finish with the Challenge.
-
-   Use `../../.claude/commands/references/context.md` for team-specific values.
-   ```
-
-   **Update catalogs** — Edit both `.claude/commands/courseware.md` AND `skills/courseware/SKILL.md`
+   **Update catalog** — Edit `.claude/commands/courseware.md`
    Move the module from "Coming Soon" to the active section above it.
    Add the full entry with description and prerequisites.
 
@@ -93,7 +70,7 @@ You are building a new learning module for the claude-code-courseware project.
 
 7. Commit each file separately with plain English commit messages (no prefixes, no emojis):
    - `git add modules/NN-TOPIC.md && git commit -m "add Module NN — TITLE"`
-   - `git add .claude/commands/learn-NN-TOPIC.md skills/learn-NN-TOPIC/SKILL.md && git commit -m "add /learn-NN-TOPIC dispatchers"`
-   - `git add .claude/commands/courseware.md skills/courseware/SKILL.md README.md && git commit -m "update catalog and README for Module NN"`
+   - `git add .claude/commands/learn-NN-TOPIC.md && git commit -m "add /learn-NN-TOPIC dispatcher"`
+   - `git add .claude/commands/courseware.md README.md && git commit -m "update catalog and README for Module NN"`
 
 8. Report what was created and suggest `git push origin main` for the user to approve.
