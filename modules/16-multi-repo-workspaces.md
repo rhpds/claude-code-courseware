@@ -324,3 +324,5 @@ Next module: /learn-17-ci-cd-integration
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

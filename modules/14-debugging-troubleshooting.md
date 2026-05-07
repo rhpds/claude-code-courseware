@@ -313,3 +313,5 @@ Next module: /learn-15-cost-context-management
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

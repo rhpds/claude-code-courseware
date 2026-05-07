@@ -458,3 +458,5 @@ Next module: Module 22 (Workshop Intake) is coming soon.
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

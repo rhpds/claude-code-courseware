@@ -258,3 +258,5 @@ Next module: /learn-08-container-podman-mcp
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

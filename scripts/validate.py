@@ -94,17 +94,20 @@ def check_catalog_count(modules):
     with open(catalog_path, "r") as f:
         content = f.read()
 
-    match = re.search(r"\*\*(\d+)\s+modules?\s+available", content)
-    if not match:
-        errors.append("  No module count found in catalog (expected '**N modules available')")
-        return errors
+    static_match = re.search(r"\*\*(\d+)\s+modules?\s+available", content)
+    dynamic_match = re.search(r"\[COUNT\]\s+modules?\s+available", content)
 
-    catalog_count = int(match.group(1))
-    actual_count = len(modules)
-    if catalog_count != actual_count:
-        errors.append(
-            f"  Catalog says {catalog_count} modules, but found {actual_count} module files"
-        )
+    if static_match:
+        catalog_count = int(static_match.group(1))
+        actual_count = len(modules)
+        if catalog_count != actual_count:
+            errors.append(
+                f"  Catalog says {catalog_count} modules, but found {actual_count} module files"
+            )
+    elif dynamic_match:
+        pass
+    else:
+        errors.append("  No module count found in catalog (expected '**N modules available' or dynamic [COUNT])")
     return errors
 
 

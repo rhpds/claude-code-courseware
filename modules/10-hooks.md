@@ -5,6 +5,38 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Create pre- and post-command hooks that run automatically when Claude Code executes tools, giving you guardrails and automation.
 
+## Quick Setup (skip the walkthrough)
+
+If you already understand hooks and just want a working guardrail:
+
+1. `mkdir -p .claude/hooks`
+2. Write `.claude/hooks/guard-git.sh`:
+   ```bash
+   #!/bin/bash
+   INPUT=$(cat)
+   TOOL_NAME=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+   [ "$TOOL_NAME" != "Bash" ] && exit 0
+   COMMAND=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('command',''))" 2>/dev/null)
+   echo "$COMMAND" | grep -qE 'git\s+push\s+.*--force|git\s+reset\s+--hard|git\s+clean\s+-fd' && { echo "BLOCKED: Destructive git command"; exit 2; }
+   exit 0
+   ```
+3. `chmod +x .claude/hooks/guard-git.sh`
+4. Add to `.claude/settings.local.json`:
+   ```json
+   {
+     "hooks": {
+       "PreToolUse": [
+         { "matcher": "Bash", "hooks": [{ "type": "command", "command": ".claude/hooks/guard-git.sh" }] }
+       ]
+     }
+   }
+   ```
+5. Restart Claude Code
+
+Verify: ask Claude to run `git push --force` — the hook should block it.
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
 ## Orientation
 
 Print this once at the start:
@@ -397,3 +429,5 @@ Next module: /learn-11-building-mcp-servers
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

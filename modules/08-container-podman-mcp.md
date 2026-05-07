@@ -375,3 +375,5 @@ Next module: /learn-09-writing-custom-skills
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

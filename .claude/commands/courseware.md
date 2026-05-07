@@ -33,7 +33,8 @@ Run this silently to detect completion/in-progress state:
 ```bash
 PROGRESS_DIR="$HOME/.claude/courseware-progress"
 if [ -d "$PROGRESS_DIR" ]; then
-  for n in $(seq -w 1 21); do
+  for f in modules/[0-9]*.md; do
+    n=$(basename "$f" | grep -o '^[0-9]*')
     if [ -f "$PROGRESS_DIR/$n.done" ]; then
       echo "DONE:$n"
     elif [ -f "$PROGRESS_DIR/$n.started" ]; then
@@ -45,12 +46,6 @@ fi
 
 Use the output to add status tags to the catalog. See the tag rules below.
 
-## What's New
-
-Show this blurb once, before the catalog:
-
-> **21 modules available.** Modules marked **NEW** were recently added. Run `/preflight` to check your prerequisites before starting. Run `/quick-install` to install MCP servers or plugins without a tutorial.
-
 ## Catalog
 
 Print the catalog using markdown (NOT inside a code block).
@@ -61,7 +56,7 @@ Print the catalog using markdown (NOT inside a code block).
 - If the module is in the NEW list below, show **NEW**
 - Otherwise, no tag
 
-**NEW modules:** 07, 08, 10, 14, 15, 16, 17, 21
+**NEW modules:** Scan each module file for a `<!-- NEW -->` HTML comment. If present, that module gets the **NEW** tag. This replaces the hardcoded list.
 
 ## Claude Code Courseware
 
@@ -119,6 +114,13 @@ After the catalog, show the role-based recommendations:
 
 After the recommendations, print:
 
+> **[COUNT] modules available.** Modules marked **NEW** were recently added.
+>
+> Where [COUNT] is computed by counting `modules/[0-9]*.md` files excluding TEMPLATE.md:
+> ```bash
+> ls modules/[0-9]*.md | wc -l | tr -d ' '
+> ```
+>
 > Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, `/quick-install` to install MCP servers or plugins without a tutorial, or `/preflight` to check your prerequisites.
 >
 > Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).

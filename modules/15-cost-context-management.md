@@ -293,3 +293,5 @@ Next module: /learn-16-multi-repo-workspaces
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->

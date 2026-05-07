@@ -380,3 +380,5 @@ Next module: /learn-18-profile-cleanup
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
+
+<!-- NEW -->
