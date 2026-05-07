@@ -46,6 +46,27 @@ command -v git &>/dev/null && echo "EXISTS: Git $(git --version | cut -d' ' -f3)
 # GitHub CLI (used for contributor identification)
 command -v gh &>/dev/null && echo "EXISTS: GitHub CLI $(gh --version | head -1 | awk '{print $3}')" || echo "INFO: GitHub CLI not installed (optional, will use git config fallback)"
 
+# GitHub access to rhpds/hivemind?
+if git ls-remote https://github.com/rhpds/hivemind.git HEAD &>/dev/null 2>&1; then
+  echo "EXISTS: GitHub access to rhpds/hivemind verified"
+else
+  echo "MISSING: Cannot access rhpds/hivemind repository"
+  echo ""
+  echo "  This module requires access to the rhpds GitHub organization."
+  echo "  Two options:"
+  echo ""
+  echo "  FULL EXPERIENCE (recommended):"
+  echo "    Request access from your team lead or the rhpds org admin."
+  echo "    You need read access to github.com/rhpds/hivemind."
+  echo "    Once granted, re-run this module."
+  echo ""
+  echo "  CONCEPTUAL OVERVIEW:"
+  echo "    Continue without access. You'll learn how the Hive Mind"
+  echo "    knowledge base works and see the skill architecture, but"
+  echo "    you won't be able to clone the repo, contribute entries,"
+  echo "    or search the live knowledge base."
+fi
+
 # Check for hivemind-write skill
 if [ -f "$HOME/.claude/skills/hivemind-write/SKILL.md" ]; then
   echo "EXISTS: hivemind-write skill installed"
@@ -91,6 +112,21 @@ Claude Code is not installed. Complete Module 01 first:
 ```
 
 Print a summary of what was found. Skip steps where things already exist.
+
+If GitHub access to rhpds/hivemind is MISSING, tell the user:
+```
+You don't have access to the rhpds/hivemind repository.
+
+You can continue for a conceptual overview of how the Hive Mind knowledge
+base works — you'll learn the structure, article format, and skill
+architecture. Steps that require cloning or writing to the repo will be
+skipped with an explanation of what they would do.
+
+To get the full hands-on experience, request access to the rhpds GitHub
+organization and re-run this module.
+```
+
+If the user continues without access, skip Steps 2, 4, 5, and the Challenge (which require the repo). Keep Steps 1, 3, and 6 (conceptual content). Mark skipped steps with: "Skipped: requires GitHub access to rhpds/hivemind."
 
 ## Step 1 — Understand the Hive Mind structure
 
@@ -157,7 +193,7 @@ Article types: feature, fix, tool, decision, issue, knowledge
 
 ## Step 2 — Set up the Hive Mind locally
 
-Skip if the hivemind-write skill is already installed and preferences exist.
+Skip if the hivemind-write skill is already installed and preferences exist. Also skip if GitHub access to rhpds/hivemind was confirmed missing in the preflight — tell the user: "Skipped: requires GitHub access to rhpds/hivemind. This step clones the repo and installs the hivemind-write and hivemind-query skills."
 
 Explain:
 ```
