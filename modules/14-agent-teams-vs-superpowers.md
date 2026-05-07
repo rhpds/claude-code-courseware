@@ -65,7 +65,21 @@ if [ -d "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers" ]; the
   version=$(ls "$HOME/.claude/plugins/cache/claude-plugins-official/superpowers/" 2>/dev/null | head -1)
   echo "EXISTS: Superpowers plugin (v$version)"
 else
-  echo "INFO: Superpowers plugin not installed (optional — we'll explain the pattern regardless)"
+  echo "MISSING: Superpowers plugin not installed"
+  echo ""
+  echo "  The superpowers plugin is recommended for the full hands-on"
+  echo "  experience in Steps 4-5 of this module."
+  echo ""
+  echo "  FULL EXPERIENCE (recommended):"
+  echo "    Install it now — run /install in Claude Code, search for"
+  echo "    'superpowers', and install from the claude-plugins-official"
+  echo "    marketplace. Restart Claude Code to activate, then re-run"
+  echo "    this module."
+  echo ""
+  echo "  CONCEPTUAL OVERVIEW:"
+  echo "    Continue without it. Steps 2-3 (building an agent review"
+  echo "    team) work fully. Steps 4-5 will explain the superpowers"
+  echo "    pattern with simulated examples instead of the real workflow."
 fi
 
 # Check for team-lead agent from Module 12
@@ -400,6 +414,14 @@ Comparison:
   One-shot analysis               Iterative (fix + re-review loops)
   Manual dispatch or coordinator  Controller manages full lifecycle
   Good for: PR reviews, audits    Good for: feature implementation
+```
+
+Tell the user:
+```
+Note: This step demonstrates the superpowers workflow. If you installed
+the plugin during preflight, you'll run the actual skills. If not, we'll
+walk through what each skill does conceptually — you'll still learn the
+pattern and can install the plugin later to use it for real.
 ```
 
 If the superpowers plugin is installed, demonstrate the available skills:
