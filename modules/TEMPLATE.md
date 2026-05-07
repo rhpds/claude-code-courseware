@@ -246,3 +246,43 @@ else
   echo "FAIL: Server won't start. Debug: $NPX_IN_CONFIG <SERVER_ARGS_FOR_LAUNCH> 2>&1"
 fi
 ```
+
+---
+
+### Two-Track Dependency Pattern
+
+Use this pattern when a module has dependencies that are recommended but not strictly required — external repo access, optional plugins, or team-specific tools.
+
+**Preflight test:**
+```bash
+# Test the dependency programmatically
+if <DEPENDENCY_CHECK_COMMAND>; then
+  echo "EXISTS: <DEPENDENCY_NAME> verified"
+else
+  echo "MISSING: <DEPENDENCY_NAME>"
+  echo ""
+  echo "  Two options:"
+  echo ""
+  echo "  FULL EXPERIENCE (recommended):"
+  echo "    <HOW_TO_GET_THE_DEPENDENCY>"
+  echo "    Once available, re-run this module."
+  echo ""
+  echo "  CONCEPTUAL OVERVIEW:"
+  echo "    Continue without it. You'll learn <WHAT_THEY_LEARN>"
+  echo "    but won't be able to <WHAT_THEY_MISS>."
+fi
+```
+
+**Gate after preflight summary:**
+```
+If <DEPENDENCY_NAME> is MISSING, tell the user which path they're on.
+If conceptual path chosen, skip hands-on steps that require the dependency.
+Keep explanation steps — the user still learns the concepts.
+Mark skipped steps: "Skipped: requires <DEPENDENCY_NAME>."
+```
+
+**Common dependency checks:**
+- GitHub repo access: `git ls-remote https://github.com/ORG/REPO.git HEAD &>/dev/null 2>&1`
+- Plugin installed: `[ -d "$HOME/.claude/plugins/cache/MARKETPLACE/PLUGIN" ]`
+- CLI tool available: `command -v TOOL &>/dev/null`
+- Service reachable: `curl -sf URL --max-time 5 &>/dev/null`
