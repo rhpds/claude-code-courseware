@@ -1,0 +1,10 @@
+[
+  {
+    "id": "openshift-cnv.ocp-virt-roadshow-multi-user.prod",
+    "display_name": "OCP Virt Roadshow",
+    "catalog_namespace": "babylon-catalog-prod",
+    "description": "OpenShift Virtualization Roadshow",
+    "category": "OpenShift",
+    "parameters": [{"name": "num_users", "type": "integer", "default": 1, "minimum": 1, "maximum": 20}]
+  }
+]

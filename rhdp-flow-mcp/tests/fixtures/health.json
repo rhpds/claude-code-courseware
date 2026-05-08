@@ -1,0 +1,1 @@
+{"status": "ok", "oc_installed": true, "oc_connected": true, "cluster_url": "https://api.cluster.example.com:6443", "user": "admin", "message": "Connected", "base_domain": "cluster.example.com", "rhdp_api_reachable": true}

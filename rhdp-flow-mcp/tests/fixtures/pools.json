@@ -1,0 +1,1 @@
+{"pools": [{"pool_name": "virt-roadshow-pool", "min_available": 5, "max_available": 20, "ready": 8, "available": 8, "claimed": 2, "provisioning": 0, "provider_name": "virt-roadshow-provider", "exists": true}]}
