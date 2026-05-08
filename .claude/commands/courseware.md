@@ -93,6 +93,10 @@ Print the catalog using markdown (NOT inside a code block).
 `19`  Red Hat Quick Deck · 10 min
 `20`  Hivemind Knowledge Base · 15 min
 
+### Team Tools
+`23`  RHDP-Flow MCP · 20 min · **NEW**
+`24`  RHDP-Flow Ops · 15 min · **NEW**
+
 ### Coming Soon
 `22`  Workshop Intake · 15 min
 
@@ -225,7 +229,17 @@ Generate branded HTML slide presentations with the Quick Deck skill.
 Contribute to and search the team's shared knowledge base.
 *Prereq: Module 01, GitHub access to rhpds org*
 
-**Section 7 -- Coming Soon (22)**
+**Section 7 -- Team Tools (23-24)**
+
+**`23` RHDP-Flow MCP** -- ~20 min · **NEW**
+Install and configure the RHDP-Flow MCP server for workshop deployment automation.
+*Prereq: Module 01, Module 11 recommended*
+
+**`24` RHDP-Flow Ops** -- ~15 min · **NEW**
+Use Flow skills and agents for daily workshop operations -- status, QA, CSV validation, and pre-event readiness.
+*Prereq: Module 23*
+
+**Section 8 -- Coming Soon (22)**
 
 **`22` Workshop Intake** -- ~15 min
 *Not yet available.*
@@ -257,5 +271,7 @@ When the user picks a module, tell them to run the corresponding command:
 | 19 | `/learn-19-red-hat-quick-deck` |
 | 20 | `/learn-20-hivemind-knowledge-base` |
 | 21 | `/learn-21-plugin-marketplace` |
+| 23 | `/learn-23-rhdp-flow-mcp` |
+| 24 | `/learn-24-rhdp-flow-ops` |
 
 If they pick module 22 (Coming Soon), tell them it's not yet available and suggest other modules.

@@ -105,6 +105,13 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 | 19 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 | 20 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared knowledge base |
 
+### Team Tools
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 23 | RHDP-Flow MCP | ~20 min | Install and configure the RHDP-Flow MCP server for workshop deployment automation |
+| 24 | RHDP-Flow Ops | ~15 min | Use Flow skills and agents for daily workshop operations |
+
 ### Coming Soon
 
 | # | Title | Time | Description |
