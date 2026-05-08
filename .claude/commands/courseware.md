@@ -97,6 +97,8 @@ Print the catalog using markdown (NOT inside a code block).
 `23`  RHDP-Flow MCP · 20 min · **NEW**
 `24`  RHDP-Flow Ops · 15 min · **NEW**
 `25`  CSV Pipeline · 20 min · **NEW**
+`26`  Deployment Intelligence · 20 min · **NEW**
+`27`  Event-Scale Operations · 30 min · **NEW**
 
 ### Coming Soon
 `22`  Workshop Intake · 15 min
@@ -244,6 +246,14 @@ Use Flow skills and agents for daily workshop operations -- status, QA, CSV vali
 Install the rhdp-flow-csv MCP server and process workshop CSVs through the full pipeline.
 *Prereq: Module 01, Module 11 recommended*
 
+**`26` Deployment Intelligence** -- ~20 min · **NEW**
+Install the rhdp-flow-intel MCP server for deployment monitoring, ghost detection, and troubleshooting.
+*Prereq: Module 01, Module 23 recommended*
+
+**`27` Event-Scale Operations** -- ~30 min · **NEW**
+Capstone: multi-day event simulation using all Flow skills, agents, and MCP tools.
+*Prereq: Module 23, Module 25, Module 26*
+
 **Section 8 -- Coming Soon (22)**
 
 **`22` Workshop Intake** -- ~15 min
@@ -279,5 +289,7 @@ When the user picks a module, tell them to run the corresponding command:
 | 23 | `/learn-23-rhdp-flow-mcp` |
 | 24 | `/learn-24-rhdp-flow-ops` |
 | 25 | `/learn-25-csv-pipeline` |
+| 26 | `/learn-26-deployment-intel` |
+| 27 | `/learn-27-event-scale-ops` |
 
 If they pick module 22 (Coming Soon), tell them it's not yet available and suggest other modules.
