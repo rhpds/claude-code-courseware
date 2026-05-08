@@ -48,6 +48,63 @@ for plugin in superpowers atlassian playwright frontend-design pyright-lsp; do
     echo "PLUGIN:$plugin:not installed"
   fi
 done
+
+echo ""
+echo "=== TEAM TOOLS STATUS ==="
+
+# RHDP-Flow MCP server
+SETTINGS="$HOME/.claude/settings.json"
+flow_configured=false
+if [ -f "$SETTINGS" ]; then
+  python3 -c "
+import json
+with open('$SETTINGS') as f:
+    s = json.load(f)
+if 'rhdp-flow' in s.get('mcpServers', {}):
+    print('configured')
+else:
+    print('not configured')
+" 2>/dev/null | grep -q configured && flow_configured=true
+fi
+if python3 -c "import rhdp_flow_mcp" 2>/dev/null && [ "$flow_configured" = true ]; then
+  echo "TEAM:rhdp-flow-mcp:installed"
+elif python3 -c "import rhdp_flow_mcp" 2>/dev/null; then
+  echo "TEAM:rhdp-flow-mcp:package only (not in settings.json)"
+elif [ "$flow_configured" = true ]; then
+  echo "TEAM:rhdp-flow-mcp:config only (package not installed)"
+else
+  echo "TEAM:rhdp-flow-mcp:not installed"
+fi
+
+# RHDP-Flow Skills
+found=0
+for skill in flow-deploy flow-qa flow-ops flow-status flow-bulk flow-report; do
+  if find "$HOME/.claude/skills" "$HOME/.claude/plugins" -name "$skill.md" -path "*/skills/*" 2>/dev/null | grep -q .; then
+    found=$((found + 1))
+  fi
+done
+if [ "$found" -eq 6 ]; then
+  echo "TEAM:rhdp-flow-skills:installed"
+elif [ "$found" -gt 0 ]; then
+  echo "TEAM:rhdp-flow-skills:partial ($found/6)"
+else
+  echo "TEAM:rhdp-flow-skills:not installed"
+fi
+
+# RHDP-Flow Agents
+found=0
+for agent in flow-csv-validator flow-deployment-auditor flow-pre-event-checklist; do
+  if find "$HOME/.claude/agents" "$HOME/.claude/plugins" -name "$agent.md" -path "*/agents/*" 2>/dev/null | grep -q .; then
+    found=$((found + 1))
+  fi
+done
+if [ "$found" -eq 3 ]; then
+  echo "TEAM:rhdp-flow-agents:installed"
+elif [ "$found" -gt 0 ]; then
+  echo "TEAM:rhdp-flow-agents:partial ($found/3)"
+else
+  echo "TEAM:rhdp-flow-agents:not installed"
+fi
 ```
 
 ## Menu Display
@@ -77,10 +134,34 @@ Quick Install
   [10] frontend-design           STATUS
   [11] pyright-lsp               STATUS
 
-Pick items to install (e.g. "2, 4" or "all MCP" or "all plugins"):
+  --- Team Tools ---
+
+  [12] RHDP-Flow MCP (Python)    STATUS
+  [13] RHDP-Flow Skills (6)      STATUS
+  [14] RHDP-Flow Agents (3)      STATUS
+
+Pick items to install (e.g. "2, 4" or "all MCP" or "all plugins" or "all team tools").
+Add "dry-run" to preview without changes (e.g. "dry-run 2, 4"):
 ```
 
 Wait for the user to pick items. Then run the install procedure for each selected item.
+
+### Dry-Run Mode
+
+If the user prefixes their selection with "dry-run", do NOT execute any install commands. Instead, for each selected item:
+
+1. Run the dependency check (Phase 1) as normal -- this is read-only
+2. Print what would be installed and configured, including:
+   - The npm package or config entry that would be written
+   - The exact settings.json changes that would be made
+   - Any directories that would be created
+   - Post-install steps (restart, authenticate, etc.)
+3. Prefix each action with `[dry-run]` so it's clear nothing was changed
+
+After the dry-run summary, print:
+```
+No changes were made. To install for real, re-run /quick-install and pick the same items without "dry-run".
+```
 
 ## Install Procedures
 
@@ -333,6 +414,204 @@ else
 fi
 ```
 
+### python-mcp (RHDP-Flow MCP)
+
+For item 12:
+
+**Phase 1 -- Dependency check:**
+```bash
+python3 --version 2>&1 | grep -E "3\.(1[0-9]|[2-9][0-9])" && echo "PASS: Python 3.10+" || echo "FAIL: Python 3.10+ required"
+command -v pip3 &>/dev/null && echo "PASS: pip3 found" || echo "FAIL: pip3 not found"
+```
+
+If any FAIL, stop and tell the user what to install first.
+
+**Phase 2 -- Locate source and install:**
+
+Resolve the package source from the courseware plugin:
+```bash
+FLOW_MCP_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-mcp"
+if [ -d "$FLOW_MCP_PATH" ]; then
+  echo "FOUND: $FLOW_MCP_PATH"
+else
+  echo "NOT_FOUND"
+fi
+```
+
+If FOUND:
+```
+Installing rhdp-flow-mcp from courseware plugin...
+
+  ! pip install -e $FLOW_MCP_PATH
+```
+
+If NOT_FOUND:
+```
+rhdp-flow-mcp source not found. The courseware plugin must be installed first.
+
+Run /quick-install and install the courseware plugin, or provide the path
+to your rhdp-flow-mcp directory.
+```
+
+After install, verify:
+```bash
+python3 -c "import rhdp_flow_mcp; print('PASS: rhdp_flow_mcp importable')" 2>/dev/null || echo "FAIL: import failed"
+```
+
+**Phase 3 -- Config write:**
+
+Ask the user for their Flow API URL. Default: `http://localhost:8000`. Accept any URL they provide.
+
+Write to `~/.claude/settings.json`:
+```bash
+python3 << 'PYEOF'
+import json, os
+
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+if "mcpServers" not in settings:
+    settings["mcpServers"] = {}
+
+# FLOW_URL is the user-provided URL or the default
+settings["mcpServers"]["rhdp-flow"] = {
+    "type": "stdio",
+    "command": "python3",
+    "args": ["-m", "rhdp_flow_mcp"],
+    "env": {
+        "FLOW_API_URL": "FLOW_URL"
+    }
+}
+
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+
+print("PASS: rhdp-flow MCP server configured")
+PYEOF
+```
+
+**Phase 4 -- Restart notice:**
+```
+RHDP-Flow MCP is installed and configured.
+
+Restart Claude Code to activate:
+  1. Exit this session (Ctrl+C or /exit)
+  2. Relaunch Claude Code
+  3. Verify: ask Claude "check flow health" -- it should call flow_health
+
+For the full walkthrough, run /learn-23-rhdp-flow-mcp.
+```
+
+### skills-copy (RHDP-Flow Skills)
+
+For item 13:
+
+**Prerequisite:** RHDP-Flow MCP should be installed first (item 12). Warn but don't block if missing.
+
+**Phase 1 -- Locate source:**
+```bash
+FLOW_SKILLS_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-skills/skills"
+if [ -d "$FLOW_SKILLS_PATH" ]; then
+  count=$(ls "$FLOW_SKILLS_PATH"/flow-*.md 2>/dev/null | wc -l | tr -d ' ')
+  echo "FOUND: $FLOW_SKILLS_PATH ($count skill files)"
+else
+  echo "NOT_FOUND"
+fi
+```
+
+If NOT_FOUND:
+```
+rhdp-flow-skills source not found. The courseware plugin must be installed first.
+```
+
+**Phase 2 -- Copy skills:**
+```bash
+mkdir -p "$HOME/.claude/skills"
+cp "$FLOW_SKILLS_PATH"/flow-*.md "$HOME/.claude/skills/"
+```
+
+**Phase 3 -- Verify:**
+```bash
+installed=0
+for skill in flow-deploy flow-qa flow-ops flow-status flow-bulk flow-report; do
+  if [ -f "$HOME/.claude/skills/$skill.md" ]; then
+    echo "PASS: $skill"
+    installed=$((installed + 1))
+  else
+    echo "FAIL: $skill not found"
+  fi
+done
+echo ""
+echo "$installed/6 skills installed"
+```
+
+**Phase 4 -- Summary:**
+```
+RHDP-Flow skills are installed. No restart needed -- skills are active immediately.
+
+Available skills: /flow-status, /flow-deploy, /flow-qa, /flow-ops, /flow-bulk, /flow-report
+
+For the full walkthrough, run /learn-24-rhdp-flow-ops.
+```
+
+### agents-copy (RHDP-Flow Agents)
+
+For item 14:
+
+**Prerequisite:** RHDP-Flow MCP should be installed first (item 12). Warn but don't block if missing.
+
+**Phase 1 -- Locate source:**
+```bash
+FLOW_AGENTS_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-agents/agents"
+if [ -d "$FLOW_AGENTS_PATH" ]; then
+  count=$(ls "$FLOW_AGENTS_PATH"/flow-*.md 2>/dev/null | wc -l | tr -d ' ')
+  echo "FOUND: $FLOW_AGENTS_PATH ($count agent files)"
+else
+  echo "NOT_FOUND"
+fi
+```
+
+If NOT_FOUND:
+```
+rhdp-flow-agents source not found. The courseware plugin must be installed first.
+```
+
+**Phase 2 -- Copy agents:**
+```bash
+mkdir -p "$HOME/.claude/agents"
+cp "$FLOW_AGENTS_PATH"/flow-*.md "$HOME/.claude/agents/"
+```
+
+**Phase 3 -- Verify:**
+```bash
+installed=0
+for agent in flow-csv-validator flow-deployment-auditor flow-pre-event-checklist; do
+  if [ -f "$HOME/.claude/agents/$agent.md" ]; then
+    echo "PASS: $agent"
+    installed=$((installed + 1))
+  else
+    echo "FAIL: $agent not found"
+  fi
+done
+echo ""
+echo "$installed/3 agents installed"
+```
+
+**Phase 4 -- Summary:**
+```
+RHDP-Flow agents are installed. No restart needed -- agents are active immediately.
+
+Available agents: flow-csv-validator, flow-deployment-auditor, flow-pre-event-checklist
+
+For the full walkthrough, run /learn-24-rhdp-flow-ops.
+```
+
+### all team tools (convenience group)
+
+If the user selects "all team tools", install items 12, 13, and 14 in order:
+1. RHDP-Flow MCP first (item 12) -- other items depend on it
+2. RHDP-Flow Skills (item 13)
+3. RHDP-Flow Agents (item 14)
+
 ## Post-Install Summary
 
 After processing all selected items, print a summary:
@@ -346,6 +625,7 @@ Install Results
 Next steps:
   - If any MCP servers were installed: restart Claude Code to activate them
   - If any plugins were installed: they are active immediately
+  - If team tools were installed: MCP requires restart, skills/agents are active immediately
   - Run /courseware for tutorial modules on any of these tools
 ```
 
