@@ -1,6 +1,7 @@
 ---
 name: flow-qa
 description: Run QA checks on deployed workshops and present pass/fail results
+user-invocable: true
 ---
 
 # Flow QA

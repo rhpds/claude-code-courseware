@@ -130,6 +130,8 @@ After the recommendations, print:
 >
 > Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, `/quick-install` to install MCP servers or plugins without a tutorial, or `/preflight` to check your prerequisites.
 >
+> **RHDP-Flow users:** Run `bash scripts/setup-all.sh` (from the plugin repo) to install all Flow MCP servers, skills, and agents in one shot.
+>
 > Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).
 
 ## On Request: Expanded Section View

@@ -23,6 +23,10 @@ for name in ['memory', 'git', 'mcp-atlassian-prod', 'playwright']:
 # Container: check for any podman/docker/container server
 container_found = any(k for k in servers if any(w in k.lower() for w in ['podman', 'docker', 'container']))
 print(f'MCP:container:{\"installed\" if container_found else \"not installed\"}')
+# RHDP-Flow servers
+for name in ['rhdp-flow', 'rhdp-flow-csv', 'rhdp-flow-intel']:
+    status = 'installed' if name in servers else 'not installed'
+    print(f'MCP:{name}:{status}')
 " 2>/dev/null
 else
   echo "MCP:memory:not installed"
@@ -30,6 +34,9 @@ else
   echo "MCP:mcp-atlassian-prod:not installed"
   echo "MCP:playwright:not installed"
   echo "MCP:container:not installed"
+  echo "MCP:rhdp-flow:not installed"
+  echo "MCP:rhdp-flow-csv:not installed"
+  echo "MCP:rhdp-flow-intel:not installed"
 fi
 
 # Notion is built-in, check differently
@@ -68,16 +75,19 @@ Quick Install
   [4]  Playwright MCP            STATUS
   [5]  Notion MCP                STATUS
   [6]  Container MCP             STATUS
+  [7]  RHDP-Flow MCP             STATUS
+  [8]  RHDP-Flow CSV             STATUS
+  [9]  RHDP-Flow Intel           STATUS
 
   --- Plugins ---
 
-  [7]  superpowers               STATUS
-  [8]  atlassian                 STATUS
-  [9]  playwright (plugin)       STATUS
-  [10] frontend-design           STATUS
-  [11] pyright-lsp               STATUS
+  [10] superpowers               STATUS
+  [11] atlassian                 STATUS
+  [12] playwright (plugin)       STATUS
+  [13] frontend-design           STATUS
+  [14] pyright-lsp               STATUS
 
-Pick items to install (e.g. "2, 4" or "all MCP" or "all plugins"):
+Pick items to install (e.g. "2, 4" or "all MCP" or "all plugins" or "all flow"):
 ```
 
 Wait for the user to pick items. Then run the install procedure for each selected item.
@@ -280,9 +290,86 @@ Run /learn-08-container-podman-mcp for the full walkthrough on
 container workflows with Claude Code.
 ```
 
+### python-mcp (RHDP-Flow, RHDP-Flow CSV, RHDP-Flow Intel)
+
+For items 7, 8, and 9 -- follow this pattern:
+
+**Registry:**
+
+| Item | Package | Server Name | Module | Env |
+|------|---------|-------------|--------|-----|
+| RHDP-Flow MCP | `rhdp-flow-mcp` | `rhdp-flow` | `rhdp_flow_mcp` | `FLOW_API_URL: http://localhost:8000` |
+| RHDP-Flow CSV | `rhdp-flow-csv` | `rhdp-flow-csv` | `rhdp_flow_csv` | none |
+| RHDP-Flow Intel | `rhdp-flow-intel` | `rhdp-flow-intel` | `rhdp_flow_intel` | `FLOW_API_URL: http://localhost:8000` |
+
+**Phase 1 -- Dependency check:**
+```bash
+python3 -c "import sys; assert sys.version_info >= (3,10)" 2>/dev/null && echo "PASS: Python $(python3 --version 2>&1 | awk '{print $2}')" || echo "FAIL: Python 3.10+ required"
+python3 -m pip --version >/dev/null 2>&1 && echo "PASS: pip available" || echo "FAIL: pip not found"
+```
+
+If any FAIL, stop and tell the user what to install first.
+
+**Phase 2 -- Package install:**
+```bash
+PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/PACKAGE_DIR"
+REPO_PATH="./PACKAGE_DIR"
+if python3 -c "import MODULE_NAME" 2>/dev/null; then
+  echo "PASS: PACKAGE_DIR already installed"
+elif [ -d "$PLUGIN_PATH" ]; then
+  pip install -e "$PLUGIN_PATH"
+elif [ -d "$REPO_PATH" ]; then
+  pip install -e "$REPO_PATH"
+else
+  echo "FAIL: PACKAGE_DIR not found. Install the courseware plugin first:"
+  echo "  claude plugin add github:rhpds/claude-code-courseware"
+fi
+```
+
+Verify:
+```bash
+python3 -c "import MODULE_NAME; print('PASS: MODULE_NAME installed')" 2>/dev/null || echo "FAIL: MODULE_NAME not installed"
+```
+
+**Phase 3 -- Config write:**
+```bash
+python3 << 'PYEOF'
+import json, os, shutil
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("mcpServers", {})
+py = shutil.which("python3")
+config = {"command": py, "args": ["-m", "MODULE_NAME"]}
+# Add env if needed (rhdp-flow and rhdp-flow-intel need FLOW_API_URL)
+settings["mcpServers"]["SERVER_NAME"] = config
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+print(f"PASS: SERVER_NAME configured globally (python3={py})")
+PYEOF
+```
+
+For RHDP-Flow and RHDP-Flow Intel, add the env block:
+```python
+config["env"] = {"FLOW_API_URL": "http://localhost:8000"}
+```
+
+**Phase 4 -- Restart notice:**
+```
+SERVER_NAME is installed and configured globally.
+
+Restart Claude Code to activate:
+  1. Exit this session (Ctrl+C or /exit)
+  2. Relaunch Claude Code
+
+After restart, verify by calling any SERVER_NAME tool.
+```
+
+**"all flow" shortcut:**
+If the user says "all flow" or "all rhdp", install items 7, 8, and 9 in sequence.
+
 ### plugin (superpowers, atlassian, playwright, frontend-design, pyright-lsp)
 
-For items 7-11:
+For items 10-14:
 
 First, check if the plugin source is in a known marketplace:
 

@@ -1,6 +1,7 @@
 ---
 name: flow-csv-pipeline
 description: Guided CSV pipeline -- transform, fix, expand, validate, deploy
+user-invocable: true
 ---
 
 # Flow CSV Pipeline

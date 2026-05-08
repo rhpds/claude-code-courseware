@@ -10,22 +10,43 @@ Install and use the RHDP-Flow MCP server to manage OpenShift workshop deployment
 
 If you already understand MCP servers and just want the tools working:
 
-1. `pip install -e /path/to/rhdp-flow-mcp` (or install from the plugin)
-2. Add to `.claude/settings.json`:
-   ```json
-   {
-     "mcpServers": {
-       "rhdp-flow": {
-         "type": "stdio",
-         "command": "python3",
-         "args": ["-m", "rhdp_flow_mcp"],
-         "env": { "FLOW_API_URL": "http://localhost:8000" }
-       }
-     }
-   }
-   ```
-3. Restart Claude Code
-4. Verify: ask Claude "check flow health" -- it should call `flow_health`
+```bash
+# Auto-detect and install the package
+PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-mcp"
+REPO_PATH="./rhdp-flow-mcp"
+if python3 -c "import rhdp_flow_mcp" 2>/dev/null; then
+  echo "PASS: rhdp-flow-mcp already installed"
+elif [ -d "$PLUGIN_PATH" ]; then
+  pip install -e "$PLUGIN_PATH"
+elif [ -d "$REPO_PATH" ]; then
+  pip install -e "$REPO_PATH"
+else
+  echo "FAIL: rhdp-flow-mcp not found. Install the courseware plugin first:"
+  echo "  claude plugin add github:rhpds/claude-code-courseware"
+fi
+```
+
+Then register globally in `~/.claude/settings.json`:
+
+```bash
+python3 << 'PYEOF'
+import json, os, shutil
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("mcpServers", {})
+py = shutil.which("python3")
+settings["mcpServers"]["rhdp-flow"] = {
+    "command": py,
+    "args": ["-m", "rhdp_flow_mcp"],
+    "env": {"FLOW_API_URL": "http://localhost:8000"}
+}
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+print(f"PASS: rhdp-flow registered globally (python3={py})")
+PYEOF
+```
+
+Restart Claude Code and verify: ask Claude "check flow health" -- it should call `flow_health`.
 
 Skip to the [Challenge](#challenge) for hands-on practice.
 
@@ -105,9 +126,15 @@ python3 -c "import rhdp_flow_mcp" 2>/dev/null && echo "EXISTS: rhdp-flow-mcp pac
 ### Check 5: MCP server registered
 
 ```bash
-if [ -f .claude/settings.json ] && grep -q "rhdp-flow" .claude/settings.json 2>/dev/null; then
-  echo "EXISTS: rhdp-flow MCP server in settings"
-else
+FOUND=false
+for f in "$HOME/.claude/settings.json" .claude/settings.json .claude/settings.local.json; do
+  if [ -f "$f" ] && grep -q "rhdp-flow" "$f" 2>/dev/null; then
+    echo "EXISTS: rhdp-flow MCP server registered in $f"
+    FOUND=true
+    break
+  fi
+done
+if [ "$FOUND" = false ]; then
   echo "MISSING: rhdp-flow MCP server not registered -- will configure in Step 1"
 fi
 ```
@@ -123,7 +150,18 @@ Print summary: how many checks passed, what needs to be done.
 ### Install the package
 
 ```bash
-pip install -e /path/to/rhdp-flow-mcp
+PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-mcp"
+REPO_PATH="./rhdp-flow-mcp"
+if python3 -c "import rhdp_flow_mcp" 2>/dev/null; then
+  echo "PASS: rhdp-flow-mcp already installed"
+elif [ -d "$PLUGIN_PATH" ]; then
+  pip install -e "$PLUGIN_PATH"
+elif [ -d "$REPO_PATH" ]; then
+  pip install -e "$REPO_PATH"
+else
+  echo "FAIL: rhdp-flow-mcp not found. Install the courseware plugin first:"
+  echo "  claude plugin add github:rhpds/claude-code-courseware"
+fi
 ```
 
 ### Determine the Flow API URL
@@ -136,13 +174,27 @@ Ask the user which backend they want to connect to:
 | Local container | `http://localhost:<port>` | Running Flow in podman/docker |
 | OCP route | `https://rhdp-flow.apps.<cluster>` | Production/staging cluster |
 
-### Register the MCP server
+### Register the MCP server globally
 
 ```bash
-claude mcp add rhdp-flow -- python3 -m rhdp_flow_mcp
+python3 << 'PYEOF'
+import json, os, shutil
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("mcpServers", {})
+py = shutil.which("python3")
+settings["mcpServers"]["rhdp-flow"] = {
+    "command": py,
+    "args": ["-m", "rhdp_flow_mcp"],
+    "env": {"FLOW_API_URL": "http://localhost:8000"}
+}
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+print(f"PASS: rhdp-flow registered globally (python3={py})")
+PYEOF
 ```
 
-Or add to `.claude/settings.json` manually with the `FLOW_API_URL` environment variable.
+Update the `FLOW_API_URL` value if connecting to a different backend (see table above).
 
 ### Verification
 

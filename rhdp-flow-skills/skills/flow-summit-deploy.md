@@ -1,6 +1,7 @@
 ---
 name: flow-summit-deploy
 description: Summit deployment -- pre-configured defaults for Red Hat Summit events
+user-invocable: true
 ---
 
 # Flow Summit Deploy

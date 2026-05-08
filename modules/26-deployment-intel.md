@@ -10,22 +10,43 @@ Install the rhdp-flow-intel MCP server for real-time deployment monitoring, ghos
 
 If you already understand MCP servers and just want the tools working:
 
-1. `pip install -e /path/to/rhdp-flow-intel` (or install from the plugin)
-2. Add to `.claude/settings.json`:
-   ```json
-   {
-     "mcpServers": {
-       "rhdp-flow-intel": {
-         "type": "stdio",
-         "command": "python3",
-         "args": ["-m", "rhdp_flow_intel"],
-         "env": { "FLOW_API_URL": "http://localhost:8000" }
-       }
-     }
-   }
-   ```
-3. Restart Claude Code
-4. Verify: ask Claude "show deployment status" -- it should call `flow_deployment_monitor`
+```bash
+# Auto-detect and install the package
+PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-intel"
+REPO_PATH="./rhdp-flow-intel"
+if python3 -c "import rhdp_flow_intel" 2>/dev/null; then
+  echo "PASS: rhdp-flow-intel already installed"
+elif [ -d "$PLUGIN_PATH" ]; then
+  pip install -e "$PLUGIN_PATH"
+elif [ -d "$REPO_PATH" ]; then
+  pip install -e "$REPO_PATH"
+else
+  echo "FAIL: rhdp-flow-intel not found. Install the courseware plugin first:"
+  echo "  claude plugin add github:rhpds/claude-code-courseware"
+fi
+```
+
+Then register globally in `~/.claude/settings.json`:
+
+```bash
+python3 << 'PYEOF'
+import json, os, shutil
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("mcpServers", {})
+py = shutil.which("python3")
+settings["mcpServers"]["rhdp-flow-intel"] = {
+    "command": py,
+    "args": ["-m", "rhdp_flow_intel"],
+    "env": {"FLOW_API_URL": "http://localhost:8000"}
+}
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+print(f"PASS: rhdp-flow-intel registered globally (python3={py})")
+PYEOF
+```
+
+Restart Claude Code and verify: ask Claude "show deployment status" -- it should call `flow_deployment_monitor`.
 
 Skip to the [Challenge](#challenge) for hands-on practice.
 
@@ -105,7 +126,16 @@ else
   echo "  Two options:"
   echo ""
   echo "  FULL EXPERIENCE (recommended):"
-  echo "    pip install -e /path/to/rhdp-flow-intel"
+  PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-intel"
+  REPO_PATH="./rhdp-flow-intel"
+  if [ -d "$PLUGIN_PATH" ]; then
+    echo "    pip install -e $PLUGIN_PATH"
+  elif [ -d "$REPO_PATH" ]; then
+    echo "    pip install -e $REPO_PATH"
+  else
+    echo "    claude plugin add github:rhpds/claude-code-courseware"
+    echo "    pip install -e \$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-intel"
+  fi
   echo "    Once installed, re-run this module."
   echo ""
   echo "  CONCEPTUAL OVERVIEW:"
@@ -117,11 +147,15 @@ fi
 ### Check 4: MCP server registered
 
 ```bash
-if [ -f .claude/settings.json ] && grep -q "rhdp-flow-intel" .claude/settings.json 2>/dev/null; then
-  echo "EXISTS: rhdp-flow-intel MCP server in settings"
-elif [ -f "$HOME/.claude/settings.json" ] && grep -q "rhdp-flow-intel" "$HOME/.claude/settings.json" 2>/dev/null; then
-  echo "EXISTS: rhdp-flow-intel MCP server in global settings"
-else
+FOUND=false
+for f in "$HOME/.claude/settings.json" .claude/settings.json .claude/settings.local.json; do
+  if [ -f "$f" ] && grep -q "rhdp-flow-intel" "$f" 2>/dev/null; then
+    echo "EXISTS: rhdp-flow-intel MCP server registered in $f"
+    FOUND=true
+    break
+  fi
+done
+if [ "$FOUND" = false ]; then
   echo "MISSING: rhdp-flow-intel MCP server not registered -- will configure in Step 1"
 fi
 ```
@@ -162,34 +196,42 @@ Skip if rhdp-flow-intel is already installed AND registered AND the Flow API is 
 
 ### Install the package
 
-If the user has a local checkout of the rhdp-flow-intel package:
-
+```bash
+PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/rhdp-flow-intel"
+REPO_PATH="./rhdp-flow-intel"
+if python3 -c "import rhdp_flow_intel" 2>/dev/null; then
+  echo "PASS: rhdp-flow-intel already installed"
+elif [ -d "$PLUGIN_PATH" ]; then
+  pip install -e "$PLUGIN_PATH"
+elif [ -d "$REPO_PATH" ]; then
+  pip install -e "$REPO_PATH"
+else
+  echo "FAIL: rhdp-flow-intel not found. Install the courseware plugin first:"
+  echo "  claude plugin add github:rhpds/claude-code-courseware"
+fi
 ```
-  ! pip install -e /path/to/rhdp-flow-intel
-```
 
-### Register the MCP server
+### Register the MCP server globally
 
-Add the server to `.claude/settings.json`. Note the `env` block -- this tells the server where to find the Flow API:
-
-```json
-{
-  "mcpServers": {
-    "rhdp-flow-intel": {
-      "type": "stdio",
-      "command": "python3",
-      "args": ["-m", "rhdp_flow_intel"],
-      "env": { "FLOW_API_URL": "http://localhost:8000" }
-    }
-  }
+```bash
+python3 << 'PYEOF'
+import json, os, shutil
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("mcpServers", {})
+py = shutil.which("python3")
+settings["mcpServers"]["rhdp-flow-intel"] = {
+    "command": py,
+    "args": ["-m", "rhdp_flow_intel"],
+    "env": {"FLOW_API_URL": "http://localhost:8000"}
 }
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+print(f"PASS: rhdp-flow-intel registered globally (python3={py})")
+PYEOF
 ```
 
-Or use the CLI:
-
-```
-  ! claude mcp add rhdp-flow-intel -e FLOW_API_URL=http://localhost:8000 -- python3 -m rhdp_flow_intel
-```
+Update the `FLOW_API_URL` value if connecting to a different backend.
 
 ### Restart and verify
 
@@ -450,11 +492,15 @@ python3 -c "import sys; assert sys.version_info >= (3,10)" 2>/dev/null && { echo
 python3 -m pip --version >/dev/null 2>&1 && { echo "PASS: pip available"; PASS=$((PASS+1)); } || echo "FAIL: pip"
 python3 -c "import rhdp_flow_intel" 2>/dev/null && { echo "PASS: rhdp-flow-intel installed"; PASS=$((PASS+1)); } || echo "FAIL: rhdp-flow-intel not installed"
 
-if [ -f .claude/settings.json ] && grep -q "rhdp-flow-intel" .claude/settings.json 2>/dev/null; then
-  echo "PASS: MCP server registered"; PASS=$((PASS+1))
-elif [ -f "$HOME/.claude/settings.json" ] && grep -q "rhdp-flow-intel" "$HOME/.claude/settings.json" 2>/dev/null; then
-  echo "PASS: MCP server registered (global)"; PASS=$((PASS+1))
-else
+MCP_FOUND=false
+for f in "$HOME/.claude/settings.json" .claude/settings.json .claude/settings.local.json; do
+  if [ -f "$f" ] && grep -q "rhdp-flow-intel" "$f" 2>/dev/null; then
+    echo "PASS: MCP server registered in $f"; PASS=$((PASS+1))
+    MCP_FOUND=true
+    break
+  fi
+done
+if [ "$MCP_FOUND" = false ]; then
   echo "FAIL: MCP server not registered"
 fi
 

@@ -1,6 +1,7 @@
 ---
 name: flow-event-prep
 description: Multi-day event preparation -- CSV pipeline per day, pool demand, readiness report
+user-invocable: true
 ---
 
 # Flow Event Prep
