@@ -86,3 +86,19 @@ class OperationsInput(BaseModel):
     ci_filter: Optional[str] = None
     extend: Optional[ExtendInput] = None
     scale: Optional[ScaleInput] = None
+
+
+class BulkOperationInput(BaseModel):
+    """Input for bulk operations across multiple CIs."""
+
+    action: Literal["lock", "unlock", "extend-stop", "extend-destroy"]
+    ci_filters: List[str] = Field(min_length=1, description="List of CI patterns to apply action to")
+    days: int = Field(0, ge=0, le=30)
+    hours: int = Field(0, ge=0, le=720)
+
+
+class SessionExportInput(BaseModel):
+    """Input for session export."""
+
+    export_type: Literal["results", "students"] = "results"
+    ci_filter: Optional[str] = Field(None, description="Filter export rows by CI pattern")
