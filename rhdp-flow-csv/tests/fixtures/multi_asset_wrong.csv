@@ -1,0 +1,3 @@
+CI Name,CI,Namespace,Users,Instances,Enable_workshop_interface,Password,Activity,Purpose,Provisioning Date (UTC),Auto-stop (UTC),Auto-destroy (UTC),Multi_Asset,Asset_CIs,White_Glove
+LB1577 Troubleshooting,summit-2026.lb1577-rhel-troubleshooting-1.event,user-bbethell-redhat-com,,60,True,zttech,Admin,QA,14/05/2026 09:00,30/05/2026 18:00,30/05/2026 18:00,True,,False
+Comma CI,"summit-2026.asset1.event,summit-2026.asset2.event",user-test,,30,True,test,Admin,QA,14/05/2026 10:00,30/05/2026 18:00,30/05/2026 18:00,False,,False
