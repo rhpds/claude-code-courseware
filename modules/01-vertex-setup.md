@@ -64,10 +64,31 @@ GCLOUD_ACCOUNT=$(gcloud config get-value account 2>/dev/null || true)
 # ADC
 gcloud auth application-default print-access-token &>/dev/null 2>&1 && echo "EXISTS: ADC token valid" || echo "MISSING: ADC not configured or expired"
 
-# Vertex env vars
-[ "$CLAUDE_CODE_USE_VERTEX" = "1" ] && echo "EXISTS: CLAUDE_CODE_USE_VERTEX=1" || echo "MISSING: CLAUDE_CODE_USE_VERTEX"
-[ -n "$ANTHROPIC_VERTEX_PROJECT_ID" ] && echo "EXISTS: ANTHROPIC_VERTEX_PROJECT_ID=$ANTHROPIC_VERTEX_PROJECT_ID" || echo "MISSING: ANTHROPIC_VERTEX_PROJECT_ID"
-[ -n "$CLOUD_ML_REGION" ] && echo "EXISTS: CLOUD_ML_REGION=$CLOUD_ML_REGION" || echo "MISSING: CLOUD_ML_REGION"
+# Vertex env vars — check shell AND ~/.claude/settings.json
+SETTINGS_FILE="$HOME/.claude/settings.json"
+if [ "$CLAUDE_CODE_USE_VERTEX" = "1" ]; then
+  echo "EXISTS: CLAUDE_CODE_USE_VERTEX=1 (shell)"
+elif [ -f "$SETTINGS_FILE" ] && python3 -c "import json; d=json.load(open('$SETTINGS_FILE')); assert d.get('env',{}).get('CLAUDE_CODE_USE_VERTEX')=='1'" 2>/dev/null; then
+  echo "EXISTS: CLAUDE_CODE_USE_VERTEX=1 (settings.json)"
+else
+  echo "MISSING: CLAUDE_CODE_USE_VERTEX"
+fi
+
+if [ -n "$ANTHROPIC_VERTEX_PROJECT_ID" ]; then
+  echo "EXISTS: ANTHROPIC_VERTEX_PROJECT_ID=$ANTHROPIC_VERTEX_PROJECT_ID (shell)"
+elif [ -f "$SETTINGS_FILE" ] && python3 -c "import json; d=json.load(open('$SETTINGS_FILE')); v=d.get('env',{}).get('ANTHROPIC_VERTEX_PROJECT_ID',''); assert v; print(v)" 2>/dev/null; then
+  echo "EXISTS: ANTHROPIC_VERTEX_PROJECT_ID=$(python3 -c "import json; print(json.load(open('$SETTINGS_FILE')).get('env',{}).get('ANTHROPIC_VERTEX_PROJECT_ID',''))")" " (settings.json)"
+else
+  echo "MISSING: ANTHROPIC_VERTEX_PROJECT_ID"
+fi
+
+if [ -n "$CLOUD_ML_REGION" ]; then
+  echo "EXISTS: CLOUD_ML_REGION=$CLOUD_ML_REGION (shell)"
+elif [ -f "$SETTINGS_FILE" ] && python3 -c "import json; d=json.load(open('$SETTINGS_FILE')); assert d.get('env',{}).get('CLOUD_ML_REGION')" 2>/dev/null; then
+  echo "EXISTS: CLOUD_ML_REGION=$(python3 -c "import json; print(json.load(open('$SETTINGS_FILE')).get('env',{}).get('CLOUD_ML_REGION',''))")" " (settings.json)"
+else
+  echo "MISSING: CLOUD_ML_REGION"
+fi
 
 # GCP project
 GCLOUD_PROJECT=$(gcloud config get-value project 2>/dev/null || true)
@@ -191,45 +212,78 @@ gcloud config get-value project 2>/dev/null
 
 ## Step 7 — Write Vertex AI environment variables
 
-Skip if all three env vars (`CLAUDE_CODE_USE_VERTEX`, `ANTHROPIC_VERTEX_PROJECT_ID`, `CLOUD_ML_REGION`) are already set in the current shell.
+Skip if all three env vars (`CLAUDE_CODE_USE_VERTEX`, `ANTHROPIC_VERTEX_PROJECT_ID`, `CLOUD_ML_REGION`) are already set in the current shell AND present in `~/.claude/settings.json`.
 
-Detect the user's shell config file:
+This step writes the Vertex AI configuration to two places:
+
+1. **`~/.claude/settings.json`** — where Claude Code reads them (reliable, works in CLI and VS Code)
+2. **Shell config** (`~/.zshrc` or `~/.bashrc`) — so other tools and new terminals also have them
+
+### Write to ~/.claude/settings.json
+
+Ask the user for their GCP project ID if not already known from Step 6. Then run:
 
 ```bash
-if [ "$(basename "$SHELL")" = "zsh" ]; then
-  echo "Shell config: ~/.zshrc"
-else
-  echo "Shell config: ~/.bashrc"
-fi
+python3 << 'PYEOF'
+import json, os
+
+project_id = os.popen("gcloud config get-value project 2>/dev/null").read().strip()
+if not project_id:
+    print("FAIL: No GCP project set. Run Step 6 first.")
+    exit(1)
+
+path = os.path.expanduser("~/.claude/settings.json")
+settings = json.load(open(path)) if os.path.exists(path) else {}
+settings.setdefault("env", {})
+
+settings["env"]["CLAUDE_CODE_USE_VERTEX"] = "1"
+settings["env"]["ANTHROPIC_VERTEX_PROJECT_ID"] = project_id
+settings["env"]["CLOUD_ML_REGION"] = "global"
+
+with open(path, "w") as f:
+    json.dump(settings, f, indent=2)
+
+print(f"PASS: Vertex AI env vars written to {path}")
+print(f"  CLAUDE_CODE_USE_VERTEX=1")
+print(f"  ANTHROPIC_VERTEX_PROJECT_ID={project_id}")
+print(f"  CLOUD_ML_REGION=global")
+PYEOF
 ```
 
-Check if the vars already exist in the shell config:
+### Write to shell config
+
+Also add them to the shell config so new terminals pick them up:
 
 ```bash
 SHELL_CONFIG="$HOME/.zshrc"
 [ "$(basename "$SHELL")" != "zsh" ] && SHELL_CONFIG="$HOME/.bashrc"
-grep -q "CLAUDE_CODE_USE_VERTEX" "$SHELL_CONFIG" 2>/dev/null && echo "ALREADY IN $SHELL_CONFIG" || echo "NOT YET IN $SHELL_CONFIG"
+
+if grep -q "CLAUDE_CODE_USE_VERTEX" "$SHELL_CONFIG" 2>/dev/null; then
+  echo "SKIP: Vertex vars already in $SHELL_CONFIG"
+else
+  PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+  cat >> "$SHELL_CONFIG" << SHEOF
+
+# Claude Code — Vertex AI backend
+export CLAUDE_CODE_USE_VERTEX=1
+export ANTHROPIC_VERTEX_PROJECT_ID=$PROJECT_ID
+export CLOUD_ML_REGION=global
+SHEOF
+  echo "PASS: Vertex vars added to $SHELL_CONFIG"
+fi
 ```
-
-If not already in the shell config, tell the user to run these commands (substitute their project ID):
-
-```
-Add these lines to your shell config:
-
-  ! echo '' >> ~/.zshrc
-  ! echo '# Claude Code — Vertex AI backend' >> ~/.zshrc
-  ! echo 'export CLAUDE_CODE_USE_VERTEX=1' >> ~/.zshrc
-  ! echo 'export ANTHROPIC_VERTEX_PROJECT_ID=YOUR_PROJECT_ID' >> ~/.zshrc
-  ! echo 'export CLOUD_ML_REGION=global' >> ~/.zshrc
-
-IMPORTANT: Replace YOUR_PROJECT_ID with your actual GCP project ID.
 
 Then reload:
 
-  ! source ~/.zshrc
+```bash
+SHELL_CONFIG="$HOME/.zshrc"
+[ "$(basename "$SHELL")" != "zsh" ] && SHELL_CONFIG="$HOME/.bashrc"
+source "$SHELL_CONFIG"
 ```
 
-For bash users, substitute `~/.bashrc` in all commands above.
+### Why both?
+
+`~/.claude/settings.json` is what Claude Code reads directly -- it works in the CLI, VS Code extension, and any other integration without depending on shell startup. The shell config is a backup so other tools and fresh terminal sessions also have the vars.
 
 ## Verification
 
@@ -251,7 +305,24 @@ GCLOUD_ACCOUNT=$(gcloud config get-value account 2>/dev/null || true)
 
 gcloud auth application-default print-access-token &>/dev/null 2>&1 && { echo "PASS: ADC valid"; PASS=$((PASS+1)); } || echo "FAIL: ADC"
 
-[ "$CLAUDE_CODE_USE_VERTEX" = "1" ] && [ -n "$ANTHROPIC_VERTEX_PROJECT_ID" ] && [ -n "$CLOUD_ML_REGION" ] && { echo "PASS: Vertex env vars set"; PASS=$((PASS+1)); } || echo "FAIL: Vertex env vars"
+VERTEX_OK=false
+if [ "$CLAUDE_CODE_USE_VERTEX" = "1" ] && [ -n "$ANTHROPIC_VERTEX_PROJECT_ID" ] && [ -n "$CLOUD_ML_REGION" ]; then
+  VERTEX_OK=true
+elif python3 -c "
+import json, os
+d=json.load(open(os.path.expanduser('~/.claude/settings.json')))
+e=d.get('env',{})
+assert e.get('CLAUDE_CODE_USE_VERTEX')=='1'
+assert e.get('ANTHROPIC_VERTEX_PROJECT_ID')
+assert e.get('CLOUD_ML_REGION')
+" 2>/dev/null; then
+  VERTEX_OK=true
+fi
+if [ "$VERTEX_OK" = true ]; then
+  echo "PASS: Vertex env vars set"; PASS=$((PASS+1))
+else
+  echo "FAIL: Vertex env vars"
+fi
 
 GCLOUD_PROJECT=$(gcloud config get-value project 2>/dev/null || true)
 [ -n "$GCLOUD_PROJECT" ] && { echo "PASS: GCP project ($GCLOUD_PROJECT)"; PASS=$((PASS+1)); } || echo "FAIL: GCP project"
