@@ -116,7 +116,10 @@ After the user picks items (and the selection is NOT a dry-run), ask:
 ```
 How should I run the installs?
 
-  [U] Unattended -- all commands run automatically, no approval prompts
+  [U] Unattended -- runs everything automatically with zero interaction.
+      This may install system packages via Homebrew (Node.js, Python,
+      Podman) if they are missing. No prompts, no approvals, no stops.
+
   [A] Attended   -- I'll ask before each system-modifying command (default)
 
 Pick U or A:
@@ -126,8 +129,14 @@ Wait for the user to respond. Default to Attended if the user just presses enter
 
 Set an internal flag for the rest of this session:
 
-- **UNATTENDED = true**: Run all commands as direct bash blocks (no `!` prefix). This includes `brew install`, `npm install -g`, `pip install`, and `claude plugin add` commands.
-- **UNATTENDED = false** (default): Use `! command` prefix for system-modifying commands. Read-only checks always run directly regardless of mode.
+- **UNATTENDED = true**: This means ZERO interaction from this point forward until the Consolidated Post-Install summary prints. Specifically:
+  - Run ALL commands as direct bash blocks (no `!` prefix). This includes `brew install`, `npm install -g`, `pip install`, and `claude plugin add`.
+  - Do NOT ask "shall I continue?", "would you like me to proceed?", "ready for the next item?", or any other confirmation question.
+  - Do NOT pause between items for any reason.
+  - Do NOT print per-item summaries, explanations, or informational messages. Just execute and record results silently.
+  - The ONLY output before the final summary should be brief progress lines like "Installing Memory MCP... done." for each item.
+  - If something fails, record it and move on. Do NOT stop to explain the failure or ask what to do.
+- **UNATTENDED = false** (default): Use `! command` prefix for system-modifying commands. Print informational messages for each item. Read-only checks always run directly regardless of mode.
 
 ## Prerequisite Resolution
 
@@ -444,7 +453,9 @@ Record as `INSTALLED (requires restart + OAuth)` and proceed.
 
 For item 5:
 
-Print:
+In unattended mode, print only: `Notion MCP... built-in, no install needed.`
+
+In attended mode, print:
 ```
 Notion MCP is built into Claude Code -- no installation needed.
 To activate, use any Notion tool (e.g. search). Claude Code will
@@ -468,7 +479,33 @@ else
 fi
 ```
 
-If no runtime found:
+If no runtime found AND **UNATTENDED = true** AND macOS (`uname -s` = Darwin):
+
+Auto-install Podman via Homebrew:
+
+```bash
+echo "Installing Podman via Homebrew..."
+brew install podman
+```
+
+After install, re-check:
+
+```bash
+if command -v podman &>/dev/null; then
+  echo "PASS: podman installed ($(podman --version 2>/dev/null | head -1))"
+else
+  echo "FAIL: podman install failed"
+fi
+```
+
+Record as `INSTALLED` if podman is now available, or `FAILED` if not. Proceed either way.
+
+If no runtime found AND **UNATTENDED = true** AND Linux:
+
+Record as `SKIPPED (no container runtime, manual install required on Linux)`. Proceed.
+
+If no runtime found AND **UNATTENDED = false** (attended mode):
+
 ```
 No container runtime detected. Install Podman or Docker first:
   - Podman: brew install podman (macOS) or dnf install podman (Fedora)
@@ -477,7 +514,13 @@ No container runtime detected. Install Podman or Docker first:
 Run /learn-08-container-podman-mcp for the full walkthrough.
 ```
 
+Record as `INFO` and proceed.
+
 If runtime found:
+
+In unattended mode, print only: `Container MCP... runtime detected.`
+
+In attended mode, print:
 ```
 Container runtime detected. Claude Code can run container commands
 directly via shell (podman run, podman build, etc.).
