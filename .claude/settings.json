@@ -1,2 +1,38 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(command -v *)",
+      "Bash(python3 *)",
+      "Bash(python3 -c *)",
+      "Bash(python *)",
+      "Bash(pip install *)",
+      "Bash(npm --version)",
+      "Bash(npm list *)",
+      "Bash(npm install -g *)",
+      "Bash(npm install *)",
+      "Bash(npx *)",
+      "Bash(node --version)",
+      "Bash(brew install *)",
+      "Bash(grep *)",
+      "Bash(chmod +x *)",
+      "Bash(bash *)",
+      "Bash(claude plugin *)",
+      "Bash(claude mcp *)",
+      "Bash(claude skill *)",
+      "Bash(mkdir -p *)",
+      "Bash(date *)",
+      "Bash(open *)",
+      "Bash(uname *)",
+      "Bash(source *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(echo *)",
+      "Bash(wc *)",
+      "Bash(head *)",
+      "Bash(test *)",
+      "Bash([ *)",
+      "Bash(gcloud *)"
+    ]
+  }
 }
