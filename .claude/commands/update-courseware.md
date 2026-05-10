@@ -95,3 +95,32 @@ else
   echo "  git -C ~/.claude/plugins/claude-code-courseware/repo pull origin main"
 fi
 ```
+
+## Refresh skill and agent symlinks
+
+After pulling, refresh symlinks so new or renamed skills/agents are picked up:
+
+```bash
+PLUGIN_DIR="$HOME/.claude/plugins/claude-code-courseware"
+PLUGIN_REPO="$PLUGIN_DIR/repo"
+
+# Skills
+if [ -d "$PLUGIN_REPO/rhdp-flow-skills/skills" ]; then
+  mkdir -p "$PLUGIN_DIR/skills"
+  for f in "$PLUGIN_REPO/rhdp-flow-skills/skills"/flow-*.md; do
+    [ -f "$f" ] || continue
+    ln -sf "$f" "$PLUGIN_DIR/skills/$(basename "$f")"
+  done
+  echo "PASS: Flow skill symlinks refreshed"
+fi
+
+# Agents
+if [ -d "$PLUGIN_REPO/rhdp-flow-agents/agents" ]; then
+  mkdir -p "$PLUGIN_DIR/agents"
+  for f in "$PLUGIN_REPO/rhdp-flow-agents/agents"/flow-*.md; do
+    [ -f "$f" ] || continue
+    ln -sf "$f" "$PLUGIN_DIR/agents/$(basename "$f")"
+  done
+  echo "PASS: Flow agent symlinks refreshed"
+fi
+```

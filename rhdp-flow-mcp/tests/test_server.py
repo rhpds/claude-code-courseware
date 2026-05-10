@@ -22,10 +22,15 @@ class TestServerTools:
             "flow_export_results",
             "flow_template",
             "flow_diff",
+            "flow_validate_catalog_namespaces",
+            "flow_pre_deployment_checklist",
+            "flow_bulk_operations",
+            "flow_qa_verification_runner",
+            "flow_session_export",
         ]
         for name in expected:
             assert name in tool_names, f"Missing tool: {name}"
 
     def test_tool_count(self):
         tools = mcp._tool_manager.list_tools()
-        assert len(tools) == 15
+        assert len(tools) == 20

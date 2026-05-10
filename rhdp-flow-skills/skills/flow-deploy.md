@@ -1,6 +1,7 @@
 ---
 name: flow-deploy
 description: Guided workshop deployment -- CSV generation, validation, dry-run, and deploy
+user-invocable: true
 ---
 
 # Flow Deploy

@@ -1,6 +1,7 @@
 ---
 name: flow-status
 description: Workshop status overview -- deployments, QA results, and pool availability
+user-invocable: true
 ---
 
 # Flow Status

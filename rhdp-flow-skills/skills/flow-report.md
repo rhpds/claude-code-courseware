@@ -1,6 +1,7 @@
 ---
 name: flow-report
 description: Generate deployment and QA reports for stakeholders
+user-invocable: true
 ---
 
 # Flow Report

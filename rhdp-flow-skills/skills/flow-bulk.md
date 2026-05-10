@@ -1,6 +1,7 @@
 ---
 name: flow-bulk
 description: Bulk staggered workshop deployment for events and load tests
+user-invocable: true
 ---
 
 # Flow Bulk

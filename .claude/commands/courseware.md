@@ -96,6 +96,9 @@ Print the catalog using markdown (NOT inside a code block).
 ### Team Tools
 `23`  RHDP-Flow MCP · 20 min · **NEW**
 `24`  RHDP-Flow Ops · 15 min · **NEW**
+`25`  CSV Pipeline · 20 min · **NEW**
+`26`  Deployment Intelligence · 20 min · **NEW**
+`27`  Event-Scale Operations · 30 min · **NEW**
 
 ### Coming Soon
 `22`  Workshop Intake · 15 min
@@ -126,6 +129,8 @@ After the recommendations, print:
 > ```
 >
 > Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, `/quick-install` to install MCP servers or plugins without a tutorial, or `/preflight` to check your prerequisites.
+>
+> **RHDP-Flow users:** Run `bash scripts/setup-all.sh` (from the plugin repo) to install all Flow MCP servers, skills, and agents in one shot.
 >
 > Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).
 
@@ -229,7 +234,7 @@ Generate branded HTML slide presentations with the Quick Deck skill.
 Contribute to and search the team's shared knowledge base.
 *Prereq: Module 01, GitHub access to rhpds org*
 
-**Section 7 -- Team Tools (23-24)**
+**Section 7 -- Team Tools (23-27)**
 
 **`23` RHDP-Flow MCP** -- ~20 min · **NEW**
 Install and configure the RHDP-Flow MCP server for workshop deployment automation.
@@ -238,6 +243,18 @@ Install and configure the RHDP-Flow MCP server for workshop deployment automatio
 **`24` RHDP-Flow Ops** -- ~15 min · **NEW**
 Use Flow skills and agents for daily workshop operations -- status, QA, CSV validation, and pre-event readiness.
 *Prereq: Module 23*
+
+**`25` CSV Pipeline** -- ~20 min · **NEW**
+Install the rhdp-flow-csv MCP server and process workshop CSVs through the full pipeline.
+*Prereq: Module 01, Module 11 recommended*
+
+**`26` Deployment Intelligence** -- ~20 min · **NEW**
+Install the rhdp-flow-intel MCP server for deployment monitoring, ghost detection, and troubleshooting.
+*Prereq: Module 01, Module 23 recommended*
+
+**`27` Event-Scale Operations** -- ~30 min · **NEW**
+Capstone: multi-day event simulation using all Flow skills, agents, and MCP tools.
+*Prereq: Module 23, Module 25, Module 26*
 
 **Section 8 -- Coming Soon (22)**
 
@@ -273,5 +290,8 @@ When the user picks a module, tell them to run the corresponding command:
 | 21 | `/learn-21-plugin-marketplace` |
 | 23 | `/learn-23-rhdp-flow-mcp` |
 | 24 | `/learn-24-rhdp-flow-ops` |
+| 25 | `/learn-25-csv-pipeline` |
+| 26 | `/learn-26-deployment-intel` |
+| 27 | `/learn-27-event-scale-ops` |
 
 If they pick module 22 (Coming Soon), tell them it's not yet available and suggest other modules.

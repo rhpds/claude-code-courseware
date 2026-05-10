@@ -1,6 +1,7 @@
 ---
 name: flow-ops
 description: Workshop operations -- lock, extend, scale, or disable autostop
+user-invocable: true
 ---
 
 # Flow Ops

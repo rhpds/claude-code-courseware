@@ -1,4 +1,4 @@
-"""RHDP-Flow MCP Server -- 15 tools wrapping the Flow API."""
+"""RHDP-Flow MCP Server -- 20 tools wrapping the Flow API."""
 
 from __future__ import annotations
 
@@ -199,3 +199,79 @@ async def flow_diff(csv_content: str) -> str:
     """
     result = await _client.diff(csv_content)
     return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+async def flow_validate_catalog_namespaces() -> str:
+    """Full catalog namespace validation with cross-reference against available catalog items.
+
+    Checks all scheduled workshops against the cluster's catalog, suggests fixes for mismatches.
+    """
+    result = await _client.validate_catalog_namespaces_full()
+    return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+async def flow_pre_deployment_checklist() -> str:
+    """Run comprehensive pre-deployment validation: health, catalog, pools.
+
+    Returns pass/fail for each check and overall readiness status.
+    """
+    result = await _client.pre_deployment_checklist()
+    return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+async def flow_bulk_operations(
+    action: str,
+    ci_filters_json: str,
+    days: int = 0,
+    hours: int = 0,
+) -> str:
+    """Apply an operation to multiple catalog items at once.
+
+    Args:
+        action: Operation: 'lock', 'unlock', 'extend-stop', 'extend-destroy'.
+        ci_filters_json: JSON list of CI patterns, e.g. '["summit-2026.lb1234.event", "summit-2026.lb5678.event"]'.
+        days: Days to extend (for extend operations). Default 0.
+        hours: Hours to extend (for extend operations). Default 0.
+    """
+    ci_filters = json.loads(ci_filters_json)
+    kwargs: dict[str, Any] = {}
+    if action in ("extend-stop", "extend-destroy"):
+        kwargs["days"] = days
+        kwargs["hours"] = hours
+    result = await _client.bulk_operation(action, ci_filters, **kwargs)
+    return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+async def flow_qa_verification_runner(namespace: Optional[str] = None) -> str:
+    """Run all QA checks and produce a structured pass/fail report.
+
+    Args:
+        namespace: Optional namespace to scope QA checks. Omit for all namespaces.
+    """
+    result = await _client.qa_run_all(namespace=namespace)
+    return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+async def flow_session_export(
+    export_type: str = "results",
+    ci_filter: Optional[str] = None,
+) -> str:
+    """Export current session data as CSV with optional CI filtering.
+
+    Args:
+        export_type: Type: 'results' or 'students'. Default 'results'.
+        ci_filter: Optional CI pattern to filter rows. Only rows containing this string are included.
+    """
+    csv_text = await _client.session_export(export_type)
+    if ci_filter:
+        lines = csv_text.strip().split("\n")
+        if lines:
+            header = lines[0]
+            filtered = [line for line in lines[1:] if ci_filter in line]
+            csv_text = header + "\n" + "\n".join(filtered) + "\n" if filtered else header + "\n"
+    return csv_text

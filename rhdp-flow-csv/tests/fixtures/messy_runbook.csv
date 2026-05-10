@@ -1,0 +1,4 @@
+Lab Code,Title,Room,Session Date,Session Start,CI (AgV Path),CI Pool Name,Namespace,Attendees,Collaborators,Enable_workshop_interface,Password,Concurency,Multi_Asset,Asset_CIs
+LB1208,Practical image mode for RHEL,A301,2026-05-14,08:00:00,summit-2026.lb1208-image-mode,Disabled,user-klewis-redhat-com,60,"mmicene@redhat.com,nlager@redhat.com",TRUE,imagemode,10,FALSE,
+LB1577,Troubleshooting RHEL,A309,2026-05-14,09:00:00,summit-2026.lb1577-rhel-troubleshooting-1,Disabled,user-bbethell-redhat-com,60,"klewis@redhat.com",TRUE,zttech,10,TRUE,"summit-2026.lb1577-rhel-troubleshooting-1,summit-2026.lb1577-rhel-troubleshooting-2,summit-2026.lb1577-rhel-troubleshooting-3"
+LB2655,Ansible Network Automation,A311,2026-05-14,10:00:00,summit-2026.lb2655-net-automation.event,Disabled,user-klewis-redhat-com,60,"dgreen@redhat.com",TRUE,ansnetauto,10,FALSE,

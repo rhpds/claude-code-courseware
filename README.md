@@ -111,6 +111,9 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 |---|-------|------|-------------|
 | 23 | RHDP-Flow MCP | ~20 min | Install and configure the RHDP-Flow MCP server for workshop deployment automation |
 | 24 | RHDP-Flow Ops | ~15 min | Use Flow skills and agents for daily workshop operations |
+| 25 | CSV Pipeline | ~20 min | Install the rhdp-flow-csv MCP server and process workshop CSVs through the full pipeline |
+| 26 | Deployment Intelligence | ~20 min | Install the rhdp-flow-intel MCP server for deployment monitoring, ghost detection, and troubleshooting |
+| 27 | Event-Scale Operations | ~30 min | Capstone: multi-day event simulation using all Flow skills, agents, and MCP tools |
 
 ### Coming Soon
 

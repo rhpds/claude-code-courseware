@@ -1,0 +1,3 @@
+CI Name,CI,Namespace,Users,Enable_workshop_interface,Password,Provisioning Date (UTC),Auto-stop (UTC),Auto-destroy (UTC)
+Test Workshop,test.workshop.prod,user-test,20,True,pass123,05/14/2026 08:00,05/30/2026 18:00,05/30/2026 18:00
+Bad Date,test.other.prod,user-test,20,True,pass456,2026-05-14 08:00,2026-05-30 18:00,2026-05-30 18:00
