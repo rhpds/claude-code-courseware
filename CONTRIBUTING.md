@@ -57,3 +57,27 @@ All 6 checks must pass before opening a PR.
 ## Marking a Module as NEW
 
 Add `<!-- NEW -->` as the last line of the module file. Remove it when the module is no longer new. The catalog detects this marker automatically.
+
+## Branch Policy
+
+The `main` branch is protected. Direct pushes are not allowed.
+
+### Workflow
+
+1. Create a feature branch from `main`.
+2. Make your changes and run `python3 scripts/validate.py` locally.
+3. Open a pull request targeting `main`.
+4. Get at least 1 approving review (stale approvals are dismissed on new pushes).
+5. Merge via the GitHub UI.
+
+### Versioning
+
+This project uses semver tags (`vX.Y.Z`) on `main`. After your PR is merged, a maintainer will tag the release:
+
+| Change | Bump |
+|--------|------|
+| New module or command | Minor (`v2.3.0` -> `v2.4.0`) |
+| Fix to existing content | Patch (`v2.3.0` -> `v2.3.1`) |
+| Breaking restructure | Major (`v2.3.0` -> `v3.0.0`) |
+
+Contributors do not need to create tags -- maintainers handle this post-merge.

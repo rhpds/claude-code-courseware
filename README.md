@@ -156,6 +156,17 @@ This walks you through the same steps as Module 01 but runs as a standalone shel
 
 Want to run this courseware for your own organization? See [Fork Your Own Courseware](docs/fork-your-own.md).
 
+## Branch Policy
+
+The `main` branch is protected:
+
+- **Pull requests required** -- all changes must go through a PR with at least 1 approval.
+- **Stale reviews dismissed** -- pushing new commits to a PR resets existing approvals.
+- **Force-push and deletion blocked** -- `main` history cannot be rewritten or removed.
+- **Admin bypass** -- repo admins can merge without approval in emergencies.
+
+This project uses **semver tags** on `main` (`vX.Y.Z`). New modules bump the minor version; fixes to existing content bump the patch version. Tags are created after merge by maintainers.
+
 ## Authoring New Modules
 
 1. Create `modules/NN-topic.md` following the module template (see any existing module)
