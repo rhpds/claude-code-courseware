@@ -32,10 +32,6 @@ for name in ['memory', 'git', 'mcp-atlassian-prod', 'playwright']:
 # Container: check for any podman/docker/container server
 container_found = any(k for k in servers if any(w in k.lower() for w in ['podman', 'docker', 'container']))
 print(f'MCP:container:{\"installed\" if container_found else \"not installed\"}')
-# RHDP-Flow servers
-for name in ['rhdp-flow', 'rhdp-flow-csv', 'rhdp-flow-intel']:
-    status = 'installed' if name in servers else 'not installed'
-    print(f'MCP:{name}:{status}')
 " 2>/dev/null
 else
   echo "MCP:memory:not installed"
@@ -43,9 +39,6 @@ else
   echo "MCP:mcp-atlassian-prod:not installed"
   echo "MCP:playwright:not installed"
   echo "MCP:container:not installed"
-  echo "MCP:rhdp-flow:not installed"
-  echo "MCP:rhdp-flow-csv:not installed"
-  echo "MCP:rhdp-flow-intel:not installed"
 fi
 
 # Notion is built-in, check differently
@@ -84,21 +77,18 @@ Quick Install
   [4]  Playwright MCP            STATUS
   [5]  Notion MCP                STATUS
   [6]  Container MCP             STATUS
-  [7]  RHDP-Flow MCP             STATUS
-  [8]  RHDP-Flow CSV             STATUS
-  [9]  RHDP-Flow Intel           STATUS
 
   --- Plugins ---
 
-  [10] superpowers               STATUS
-  [11] atlassian                 STATUS
-  [12] playwright (plugin)       STATUS
-  [13] frontend-design           STATUS
-  [14] pyright-lsp               STATUS
+  [7]  superpowers               STATUS
+  [8]  atlassian                 STATUS
+  [9]  playwright (plugin)       STATUS
+  [10] frontend-design           STATUS
+  [11] pyright-lsp               STATUS
 
 Pick items to install:
   Numbers:     "2, 4" or "1-6"
-  Groups:      "all MCP" or "all plugins" or "all flow"
+  Groups:      "all MCP" or "all plugins"
   Everything:  "all"
   Preview:     prefix with "dry-run" (e.g. "dry-run all MCP")
 ```
@@ -239,56 +229,6 @@ npm list -g PACKAGE_NAME --depth=0 2>/dev/null | grep -q PACKAGE_NAME && echo "P
 ```
 
 If any package fails to install, record that item as FAILED and exclude it from further processing. Continue with remaining items.
-
-### Python 3.10+ (needed for items 7, 8, 9)
-
-If any RHDP-Flow items (7, 8, or 9) are selected, check Python:
-
-```bash
-if command -v python3 &>/dev/null; then
-  PY_VER=$(python3 --version 2>&1 | awk '{print $2}')
-  PY_MAJOR=$(echo "$PY_VER" | cut -d. -f1)
-  PY_MINOR=$(echo "$PY_VER" | cut -d. -f2)
-  if [ "$PY_MAJOR" -ge 3 ] && [ "$PY_MINOR" -ge 10 ]; then
-    echo "PREREQ_PASS: Python $PY_VER"
-  else
-    echo "PREREQ_FAIL: Python $PY_VER (need 3.10+)"
-  fi
-else
-  echo "PREREQ_FAIL: python3 not found"
-fi
-python3 -m pip --version >/dev/null 2>&1 && echo "PREREQ_PASS: pip available" || echo "PREREQ_FAIL: pip not found"
-```
-
-If any PREREQ_FAIL for Python:
-
-**On macOS (Darwin):**
-
-If UNATTENDED = true, run directly:
-```bash
-brew install python@3
-```
-
-If UNATTENDED = false, tell the user:
-```
-Python 3.10+ is required for RHDP-Flow servers. Install it now:
-
-  ! brew install python@3
-```
-
-After install, re-check. If still failing, stop and tell the user.
-
-**On Linux:**
-```
-Python 3.10+ is required. Install for your distribution:
-
-  Fedora/RHEL:   sudo dnf install python3 python3-pip
-  Ubuntu/Debian: sudo apt install python3 python3-pip
-
-After installing Python, re-run /quick-install to continue.
-```
-
-On Linux, stop processing and exit for the same reason as Node.js.
 
 ### Chrome browser (needed for item 4 only)
 
@@ -530,88 +470,9 @@ Run /learn-08-container-podman-mcp for the full walkthrough.
 
 Record as `INFO` and proceed.
 
-### python-mcp (RHDP-Flow, RHDP-Flow CSV, RHDP-Flow Intel)
-
-For items 7, 8, and 9. Python prerequisite is already resolved in Prerequisite Resolution.
-
-**Registry:**
-
-| Item | Package Dir | Server Name | Module | Env |
-|------|-------------|-------------|--------|-----|
-| 7 - RHDP-Flow MCP | `rhdp-flow-mcp` | `rhdp-flow` | `rhdp_flow_mcp` | `FLOW_API_URL: http://localhost:8000` |
-| 8 - RHDP-Flow CSV | `rhdp-flow-csv` | `rhdp-flow-csv` | `rhdp_flow_csv` | none |
-| 9 - RHDP-Flow Intel | `rhdp-flow-intel` | `rhdp-flow-intel` | `rhdp_flow_intel` | `FLOW_API_URL: http://localhost:8000` |
-
-**Step 1 -- Install package:**
-
-```bash
-PLUGIN_PATH="$HOME/.claude/plugins/claude-code-courseware/repo/PACKAGE_DIR"
-REPO_PATH="./PACKAGE_DIR"
-if python3 -c "import MODULE_NAME" 2>/dev/null; then
-  echo "PASS: PACKAGE_DIR already installed"
-elif [ -d "$PLUGIN_PATH" ]; then
-  echo "FOUND: $PLUGIN_PATH"
-elif [ -d "$REPO_PATH" ]; then
-  echo "FOUND: $REPO_PATH"
-else
-  echo "FAIL: PACKAGE_DIR not found. Install the courseware plugin first:"
-  echo "  claude plugin add github:rhpds/claude-code-courseware"
-fi
-```
-
-If the package is already installed, skip to Step 2.
-
-If a path was found, install it:
-
-If UNATTENDED = true, run directly:
-```bash
-pip install -e "$FOUND_PATH" -q
-```
-
-If UNATTENDED = false, tell the user:
-```
-  ! pip install -e FOUND_PATH
-```
-
-If FAIL (not found), record as `FAILED` and proceed to next item.
-
-Verify:
-```bash
-python3 -c "import MODULE_NAME; print('PASS: MODULE_NAME installed')" 2>/dev/null || echo "FAIL: MODULE_NAME not installed"
-```
-
-**Step 2 -- Config write:**
-
-```bash
-python3 << 'PYEOF'
-import json, os, shutil
-path = os.path.expanduser("~/.claude/settings.json")
-settings = json.load(open(path)) if os.path.exists(path) else {}
-settings.setdefault("mcpServers", {})
-py = shutil.which("python3")
-config = {"command": py, "args": ["-m", "MODULE_NAME"]}
-# Add env if needed (rhdp-flow and rhdp-flow-intel need FLOW_API_URL)
-settings["mcpServers"]["SERVER_NAME"] = config
-with open(path, "w") as f:
-    json.dump(settings, f, indent=2)
-print(f"PASS: SERVER_NAME configured globally (python3={py})")
-PYEOF
-```
-
-For RHDP-Flow and RHDP-Flow Intel, add the env block:
-```python
-config["env"] = {"FLOW_API_URL": "http://localhost:8000"}
-```
-
-In unattended mode, use the default `http://localhost:8000` without asking. In attended mode, also use the default (this is the standard value for local development).
-
-**Step 3 -- Record and continue:**
-
-Record as `INSTALLED` and proceed to the next item. Do NOT print a restart notice.
-
 ### plugin (superpowers, atlassian, playwright, frontend-design, pyright-lsp)
 
-For items 10-14:
+For items 7-11:
 
 First, check if the plugin source is in a known marketplace:
 
@@ -680,9 +541,8 @@ These shortcuts expand to item lists:
 | Shortcut | Items | Processing Order |
 |----------|-------|-----------------|
 | `all MCP` | 1-6 | numerical (1, 2, 3, 4, 5, 6) |
-| `all plugins` | 10-14 | numerical (10, 11, 12, 13, 14) |
-| `all flow` or `all rhdp` | 7-9 | numerical (7, 8, 9) |
-| `all` | 1-14 | MCP first (1-9), then plugins (10-14) |
+| `all plugins` | 7-11 | numerical (7, 8, 9, 10, 11) |
+| `all` | 1-11 | MCP first (1-6), then plugins (7-11) |
 
 When a group is selected, expand it to the full item list and apply Batch Processing Rules. Skip already-installed items within the group.
 
@@ -704,7 +564,7 @@ Only list items that were selected. Use the result recorded during processing: `
 
 ### Consolidated Restart Notice
 
-If ANY installed items require a restart (MCP servers: items 1-4, 6-9), print ONE restart notice:
+If ANY installed items require a restart (MCP servers: items 1-4, 6), print ONE restart notice:
 
 ```
 The following items need a Claude Code restart to activate:

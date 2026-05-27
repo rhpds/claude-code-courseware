@@ -105,21 +105,15 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 | 19 | Red Hat Quick Deck | ~10 min | Generate branded HTML slide presentations with the Quick Deck skill |
 | 20 | Hivemind Knowledge Base | ~15 min | Contribute to and search the team's shared knowledge base |
 
-### Team Tools
+### RHDP Ops Tools
 
-| # | Title | Time | Description |
-|---|-------|------|-------------|
-| 23 | RHDP-Flow MCP | ~20 min | Install and configure the RHDP-Flow MCP server for workshop deployment automation |
-| 24 | RHDP-Flow Ops | ~15 min | Use Flow skills and agents for daily workshop operations |
-| 25 | CSV Pipeline | ~20 min | Install the rhdp-flow-csv MCP server and process workshop CSVs through the full pipeline |
-| 26 | Deployment Intelligence | ~20 min | Install the rhdp-flow-intel MCP server for deployment monitoring, ghost detection, and troubleshooting |
-| 27 | Event-Scale Operations | ~30 min | Capstone: multi-day event simulation using all Flow skills, agents, and MCP tools |
+RHDP-specific ops tools (Flow, showroom QA, workshop intake) have moved to their own plugin:
 
-### Coming Soon
+```
+claude plugin add github:rhpds/rhdp-ops-tools
+```
 
-| # | Title | Time | Description |
-|---|-------|------|-------------|
-| 22 | Workshop Intake | ~15 min | Process white-glove requests end-to-end |
+See [rhpds/rhdp-ops-tools](https://github.com/rhpds/rhdp-ops-tools) for modules and documentation.
 
 ## Recommended Paths
 

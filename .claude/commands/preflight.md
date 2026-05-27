@@ -12,7 +12,7 @@ echo "========================================="
 echo ""
 
 PASS=0
-TOTAL=11
+TOTAL=9
 
 # 1. Operating system
 OS=$(uname -s)
@@ -87,36 +87,7 @@ else
   PASS=$((PASS+1))
 fi
 
-# 9. Python 3.10+
-if python3 -c "import sys; assert sys.version_info >= (3,10)" 2>/dev/null; then
-  echo "PASS: Python $(python3 --version 2>&1 | awk '{print $2}')"
-  PASS=$((PASS+1))
-else
-  echo "INFO: Python 3.10+ not found — needed for RHDP-Flow modules (23-27)"
-fi
-
-# 10. RHDP-Flow MCP servers registered
-FLOW_SERVERS=""
-for server in rhdp-flow rhdp-flow-csv rhdp-flow-intel; do
-  for f in "$HOME/.claude/settings.json" .claude/settings.json .claude/settings.local.json; do
-    if [ -f "$f" ] && grep -q "$server" "$f" 2>/dev/null; then
-      FLOW_SERVERS="$FLOW_SERVERS $server"
-      break
-    fi
-  done
-done
-FLOW_COUNT=$(echo "$FLOW_SERVERS" | wc -w | tr -d ' ')
-if [ "$FLOW_COUNT" -eq 3 ]; then
-  echo "PASS: RHDP-Flow MCP servers (all 3 registered)"
-  PASS=$((PASS+1))
-elif [ "$FLOW_COUNT" -gt 0 ]; then
-  echo "INFO: RHDP-Flow MCP servers ($FLOW_COUNT/3 registered:$FLOW_SERVERS)"
-  PASS=$((PASS+1))
-else
-  echo "INFO: RHDP-Flow MCP servers not registered — needed for modules 23-27"
-fi
-
-# 11. Courseware plugin installed
+# 9. Courseware plugin installed
 if [ -d "$HOME/.claude/plugins/claude-code-courseware/repo" ]; then
   echo "PASS: Courseware plugin installed"
   PASS=$((PASS+1))
