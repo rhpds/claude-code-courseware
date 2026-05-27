@@ -121,7 +121,7 @@ After the recommendations, print:
 > Pick a **number** to jump into a module, or ask about a **section** (like "tell me about Core MCP Servers") to see descriptions and prerequisites before choosing. You can also type `/learn-` then Tab to see all modules, `/quick-install` to install MCP servers or plugins without a tutorial, or `/preflight` to check your prerequisites.
 >
 > **RHDP ops tools** (Flow, showroom QA, workshop intake) have moved to their own plugin.
-> Install with: `claude plugin add github:rhpds/rhdp-ops-tools`
+> Install with: `claude plugin add github:rhpds/rhdp-ops-tools` then run `/ops-courseware`.
 >
 > Questions? Open an issue at [github.com/rhpds/claude-code-courseware/issues](https://github.com/rhpds/claude-code-courseware/issues).
 
