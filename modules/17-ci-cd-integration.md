@@ -18,6 +18,8 @@ We'll cover:
   2. Claude Code in OpenShift Pipelines (deployment validation)
   3. Non-interactive mode and API key management
   4. Deciding where Claude Code adds value in your pipeline
+  5. Cloud Routines (automated workflows on Anthropic infrastructure)
+  6. Billing changes for CI/CD usage (June 2026)
 
 You'll need:
   - Claude Code installed and working (Module 01)
@@ -193,6 +195,31 @@ Considerations before adding this:
   as you validate the value.
 ```
 
+The official GitHub Action is `anthropic/claude-code-action`. It supports
+two modes:
+
+Interactive mode — @claude mentions in PR comments trigger Claude Code
+to respond. Team members can ask Claude to review code, explain changes,
+or implement suggestions directly in the PR.
+
+Automation mode — Claude runs headless on GitHub events (PR open,
+push, issue creation). Use cases:
+  - Automatic PR code review on every push
+  - Issue triage and labeling
+  - CI failure analysis and suggested fixes
+  - Code implementation from issue descriptions
+
+Example workflow:
+  ```yaml
+  - uses: anthropic/claude-code-action@v1
+    with:
+      prompt: "Review this PR for security issues and code quality"
+      output_format: json
+  ```
+
+The action supports structured outputs as GitHub Action outputs,
+progress tracking with checkboxes, and /install-github-app for setup.
+
 ## Step 3 — OpenShift Pipelines: Deployment Validation
 
 Skip if OpenShift CLI is not available.
@@ -289,6 +316,80 @@ The rule: use Claude for tasks that require judgment,
 not for tasks that have deterministic answers.
 ```
 
+## Step 5 — Cloud Routines
+
+Explain:
+```
+Cloud Routines are saved Claude Code automations that run on Anthropic's
+cloud infrastructure — they work even when your laptop is closed.
+
+A Routine has three parts:
+  1. A prompt (what Claude should do)
+  2. Repositories (Claude clones and works in them)
+  3. Connectors (optional: Slack, Sentry, Linear, GitHub for context)
+
+Three trigger types:
+  Scheduled  — runs on a cadence (hourly, daily, weekly)
+               Example: morning briefing of your day at 9 AM
+  API        — fires on external events
+               Example: new Sentry error triggers analysis
+  GitHub     — runs on repo events (PR opened, release created)
+               Example: auto-review every PR for security issues
+
+Routines complement GitHub Actions:
+  GitHub Actions  — deterministic CI/CD (builds, tests, linting, deploys)
+  Routines        — interpretive tasks (review summaries, risk analysis,
+                    docs suggestions, backlog triage)
+
+They run alongside your Actions pipeline, not instead of it.
+
+Status: Research preview (April 2026). Available on all paid plans
+with daily run caps that scale by plan tier. Requires claude.ai/code
+web access to create.
+
+Note: Routines require an Anthropic plan with claude.ai/code access.
+Since Red Hat uses Vertex AI, Routines may not be available depending
+on your account configuration. Check with your team lead.
+```
+
+## Step 6 — GitLab CI/CD
+
+Explain:
+```
+Claude Code also supports GitLab CI/CD integration. The pattern is
+similar to GitHub Actions — use claude -p in headless mode within
+your pipeline.
+
+This is relevant if your team uses GitLab for any repositories.
+The official documentation is at:
+https://code.claude.com/docs/en/gitlab-ci-cd
+
+The key difference from GitHub Actions: there's no official GitLab
+equivalent of claude-code-action yet, so you use claude -p directly
+in your .gitlab-ci.yml scripts.
+```
+
+## Step 7 — CI/CD billing changes (June 2026)
+
+Explain:
+```
+Starting June 15, 2026, headless Claude Code usage (claude -p) and
+GitHub Actions with Claude move to a separate monthly Agent SDK
+credit on Anthropic subscription plans.
+
+FOR RED HAT: Since we use Vertex AI, CI/CD usage is billed through
+your GCP project, not Anthropic subscriptions. The Agent SDK credit
+separation does not affect Vertex AI billing.
+
+However, if any team members use Claude Code with personal Anthropic
+accounts for CI/CD, they should be aware of the credit limits:
+  Pro: $20/month Agent SDK credit
+  Max 5x: $100/month
+  Max 20x: $200/month
+
+This is metered at full API rates with no rollover.
+```
+
 ## Verification
 
 Ask the user:
@@ -375,6 +476,13 @@ OpenShift Pipelines:
 Decision framework:
   Requires judgment?  --> Claude Code
   Deterministic?      --> Use a dedicated tool
+
+Additional topics covered:
+  - anthropic/claude-code-action: official GitHub Action (interactive + automation modes)
+  - Cloud Routines: saved automations on Anthropic infrastructure (research preview)
+  - Routines complement Actions: interpretive tasks vs deterministic CI/CD
+  - GitLab CI/CD: use claude -p directly in .gitlab-ci.yml
+  - Vertex AI billing is separate from Agent SDK credit changes
 
 Next module: /learn-18-profile-cleanup
 

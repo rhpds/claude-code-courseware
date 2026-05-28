@@ -5,6 +5,33 @@ Prerequisites: Module 01 (Claude Code installed and working), Module 09 recommen
 
 Use Claude Code's built-in agent system to run specialized code reviews, and create custom review agent definitions. When complete, you'll know how to spawn review agents, write your own agent definitions, and coordinate multiple agents for comprehensive reviews.
 
+## Quick Setup (skip the walkthrough)
+
+If you already understand the agent system and just want a custom review agent:
+
+1. `mkdir -p .claude/agents`
+2. Write `.claude/agents/code-quality-reviewer.md`:
+   ```markdown
+   ---
+   name: code-quality-reviewer
+   description: Reviews code for quality, naming conventions, complexity, and test coverage
+   ---
+
+   You are a code quality reviewer. Examine the repository and report on:
+   1. Naming -- clear and consistent?
+   2. Complexity -- functions over 50 lines or 4 levels deep?
+   3. Duplication -- repeated code that could be consolidated?
+   4. Test coverage -- main paths and edge cases covered?
+   5. Error handling -- bare except/catch blocks?
+
+   Report findings by severity: Critical, Major, Minor.
+   ```
+3. No restart needed — new agent files are picked up automatically
+
+Verify: ask Claude to "run the code-quality-reviewer agent" — it should spawn as a subagent and return findings.
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
 ## Orientation
 
 Print this once at the start:

@@ -69,25 +69,36 @@ Print the catalog using markdown (NOT inside a code block).
 `04`  Git MCP · 10 min
 `05`  Atlassian MCP (Jira) · 5 min
 `06`  Playwright MCP · 10 min
-`07`  Notion MCP · 15 min · **NEW**
-`08`  Container & Podman MCP · 15 min · **NEW**
+`07`  Notion MCP · 15 min
+`08`  Container & Podman MCP · 15 min
 
 ### Skills & Customization
 `09`  Writing Custom Skills · 15 min
-`10`  Hooks · 15 min · **NEW**
-`21`  Plugin Marketplace · 15 min · **NEW**
+`10`  Hooks · 15 min
+`21`  Plugin Marketplace · 15 min
+
+### Security
+`24`  Security-First Development · 15 min
+`25`  Security Scanning & Vulnerability Research · 20 min
 
 ### Advanced Patterns
 `11`  Building MCP Servers · 30 min
 `12`  Review Agents · 15 min
 `13`  Agent Teams vs Superpowers · 15 min
+`26`  Claude Agent SDK · 25 min
+
+### Parallel & Autonomous Workflows
+`22`  Git Worktrees · 15 min
+`23`  Background Agents & Goal Mode · 15 min
 
 ### Workflow & Operations
-`14`  Debugging & Troubleshooting · 15 min · **NEW**
-`15`  Cost & Context Management · 15 min · **NEW**
-`16`  Multi-Repo Workspaces · 15 min · **NEW**
-`17`  CI/CD Integration · 15 min · **NEW**
+`14`  Debugging & Troubleshooting · 15 min
+`15`  Cost & Context Management · 15 min
+`16`  Multi-Repo Workspaces · 15 min
+`17`  CI/CD Integration · 15 min
 `18`  Profile Cleanup · 15 min
+`27`  Checkpointing & Session Management · 10 min
+`28`  Voice, Vim & Terminal Customization · 10 min
 
 ### Team-Customizable
 `19`  Red Hat Quick Deck · 10 min
@@ -99,11 +110,13 @@ After the catalog, show the role-based recommendations:
 
 > **Not sure where to start?** Here are suggested paths by role:
 >
-> **Developer:** 01, 02, 03, 04, 06, 09 -- get your environment set up and learn the tools you'll use daily.
+> **Developer:** 01, 02, 03, 04, 06, 09, 24 -- environment setup, daily tools, and security-first habits.
 >
-> **Ops engineer:** 01, 02, 03, 05, 08, 10, 14 -- focus on Jira integration, containers, hooks, and debugging.
+> **Ops engineer:** 01, 02, 03, 05, 08, 10, 14, 24 -- Jira integration, containers, hooks, debugging, security.
 >
-> **Team lead / manager:** 01, 02, 15 -- understand the setup, project configuration, and cost management.
+> **Security-focused:** 01, 02, 24, 25, 10, 17 -- security modules, hooks for guardrails, CI/CD scanning.
+>
+> **Team lead / manager:** 01, 02, 15, 24 -- setup, project config, cost management, security awareness.
 >
 > **Power user (all modules):** start at 01 and go in order. Each module builds on the previous ones.
 
@@ -168,21 +181,31 @@ Build, run, inspect, and debug containers from Claude Code.
 **Section 3 -- Skills & Customization (09-10, 21)**
 
 **`09` Writing Custom Skills** -- ~15 min
-Create skills for repeatable workflows.
+Create skills for repeatable workflows. Covers unified skills model, plugin packaging, and skill budget.
 *Prereq: Module 01*
 
-**`10` Hooks** -- ~15 min · **NEW**
+**`10` Hooks** -- ~15 min
 Pre/post command hooks for guardrails and automation.
 *Prereq: Module 01*
 
-**`21` Plugin Marketplace** -- ~15 min · **NEW**
+**`21` Plugin Marketplace** -- ~15 min
 Discover, install, and manage Claude Code plugins from marketplace registries.
 *Prereq: Module 01, Module 09 recommended*
 
-**Section 4 -- Advanced Patterns (11-13)**
+**Section 4 -- Security (24-25)**
+
+**`24` Security-First Development** -- ~15 min
+Install the security-guidance plugin, run /security-review, write OWASP-aware CLAUDE.md rules, and set up pre-commit security hooks.
+*Prereq: Module 01*
+
+**`25` Security Scanning & Vulnerability Research** -- ~20 min
+Anthropic Mythos context, Claude Security scanning, triaging findings, Jira integration, SAST vs LLM audit comparison.
+*Prereq: Module 01, Module 24 recommended*
+
+**Section 5 -- Advanced Patterns (11-13, 26)**
 
 **`11` Building MCP Servers** -- ~30 min
-Build a custom MCP server in Python and register it with Claude Code.
+Build a custom MCP server in Python and register it with Claude Code. Covers streamable HTTP transport and MCP elicitation.
 *Prereq: Module 01, Module 04 recommended*
 
 **`12` Review Agents** -- ~15 min
@@ -193,29 +216,51 @@ Use Claude Code's agent system for specialized code reviews.
 Compare multi-agent coordination patterns for reviews and implementation.
 *Prereq: Module 01, Module 12 recommended*
 
-**Section 5 -- Workflow & Operations (14-18)**
+**`26` Claude Agent SDK** -- ~25 min
+Build custom agents with the Agent SDK in Python or TypeScript. Covers tools, hooks, MCP, subagents, cost control, and production patterns.
+*Prereq: Module 01, Module 11 recommended*
 
-**`14` Debugging & Troubleshooting** -- ~15 min · **NEW**
+**Section 6 -- Parallel & Autonomous Workflows (22-23)**
+
+**`22` Git Worktrees** -- ~15 min
+Isolated workspaces for parallel development. Covers claude --worktree, .worktreeinclude, subagent isolation, and cleanup.
+*Prereq: Module 01*
+
+**`23` Background Agents & Goal Mode** -- ~15 min
+Background sessions, agent view, /goal for outcome-based execution, /loop for recurring tasks, composing autonomous patterns.
+*Prereq: Module 01*
+
+**Section 7 -- Workflow & Operations (14-18, 27-28)**
+
+**`14` Debugging & Troubleshooting** -- ~15 min
 What to do when things go wrong -- MCP failures, tool errors, context issues.
 *Prereq: Module 01*
 
-**`15` Cost & Context Management** -- ~15 min · **NEW**
-Session budgets, model routing, and context discipline.
+**`15` Cost & Context Management** -- ~15 min
+Session budgets, /usage, fast mode, auto-compaction settings, prompt caching, and June 2026 billing changes.
 *Prereq: Module 01*
 
-**`16` Multi-Repo Workspaces** -- ~15 min · **NEW**
+**`16` Multi-Repo Workspaces** -- ~15 min
 Configure Claude Code across multiple repositories.
 *Prereq: Module 01*
 
-**`17` CI/CD Integration** -- ~15 min · **NEW**
-Use Claude Code in GitHub Actions and OpenShift Pipelines.
+**`17` CI/CD Integration** -- ~15 min
+GitHub Actions (claude-code-action), Cloud Routines, GitLab CI/CD, OpenShift Pipelines, and billing notes.
 *Prereq: Module 01*
 
 **`18` Profile Cleanup** -- ~15 min
 Audit and clean ~/.claude/ for duplicate skills, orphaned plugins, and context bloat.
 *Prereq: Module 01*
 
-**Section 6 -- Team-Customizable (19-20)**
+**`27` Checkpointing & Session Management** -- ~10 min
+Esc+Esc rewind (conversation/code/both), session resume, auto mode, /branch, and permission customization.
+*Prereq: Module 01*
+
+**`28` Voice, Vim & Terminal Customization** -- ~10 min
+Voice dictation, vim keybindings, custom themes, keybinding customization, fullscreen TUI, and output styles.
+*Prereq: Module 01*
+
+**Section 8 -- Team-Customizable (19-20)**
 
 **`19` Red Hat Quick Deck** -- ~10 min
 Generate branded HTML slide presentations with the Quick Deck skill.
@@ -252,3 +297,10 @@ When the user picks a module, tell them to run the corresponding command:
 | 19 | `/learn-19-red-hat-quick-deck` |
 | 20 | `/learn-20-hivemind-knowledge-base` |
 | 21 | `/learn-21-plugin-marketplace` |
+| 22 | `/learn-22-git-worktrees` |
+| 23 | `/learn-23-background-agents-goal-mode` |
+| 24 | `/learn-24-security-first-development` |
+| 25 | `/learn-25-security-scanning-vulnerability-research` |
+| 26 | `/learn-26-claude-agent-sdk` |
+| 27 | `/learn-27-checkpointing-session-management` |
+| 28 | `/learn-28-voice-vim-terminal-customization` |

@@ -5,6 +5,15 @@ Prerequisites: Module 01 (Claude Code installed and working), Module 12 recommen
 
 Compare two approaches to multi-agent coordination in Claude Code: the agent review team pattern (a team-lead dispatches specialist subagents) and the superpowers plugin pattern (fresh subagent per task with two-stage review). When complete, you'll understand both patterns, know when to reach for each, and have run them both against real code.
 
+## External Dependencies
+
+This module compares two patterns. One of them depends on an external plugin:
+
+- **Superpowers plugin** — the superpowers pattern discussed in this module comes from an external plugin (`claude-code-superpowers`). This module does NOT install it — it teaches you the pattern and compares it with agent teams. If you want to install superpowers after this module, follow the plugin's own install instructions.
+- **Agent team pattern** — uses only built-in Claude Code features (`.claude/agents/` directory). No external dependencies.
+
+This module creates three agent definition files for the comparison exercise, but the superpowers side is conceptual unless you already have the plugin installed.
+
 ## Orientation
 
 Print this once at the start:

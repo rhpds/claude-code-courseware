@@ -5,6 +5,28 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Create Claude Code skills — reusable, shareable instructions that run as slash commands or get triggered automatically. When complete, you'll have written, installed, and tested your own skill.
 
+## Quick Setup (skip the walkthrough)
+
+If you already understand skill anatomy and just want a working skill:
+
+1. `mkdir -p ~/.claude/skills/my-skill`
+2. Write `~/.claude/skills/my-skill/SKILL.md`:
+   ```markdown
+   ---
+   name: my-skill
+   description: One-line summary of when Claude should use this skill.
+   ---
+
+   Instructions for Claude go here.
+   ```
+3. Restart Claude Code
+
+Verify: ask Claude something that matches your skill's description — it should activate the skill automatically.
+
+For a slash-command skill instead, put the file in `.claude/commands/my-command.md` (no frontmatter needed, just instructions).
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
 ## Orientation
 
 Print this once at the start:
@@ -121,6 +143,22 @@ Frontmatter fields:
   description  — required, tells Claude when to activate the skill
   agent        — optional, true = run in a subagent (saves context/cost)
   model        — optional, sonnet or haiku (only works with agent: true)
+  disable-model-invocation  — optional, true = skill can ONLY be invoked
+                               manually via /skillname, never auto-triggered
+                               by conversation keywords. Use when a skill
+                               is powerful or expensive and you want explicit
+                               control over when it runs.
+```
+
+Explain the unified skills model:
+```
+Since v2.1.101 (April 2026), Claude Code uses a unified skills model:
+  - Skills with a description are eligible for auto-invocation — Claude
+    reads the description and activates the skill when conversation
+    context matches
+  - Skills can ALSO be invoked manually via /skillname (same as commands)
+  - If a skill and command share the same name, the skill takes precedence
+  - Set disable-model-invocation: true to prevent auto-invocation
 ```
 
 Then show real examples from the user's system:
@@ -408,6 +446,62 @@ Skill design guidelines:
   6. Test before sharing — run the skill yourself before pushing to the team
 ```
 
+## Step 6 — Skill budget and diagnostics
+
+Explain:
+```
+Skills consume context window space. Claude Code allocates about 1% of
+the context window as the skill budget. When installed skills exceed this
+budget, Claude uses frequency-based trimming to fit.
+
+If you notice skills not activating or behaving oddly, run:
+
+  /doctor
+
+The /doctor command runs about 20 environment diagnostics, including
+skill budget overflow. If it reports skill budget issues, you have
+two options:
+  - Remove skills you don't use (fewer skills = more budget per skill)
+  - Add disable-model-invocation: true to skills that don't need
+    auto-triggering (they'll still work via /skillname)
+
+Think of the skill budget like a bookshelf — you can't fit unlimited
+books. Curate what's installed and keep descriptions concise.
+```
+
+## Step 7 — Packaging skills as plugins
+
+Explain:
+```
+Once you've written a useful skill, you can package it as a plugin
+for easy distribution to the team. A plugin bundles skills, commands,
+agents, hooks, and MCP config into a single installable package.
+
+Plugin structure:
+  my-plugin/
+    .claude-plugin/
+      plugin.json          # metadata and manifest
+    skills/
+      my-skill/
+        SKILL.md
+    commands/
+      my-command.md
+
+plugin.json:
+  {
+    "name": "my-plugin",
+    "version": "1.0.0",
+    "description": "What this plugin does",
+    "skills": ["skills/my-skill"],
+    "commands": ["commands/my-command.md"]
+  }
+
+To install a plugin:
+  claude plugin add github:org/my-plugin
+
+For the full plugin ecosystem, see Module 21 (Plugin Marketplace).
+```
+
 ## Verification
 
 Run all checks and report:
@@ -439,6 +533,9 @@ fi
 # 4. Project commands exist
 count=$(ls .claude/commands/*.md 2>/dev/null | wc -l | tr -d ' ')
 echo "PASS: $count project commands in .claude/commands/"
+
+# 5. Understands skill budget
+echo "PASS: Skill budget concept covered (/doctor for diagnostics)"
 ```
 
 Print:
@@ -529,6 +626,10 @@ Key concepts:
   - Global skills: ~/.claude/skills/NAME/SKILL.md (keyword-triggered, all repos)
   - Subagent delegation: agent: true isolates context, saves cost
   - Model routing: model: haiku|sonnet for cheaper execution
+  - Unified skills model: auto-invocation by description + manual /skillname
+  - disable-model-invocation: true prevents auto-triggering
+  - Skill budget: ~1% of context window, use /doctor to diagnose
+  - Skills can be packaged as plugins for team distribution (Module 21)
 
 Cost-saving tiers:
   haiku   — mechanical tasks (parse, format, count, extract)

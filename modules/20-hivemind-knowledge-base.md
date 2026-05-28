@@ -7,6 +7,35 @@ Prerequisites: Module 01 (Claude Code installed and working), GitHub access to r
 
 Contribute to and search the team's shared Hive Mind knowledge base. When complete, you'll know how to write articles, query for existing knowledge, and keep the team in sync.
 
+## Quick Setup (skip the walkthrough)
+
+If you already know what Hivemind is and just want the skills installed:
+
+1. `git clone https://github.com/rhpds/hivemind.git ~/repos/hivemind`
+2. `mkdir -p ~/.claude/skills`
+3. `ln -sfn ~/repos/hivemind/.claude/skills/hivemind-write ~/.claude/skills/hivemind-write`
+4. `ln -sfn ~/repos/hivemind/.claude/skills/hivemind-query ~/.claude/skills/hivemind-query`
+5. Write `~/.config/hivemind/hivemind-preferences.md`:
+   ```
+   mkdir -p ~/.config/hivemind
+   cat > ~/.config/hivemind/hivemind-preferences.md << 'EOF'
+   clone_path: ~/repos/hivemind
+   author: YOUR_NAME
+   EOF
+   ```
+6. Restart Claude Code
+
+Verify: ask Claude "search hivemind for recent articles" — it should use the hivemind-query skill.
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Private GitHub repository** — `rhpds/hivemind` is a private repo in the rhpds GitHub organization. You need org membership to clone it. If you don't have access, the module falls back to a conceptual overview.
+- **Git push access** — writing articles requires push access to the hivemind repo. The hivemind-write skill commits and pushes on your behalf.
+
 ## Orientation
 
 Print this once at the start:

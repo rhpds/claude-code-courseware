@@ -80,6 +80,13 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 | 10 | Hooks | ~15 min | Pre/post command hooks for guardrails and automation |
 | 21 | Plugin Marketplace | ~15 min | Discover, install, and manage Claude Code plugins from marketplace registries |
 
+### Security
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 24 | Security-First Development | ~15 min | Security-guidance plugin, /security-review, OWASP Top 10, security hooks |
+| 25 | Security Scanning & Vulnerability Research | ~20 min | Anthropic Mythos context, Claude Security scanning, triage, Jira integration |
+
 ### Advanced Patterns
 
 | # | Title | Time | Description |
@@ -87,16 +94,26 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 | 11 | Building MCP Servers | ~30 min | Build a custom MCP server in Python and register it with Claude Code |
 | 12 | Review Agents | ~15 min | Use Claude Code's agent system for specialized code reviews |
 | 13 | Agent Teams vs Superpowers | ~15 min | Compare multi-agent coordination patterns for reviews and implementation |
+| 26 | Claude Agent SDK | ~25 min | Build custom agents with the Agent SDK in Python or TypeScript |
+
+### Parallel & Autonomous Workflows
+
+| # | Title | Time | Description |
+|---|-------|------|-------------|
+| 22 | Git Worktrees | ~15 min | Isolated workspaces for parallel development with claude --worktree |
+| 23 | Background Agents & Goal Mode | ~15 min | Background sessions, agent view, /goal, /loop, autonomous patterns |
 
 ### Workflow & Operations
 
 | # | Title | Time | Description |
 |---|-------|------|-------------|
 | 14 | Debugging & Troubleshooting | ~15 min | What to do when things go wrong -- MCP failures, tool errors, context issues |
-| 15 | Cost & Context Management | ~15 min | Session budgets, model routing, and context discipline |
+| 15 | Cost & Context Management | ~15 min | Session budgets, /usage, fast mode, compaction, billing changes |
 | 16 | Multi-Repo Workspaces | ~15 min | Configure Claude Code across multiple repositories |
-| 17 | CI/CD Integration | ~15 min | Use Claude Code in GitHub Actions and OpenShift Pipelines |
+| 17 | CI/CD Integration | ~15 min | GitHub Actions, Cloud Routines, GitLab CI/CD, OpenShift Pipelines |
 | 18 | Profile Cleanup | ~15 min | Audit and clean ~/.claude/ for duplicate skills, orphaned plugins, and context bloat |
+| 27 | Checkpointing & Session Management | ~10 min | Esc+Esc rewind, session resume, auto mode, /branch |
+| 28 | Voice, Vim & Terminal Customization | ~10 min | Voice dictation, vim mode, keybindings, themes, fullscreen TUI |
 
 ### Team-Customizable
 
@@ -119,9 +136,10 @@ See [rhpds/rhdp-ops-tools](https://github.com/rhpds/rhdp-ops-tools) for modules 
 
 Not sure where to start? Here are suggested paths by role:
 
-- **Developer:** 01, 02, 03, 04, 06, 09 -- environment setup and daily tools.
-- **Ops engineer:** 01, 02, 03, 05, 08, 10, 14 -- Jira, containers, hooks, debugging.
-- **Team lead / manager:** 01, 02, 15 -- setup, project config, cost management.
+- **Developer:** 01, 02, 03, 04, 06, 09, 24 -- environment setup, daily tools, and security-first habits.
+- **Ops engineer:** 01, 02, 03, 05, 08, 10, 14, 24 -- Jira, containers, hooks, debugging, security.
+- **Security-focused:** 01, 02, 24, 25, 10, 17 -- security modules, hooks for guardrails, CI/CD scanning.
+- **Team lead / manager:** 01, 02, 15, 24 -- setup, project config, cost management, security awareness.
 - **Power user:** start at 01 and go in order.
 
 ## How Modules Work

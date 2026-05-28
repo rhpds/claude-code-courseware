@@ -5,6 +5,28 @@ Prerequisites: Module 01 (Claude Code installed and working)
 
 Install the Red Hat Quick Deck skill so Claude Code can generate branded HTML slide presentations on any topic. When complete, you can ask Claude to create a "quick deck" and get a self-contained HTML file with Red Hat branding, story-arc narrative structure, and keyboard navigation.
 
+## Quick Setup (skip the walkthrough)
+
+If you already know what the Quick Deck skill does and just want it installed:
+
+1. `git clone https://github.com/rhpds/red-hat-quick-deck.git ~/repos/red-hat-quick-deck`
+2. `mkdir -p ~/.claude/skills`
+3. `ln -sfn ~/repos/red-hat-quick-deck ~/.claude/skills/red-hat-quick-deck`
+4. Restart Claude Code
+
+Verify: `[ -f ~/.claude/skills/red-hat-quick-deck/SKILL.md ] && echo "PASS" || echo "FAIL"`
+
+After restarting, ask Claude "create a quick deck about [topic]" to test the skill.
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Private GitHub repository** — `rhpds/red-hat-quick-deck` is a private repo in the rhpds GitHub organization. You need org membership to clone it. If you don't have access, the module falls back to a conceptual overview.
+- **Red Hat brand assets** — the skill references Red Hat fonts and design tokens loaded from CDN at presentation viewing time. The generated HTML files require internet access to render properly.
+
 ## Orientation
 
 Print this once at the start:

@@ -4,6 +4,44 @@ Estimated time: 10 minutes
 
 Install Claude Code and configure Google Cloud Vertex AI as the backend provider. When complete, all Claude API calls route through your assigned GCP project — no Anthropic API key required.
 
+## Quick Setup (skip the walkthrough)
+
+If you already know what Vertex AI is and just want Claude Code working:
+
+1. `brew install google-cloud-sdk` (or see https://cloud.google.com/sdk/docs/install)
+2. `brew install node` (need 18+)
+3. Install Claude Code (native installer -- recommended):
+   Mac:   `curl -fsSL https://claude.ai/install.sh | sh`
+   Linux: `curl -fsSL https://claude.ai/install.sh | sh`
+
+   Or via npm (deprecated, won't auto-update):
+   `npm install -g @anthropic-ai/claude-code`
+4. `! gcloud auth login` (browser opens, sign in with @redhat.com)
+5. `! gcloud auth application-default login` (browser opens, approve consent)
+6. `! gcloud config set project YOUR_PROJECT_ID`
+7. Add to `~/.zshrc`:
+   ```
+   export CLAUDE_CODE_USE_VERTEX=1
+   export ANTHROPIC_VERTEX_PROJECT_ID=YOUR_PROJECT_ID
+   export CLOUD_ML_REGION=global
+   ```
+8. `source ~/.zshrc`
+
+Verify: `claude --version && echo "CLAUDE_CODE_USE_VERTEX=$CLAUDE_CODE_USE_VERTEX"`
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **Google Cloud SDK** — installed via Homebrew or Google's installer. If the install URL or package name changes, Step 1 will need updating.
+- **Claude Code installer** -- Claude Code is installed via the native installer (recommended) or npm. The native installer provides auto-updates. npm installation still works but is deprecated and will not auto-update.
+- **Google Cloud authentication** — OAuth browser flow via `gcloud auth login`. Requires an active @redhat.com Google identity with access to a GCP project.
+- **GCP project assignment** — your team lead assigns a GCP project ID. Without one, Vertex AI calls will fail.
+
+If any of these services change their interface, the preflight checks below will catch most issues.
+
 ## Orientation
 
 Print this once at the start:
@@ -15,7 +53,7 @@ This takes about 10 minutes the first time.
 We'll set up:
   1. Google Cloud CLI (gcloud)
   2. Node.js 18+
-  3. Claude Code CLI
+  3. Claude Code CLI (native installer)
   4. Google Cloud authentication
   5. Application Default Credentials (ADC)
   6. Your GCP project
@@ -56,6 +94,16 @@ fi
 
 # Claude Code
 command -v claude &>/dev/null && echo "EXISTS: Claude Code ($(claude --version 2>/dev/null || echo 'installed'))" || echo "MISSING: Claude Code"
+
+# Install method
+if command -v claude &>/dev/null; then
+  CLAUDE_PATH=$(command -v claude)
+  if echo "$CLAUDE_PATH" | grep -q "\.nvm\|node_modules\|npm"; then
+    echo "INFO: Claude Code installed via npm (consider migrating to native installer for auto-updates)"
+  else
+    echo "EXISTS: Claude Code installed via native installer"
+  fi
+fi
 
 # gcloud auth
 GCLOUD_ACCOUNT=$(gcloud config get-value account 2>/dev/null || true)
@@ -144,9 +192,20 @@ Skip if Claude Code is already installed.
 If missing, tell the user to run:
 
 ```
-Install Claude Code by running this command:
+Install Claude Code using the native installer (recommended):
+
+  ! curl -fsSL https://claude.ai/install.sh | sh
+
+The native installer provides auto-updates — Claude Code will stay current
+without manual intervention.
+
+Alternative (npm — deprecated):
+If you prefer npm or the native installer fails:
 
   ! npm install -g @anthropic-ai/claude-code
+
+Note: npm installation will not auto-update. You'll need to manually run
+npm update -g @anthropic-ai/claude-code to get new versions.
 ```
 
 After install, verify:

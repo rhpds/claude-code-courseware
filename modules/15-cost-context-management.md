@@ -18,6 +18,9 @@ We'll cover:
   2. Context window — what fills it and how to manage it
   3. Model routing — when to use which model
   4. Session discipline patterns
+  5. Fast mode and model selection
+  6. Auto-compaction settings
+  7. June 2026 billing changes (Agent SDK credits)
 
 You'll need:
   - Claude Code installed and working (Module 01)
@@ -71,6 +74,9 @@ to the model. The cost depends on:
 
 The /cost command shows your current session's token usage and cost.
 Let's check it now.
+
+Note: /cost and /stats have been merged into /usage. Both old commands
+still work as shortcuts, but /usage is the canonical command.
 ```
 
 Ask the user to type `/cost` or show them the current session metrics. Explain:
@@ -112,6 +118,9 @@ Management tools:
   /clear       — wipe context and start fresh (same session)
   /cost        — check current usage
   New session  — exit and relaunch (cleanest reset)
+
+Note: /cost and /stats have been merged into /usage. Both old commands
+still work as shortcuts, but /usage is the canonical command.
 ```
 
 Demonstrate the impact:
@@ -211,6 +220,85 @@ Patterns that keep costs down and quality up:
     Files survive context compression and session restarts.
 ```
 
+## Step 5 -- Fast mode
+
+Explain:
+```
+Fast mode makes Claude respond faster by using Opus with optimized
+output speed. It does NOT downgrade to a smaller model — you get the
+same Opus quality, just faster.
+
+Toggle fast mode:
+  /fast
+
+Fast mode is available on Opus 4.6 and Opus 4.7. It costs more per
+token but saves wall-clock time. Use it when:
+  - You're iterating quickly and waiting is the bottleneck
+  - You're debugging and need rapid feedback
+  - The task is time-sensitive
+
+Don't use it when:
+  - You're running long autonomous tasks (cost adds up)
+  - You're doing bulk processing (use Sonnet subagents instead)
+```
+
+## Step 6 -- Context visualization and compaction
+
+Explain:
+```
+Two commands help you understand and manage context:
+
+  /context   — visualizes your context window usage breakdown
+               Shows how much space is used by: system prompt,
+               CLAUDE.md, skills, conversation, tool results
+
+  /usage     — shows token usage and cost for the session
+
+Auto-compaction settings (in ~/.claude/settings.json or CLAUDE.md):
+
+  autoCompactAt       — percentage of context to trigger auto-compact
+                       (default: ~80%). Lower = more aggressive compaction.
+  sessionLimit        — hard token limit per session
+  thinkingTokenLimit  — cap on thinking/reasoning tokens
+
+Example settings.json:
+  {
+    "autoCompactAt": 0.6,
+    "sessionLimit": 100000
+  }
+
+Prompt caching also reduces costs. When you send the same context
+repeatedly (like CLAUDE.md content), Claude caches it. The cache has
+a 5-minute TTL — keeping sessions active means cache hits, which are
+significantly cheaper than cold reads.
+```
+
+## Step 7 -- Billing changes (June 2026)
+
+Explain:
+```
+Starting June 15, 2026, Agent SDK and headless (claude -p) usage on
+Anthropic subscription plans moves to a separate monthly credit:
+
+  Plan          Monthly Agent SDK Credit
+  Pro           $20
+  Max 5x        $100
+  Max 20x       $200
+
+This is metered at full API rates with no rollover.
+
+IMPORTANT FOR RED HAT: This billing change does NOT affect Vertex AI
+usage. Red Hat uses Claude Code through Google Cloud Vertex AI, which
+is billed through your GCP project. The Agent SDK credit separation
+only applies to direct Anthropic subscription plans.
+
+What this means in practice:
+  - Interactive Claude Code sessions: unaffected (same as today)
+  - claude -p (headless): if you use Anthropic directly, tracked separately
+  - GitHub Actions with Claude: if using Anthropic directly, tracked separately
+  - All Vertex AI usage: billed through GCP, no change
+```
+
 ## Verification
 
 Ask the user:
@@ -244,7 +332,11 @@ All checks passed. You understand cost and context management.
 ```
 Audit your current session and make one improvement:
 
-1. Check /cost for this session
+1. Check /cost (or /usage) for this session
+
+Note: /cost and /stats have been merged into /usage. Both old commands
+still work as shortcuts, but /usage is the canonical command.
+
 2. Count how many CLAUDE.md files load into your context
    (workspace + project + any parent directories)
 3. Identify the single largest context contributor
@@ -280,6 +372,11 @@ Key takeaways:
   - CLAUDE.md loads every message — keep it lean and relevant
   - Subagents isolate expensive research from your main context
   - One task per session is the simplest cost discipline
+  - /usage (replaces /cost + /stats) for session cost and token breakdown
+  - /context for visualizing context window usage
+  - /fast for faster Opus output (same quality, higher speed)
+  - Auto-compaction settings: autoCompactAt, sessionLimit
+  - Vertex AI billing is separate from Anthropic subscription changes
 
 Cost reduction checklist:
   [ ] Session cost target: under $5 for most tasks

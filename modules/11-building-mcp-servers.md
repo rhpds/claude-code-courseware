@@ -5,6 +5,42 @@ Prerequisites: Module 01 (Claude Code installed and working), Module 04 recommen
 
 Build a custom MCP server in Python that exposes tools Claude Code can call, then register and use it from inside a Claude Code session.
 
+## Quick Setup (skip the walkthrough)
+
+If you already understand MCP server architecture and just want a working server:
+
+1. `mkdir -p ~/repos/my-mcp-server && cd ~/repos/my-mcp-server`
+2. `pip install "mcp[cli]"`
+3. Write `server.py`:
+   ```python
+   from mcp.server.fastmcp import FastMCP
+   mcp = FastMCP("my-server")
+
+   @mcp.tool()
+   def greet(name: str) -> str:
+       """Say hello to someone."""
+       return f"Hello, {name}!"
+
+   if __name__ == "__main__":
+       mcp.run()
+   ```
+4. `claude mcp add my-server -- python3 ~/repos/my-mcp-server/server.py`
+5. Restart Claude Code
+
+Verify: ask Claude "greet World using my-server" — it should call `mcp__my-server__greet`.
+
+Skip to the [Challenge](#challenge) for hands-on practice.
+
+## External Dependencies
+
+This module depends on services outside your local environment:
+
+- **PyPI** — the `mcp[cli]` package is installed from pypi.org. If the package name changes (it's maintained by Anthropic), installation will fail.
+- **Python 3.10+** — required for the `mcp` SDK. The FastMCP API may evolve across versions.
+
+The server runs entirely locally via stdio. No network calls after installation.
+- **MCP specification** — the MCP protocol evolves. The current stable spec is 2025-11-25. Streamable HTTP transport, OAuth 2.1, and elicitation were added in 2025-2026. If the spec changes, server registration commands may need updating.
+
 ## Orientation
 
 Print this once at the start:
@@ -420,6 +456,92 @@ Key points:
   - Return values are sent back as tool results
 ```
 
+## Step 7 — Going Remote: Streamable HTTP Transport
+
+Skip if the user only needs local MCP servers.
+
+Explain:
+```
+The MCP server you built uses stdio transport — it runs as a local
+subprocess and communicates over stdin/stdout. This is perfect for
+local tools, but what about servers that need to run on a remote
+machine or be shared across a team?
+
+Streamable HTTP is the recommended transport for remote MCP servers.
+It replaced the older SSE (Server-Sent Events) transport in the
+MCP spec (2025-11-25). Key advantages:
+  - Works behind load balancers and proxies
+  - Single endpoint (not two like SSE)
+  - Stateless-capable — scales horizontally
+  - Works across organizational boundaries
+
+To connect to a remote MCP server, configure it in your settings:
+
+In ~/.claude/settings.json:
+  {
+    "mcpServers": {
+      "my-remote-server": {
+        "type": "streamable-http",
+        "url": "https://mcp.example.com/api",
+        "headers": {
+          "Authorization": "Bearer YOUR_TOKEN"
+        }
+      }
+    }
+  }
+
+Or in .mcp.json (project-level):
+  {
+    "mcpServers": {
+      "my-remote-server": {
+        "type": "streamable-http",
+        "url": "https://mcp.example.com/api"
+      }
+    }
+  }
+
+You can also use claude mcp add-json for scripted setup:
+
+  claude mcp add-json my-remote-server '{"type":"streamable-http","url":"https://mcp.example.com/api"}'
+
+Note: "streamable-http" and "http" are aliases — both work.
+SSE still works for backward compatibility but should not be used
+for new servers.
+```
+
+## Step 8 — MCP Elicitation
+
+Explain:
+```
+MCP elicitation lets a server request input from the user mid-task.
+When a server needs information it can't get on its own, Claude Code
+displays an interactive dialog and passes the response back.
+
+Two modes:
+
+Form mode — the server defines form fields (e.g., username/password,
+configuration options). Claude Code shows them as a dialog.
+
+URL mode — the server provides a URL to open in the browser (e.g.,
+OAuth login, approval flow). The user completes the flow and confirms.
+
+No configuration needed — elicitation dialogs appear automatically
+when a server requests them.
+
+When designing your own MCP server, use elicitation when:
+  - Authentication is needed (URL mode for OAuth)
+  - User input is required that can't be guessed (form mode)
+  - Confirmation is needed before a destructive action (form mode)
+
+Don't use elicitation for:
+  - Information the server could derive from context
+  - Routine operations that should be automatic
+```
+
+For authenticated remote servers, OAuth 2.1 support is available in
+the MCP spec. This is an advanced topic — see the official MCP
+documentation at https://spec.modelcontextprotocol.io for details.
+
 ## Verification
 
 Run all checks and report:
@@ -588,6 +710,9 @@ You know how to:
   - Define tools with @mcp.tool(), typed parameters, and docstrings
   - Register a server with claude mcp add
   - Test and debug servers locally and through Claude Code
+  - Streamable HTTP: the recommended transport for remote MCP servers
+  - MCP elicitation: servers can request user input mid-task
+  - OAuth 2.1: available for authenticated remote servers (advanced)
 
 Architecture recap:
   Claude Code  --stdio-->  Your server  --JSON-RPC-->  Your tools

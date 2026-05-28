@@ -23,6 +23,8 @@ We'll cover:
   2. The key sections every CLAUDE.md should have
   3. Cost-saving patterns (subagents, preferred tools, session discipline)
   4. Write a real CLAUDE.md for a project
+  5. The /init command (auto-generate a starter CLAUDE.md)
+  6. CLAUDE.local.md and auto memory
 
 You'll need: Claude Code installed and at least one project directory.
 ```
@@ -91,6 +93,13 @@ Where CLAUDE.md files can live (Claude reads all of them):
   ~/repos/my-project/            Subdirectory — applies when Claude reads
     src/CLAUDE.md                files in that directory
 
+  ~/repos/my-project/                Project-local (gitignored) — personal
+    .claude/CLAUDE.local.md          notes that don't go into version control
+
+CLAUDE.local.md is for personal project-specific notes — preferences,
+shortcuts, or context that's useful for you but not the whole team.
+It's automatically gitignored so it won't clutter the repo.
+
 Claude merges instructions from all levels. Workspace-level sets
 shared conventions; project-level overrides or adds specifics.
 
@@ -98,6 +107,28 @@ Key principle: CLAUDE.md is for instructions that DON'T belong in code.
 Things like "use pytest not unittest," "always run lint after edits,"
 or "this project uses PatternFly 6, not 5." If it's a project fact that
 a new developer would need to know, it belongs in CLAUDE.md.
+```
+
+## Step 1b -- Use /init to bootstrap
+
+Skip if the user already has a well-developed CLAUDE.md for their project.
+
+Explain:
+```
+The fastest way to create a CLAUDE.md is the /init command. It analyzes
+your codebase -- detecting build systems, test frameworks, code patterns,
+and project structure -- and generates a starter CLAUDE.md.
+
+  /init
+
+This gives you a solid foundation to refine. It's much better than
+starting from a blank file, because it captures project-specific details
+you might forget to include.
+
+After running /init, review the generated file and customize it:
+  - Remove anything that's obvious or unhelpful
+  - Add team-specific conventions Claude can't infer from code
+  - Add cost-saving patterns (covered in Step 3)
 ```
 
 ## Step 2 — Learn the key sections
@@ -212,6 +243,27 @@ PATTERN 3: SESSION DISCIPLINE
   expensive auto-compact at the context limit.
 ```
 
+## Step 3b -- Auto memory and CLAUDE.md
+
+Explain:
+```
+Claude Code also has auto memory — notes it writes about your project
+automatically, stored at ~/.claude/projects/<project>/memory/.
+
+Auto memory complements CLAUDE.md:
+  - CLAUDE.md: YOUR instructions to Claude (conventions, rules, workflows)
+  - Auto memory: CLAUDE'S notes about your project (patterns it noticed,
+    decisions from past sessions, things you taught it)
+
+You can toggle auto memory with /memory or disable it entirely with
+the CLAUDE_CODE_DISABLE_AUTO_MEMORY environment variable.
+
+Key insight: CLAUDE.md is advisory — Claude follows it about 70% of
+the time. For rules that MUST be enforced deterministically, use
+hooks (Module 10) instead. CLAUDE.md is for guidance; hooks are for
+guardrails.
+```
+
 ## Step 4 — Write a CLAUDE.md for a project
 
 This is the hands-on step. The user will create or edit a real CLAUDE.md.
@@ -246,8 +298,9 @@ Write at least these three sections:
   2. A "Conventions" section with 3+ rules
   3. One cost-saving pattern (subagents, preferred tools, or session discipline)
 
-Don't overthink it — a 20-line CLAUDE.md that covers the basics is
-more valuable than a 200-line one you never finish.
+Keep it under 200 lines. Claude attends to about 150 instructions
+reliably — beyond that, later instructions get less attention.
+A focused 50-line CLAUDE.md beats a sprawling 300-line one.
 ```
 
 Verify:
@@ -390,6 +443,11 @@ Key things to remember:
   - Include cost-saving patterns: subagent delegation, preferred tools,
     session discipline (/compact, /clear, /rewind)
   - Start small and iterate — a 20-line CLAUDE.md is better than none
+  - Use /init to generate a starter CLAUDE.md from your codebase
+  - CLAUDE.local.md is for personal notes (gitignored)
+  - Auto memory (~/.claude/projects/) stores Claude's own observations
+  - Keep CLAUDE.md under 200 lines — focus on what matters most
+  - CLAUDE.md is advisory (~70% followed); hooks are deterministic
 
 Common CLAUDE.md sections:
   - Project overview
