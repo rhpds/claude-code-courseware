@@ -99,6 +99,7 @@ Print the catalog using markdown (NOT inside a code block).
 `18`  Profile Cleanup · 15 min
 `27`  Checkpointing & Session Management · 10 min
 `28`  Voice, Vim & Terminal Customization · 10 min
+`29`  Effort & Reasoning Control · 10 min
 
 ### Team-Customizable
 `19`  Red Hat Quick Deck · 10 min
@@ -230,7 +231,7 @@ Isolated workspaces for parallel development. Covers claude --worktree, .worktre
 Background sessions, agent view, /goal for outcome-based execution, /loop for recurring tasks, composing autonomous patterns.
 *Prereq: Module 01*
 
-**Section 7 -- Workflow & Operations (14-18, 27-28)**
+**Section 7 -- Workflow & Operations (14-18, 27-29)**
 
 **`14` Debugging & Troubleshooting** -- ~15 min
 What to do when things go wrong -- MCP failures, tool errors, context issues.
@@ -259,6 +260,10 @@ Esc+Esc rewind (conversation/code/both), session resume, auto mode, /branch, and
 **`28` Voice, Vim & Terminal Customization** -- ~10 min
 Voice dictation, vim keybindings, custom themes, keybinding customization, fullscreen TUI, and output styles.
 *Prereq: Module 01*
+
+**`29` Effort & Reasoning Control** -- ~10 min · **NEW**
+Control how hard Claude thinks per task with effort levels -- scoped to the team's Vertex models (Opus 4.6 / Sonnet 4.5, no xhigh). Covers /effort, the six ways to set it, per-skill effort frontmatter, ultrathink vs ultracode, and the Vertex capabilities gotcha.
+*Prereq: Module 01, Module 15 recommended*
 
 **Section 8 -- Team-Customizable (19-20)**
 
@@ -304,3 +309,4 @@ When the user picks a module, tell them to run the corresponding command:
 | 26 | `/learn-26-claude-agent-sdk` |
 | 27 | `/learn-27-checkpointing-session-management` |
 | 28 | `/learn-28-voice-vim-terminal-customization` |
+| 29 | `/learn-29-effort-reasoning-control` |

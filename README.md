@@ -114,6 +114,7 @@ Run `/quick-install` to install MCP servers or plugins without going through a f
 | 18 | Profile Cleanup | ~15 min | Audit and clean ~/.claude/ for duplicate skills, orphaned plugins, and context bloat |
 | 27 | Checkpointing & Session Management | ~10 min | Esc+Esc rewind, session resume, auto mode, /branch |
 | 28 | Voice, Vim & Terminal Customization | ~10 min | Voice dictation, vim mode, keybindings, themes, fullscreen TUI |
+| 29 | Effort & Reasoning Control | ~10 min | Effort levels as a cost lever on Vertex (Opus 4.6 / Sonnet 4.5), /effort, per-skill effort, ultrathink vs ultracode |
 
 ### Team-Customizable
 
