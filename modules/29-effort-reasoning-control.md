@@ -1,5 +1,7 @@
 # Module 29 — Effort and Reasoning Control
 
+<!-- NEW -->
+
 Estimated time: 10 minutes
 Prerequisites: Module 01 (Claude Code installed and working). Module 15 (Cost and Context) recommended.
 
@@ -59,7 +61,7 @@ if [ -n "$EFFORT_ENV" ]; then
 elif [ -n "$EFFORT_SETTING" ]; then
   echo "EXISTS: effortLevel=\"$EFFORT_SETTING\" in settings.json"
 else
-  echo "INFO: no effort override — running at the model default (high on Opus 4.6 / Sonnet 4.6)"
+  echo "INFO: no effort override — running at the model default (high on Opus 4.6 / Sonnet 4.5)"
 fi
 ```
 
@@ -98,14 +100,14 @@ aliases resolve differently than on the Anthropic API:
 Effort levels are PER MODEL. What you get:
 
   Model                     Effort levels available
-  Opus 4.6 / Sonnet 4.6     low, medium, high (default), max
+  Opus 4.6 / Sonnet 4.5     low, medium, high (default), max
   Opus 4.8 / Opus 4.7       low, medium, high, xhigh, max   (NOT on Vertex by default)
 
 Key consequence for us: there is NO xhigh on Opus 4.6. If you set xhigh,
 Claude Code silently falls back to the highest supported level at or below
 it — so xhigh runs as high. No error, it just quietly clamps.
 
-The default effort on Opus 4.6 and Sonnet 4.6 is "high".
+The default effort on Opus 4.6 and Sonnet 4.5 is "high".
 ```
 
 Note for the user:
@@ -131,13 +133,16 @@ model default):
   4. /model                              — left/right arrows move the effort slider
   5. effortLevel in settings.json        — low | medium | high | xhigh ONLY
                                            (max and ultracode are session-only,
-                                            not accepted here)
+                                            not accepted here). On Vertex/Opus 4.6
+                                            xhigh is NOT effective — it clamps to
+                                            high, so use high or max instead.
   6. effort: in skill / subagent frontmatter
                                          — overrides the session level whenever
                                            that skill or subagent runs
 
-The level persists for low/medium/high/xhigh. "max" is session-only (except
-via the env var). The active level is shown next to the spinner, e.g.
+The level persists for low/medium/high/xhigh (but on Vertex/Opus 4.6 xhigh
+clamps to high, so it does nothing extra — stay on high/max). "max" is
+session-only (except via the env var). The active level is shown next to the spinner, e.g.
 "with low effort", so you can confirm it without opening /model.
 ```
 
@@ -221,7 +226,7 @@ Fix (set by whoever pins the model), declaring capabilities explicitly:
 
 Note: do NOT include xhigh_effort for Opus 4.6 — it doesn't support xhigh.
 
-Separately, on Opus 4.6 / Sonnet 4.6 you can revert to the OLD fixed
+Separately, on Opus 4.6 / Sonnet 4.5 you can revert to the OLD fixed
 thinking budget (pre-adaptive-reasoning) if you ever need it:
 
   export CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1
@@ -318,5 +323,3 @@ Next module: back to /courseware for the catalog
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
-
-<!-- NEW -->

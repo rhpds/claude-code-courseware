@@ -220,7 +220,7 @@ Patterns that keep costs down and quality up:
     Files survive context compression and session restarts.
 ```
 
-## Step 5 -- Fast mode
+## Step 5 — Fast mode
 
 Explain:
 ```
@@ -242,7 +242,7 @@ Don't use it when:
   - You're doing bulk processing (use Sonnet subagents instead)
 ```
 
-## Step 6 -- Context visualization and compaction
+## Step 6 — Context visualization and compaction
 
 Explain:
 ```
@@ -273,7 +273,7 @@ a 5-minute TTL — keeping sessions active means cache hits, which are
 significantly cheaper than cold reads.
 ```
 
-## Step 7 -- Billing changes (June 2026)
+## Step 7 — Billing changes (June 2026)
 
 Explain:
 ```

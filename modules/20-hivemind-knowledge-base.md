@@ -5,7 +5,7 @@
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed and working), GitHub access to rhpds org
 
-Contribute to and search the team's shared Hive Mind knowledge base. When complete, you'll know how to write articles, query for existing knowledge, and keep the team in sync.
+Contribute to and search the team's shared Hivemind knowledge base. When complete, you'll know how to write articles, query for existing knowledge, and keep the team in sync.
 
 ## Quick Setup (skip the walkthrough)
 
@@ -41,22 +41,22 @@ This module depends on services outside your local environment:
 Print this once at the start:
 
 ```
-You're learning to use the Hive Mind knowledge base.
+You're learning to use the Hivemind knowledge base.
 This takes about 15 minutes.
 
-The Hive Mind is the RHDP team's shared knowledge base, stored as
+The Hivemind is the RHDP team's shared knowledge base, stored as
 Obsidian-compatible markdown files in a GitHub repository. Team members
 contribute articles about what they've built, fixed, learned, or
 decided — so the whole team benefits from individual discoveries.
 
 We'll cover:
-  1. How the Hive Mind is structured
+  1. How the Hivemind is structured
   2. Setting up the local clone and preferences
   3. Writing an article with hivemind-write
   4. Searching with hivemind-query
   5. Tags and cross-references
 
-Two skills power the Hive Mind:
+Two skills power the Hivemind:
   hivemind-write  — contribute articles from any project
   hivemind-query  — search across all team knowledge
 ```
@@ -98,7 +98,7 @@ else
   echo "    Once granted, re-run this module."
   echo ""
   echo "  CONCEPTUAL OVERVIEW:"
-  echo "    Continue without access. You'll learn how the Hive Mind"
+  echo "    Continue without access. You'll learn how the Hivemind"
   echo "    knowledge base works and see the skill architecture, but"
   echo "    you won't be able to clone the repo, contribute entries,"
   echo "    or search the live knowledge base."
@@ -120,16 +120,16 @@ fi
 
 # Check for preferences file
 if [ -f "$HOME/.config/hivemind/hivemind-preferences.md" ]; then
-  echo "EXISTS: Hive Mind preferences"
+  echo "EXISTS: Hivemind preferences"
   grep "clone_path" "$HOME/.config/hivemind/hivemind-preferences.md" 2>/dev/null
 else
-  echo "MISSING: Hive Mind preferences (~/.config/hivemind/hivemind-preferences.md)"
+  echo "MISSING: Hivemind preferences (~/.config/hivemind/hivemind-preferences.md)"
 fi
 
 # Check for existing hivemind clone
 for path in "$HOME/.hivemind" "$HOME/repos/hivemind"; do
   if [ -d "$path/.git" ]; then
-    echo "EXISTS: Hive Mind clone at $path"
+    echo "EXISTS: Hivemind clone at $path"
     break
   fi
 done
@@ -154,7 +154,7 @@ If GitHub access to rhpds/hivemind is MISSING, tell the user:
 ```
 You don't have access to the rhpds/hivemind repository.
 
-You can continue for a conceptual overview of how the Hive Mind knowledge
+You can continue for a conceptual overview of how the Hivemind knowledge
 base works — you'll learn the structure, article format, and skill
 architecture. Steps that require cloning or writing to the repo will be
 skipped with an explanation of what they would do.
@@ -165,11 +165,11 @@ organization and re-run this module.
 
 If the user continues without access, skip Steps 2, 4, 5, and the Challenge (which require the repo). Keep Steps 1, 3, and 6 (conceptual content). Mark skipped steps with: "Skipped: requires GitHub access to rhpds/hivemind."
 
-## Step 1 — Understand the Hive Mind structure
+## Step 1 — Understand the Hivemind structure
 
 Explain:
 ```
-The Hive Mind is a Git repository with Obsidian-compatible markdown files.
+The Hivemind is a Git repository with Obsidian-compatible markdown files.
 Here's how it's organized:
 ```
 
@@ -201,7 +201,7 @@ Key principles:
 
 Show an example article format:
 ```
-Here's what a Hive Mind article looks like:
+Here's what a Hivemind article looks like:
 
   ---
   author: Alice
@@ -228,13 +228,13 @@ Here's what a Hive Mind article looks like:
 Article types: feature, fix, tool, decision, issue, knowledge
 ```
 
-## Step 2 — Set up the Hive Mind locally
+## Step 2 — Set up the Hivemind locally
 
 Skip if the hivemind-write skill is already installed and preferences exist. Also skip if GitHub access to rhpds/hivemind was confirmed missing in the preflight — tell the user: "Skipped: requires GitHub access to rhpds/hivemind. This step clones the repo and installs the hivemind-write and hivemind-query skills."
 
 Explain:
 ```
-The Hive Mind skills need two things:
+The Hivemind skills need two things:
   1. The hivemind repo cloned locally
   2. A preferences file telling the skills where to find it
 ```
@@ -290,7 +290,7 @@ fi
 
 Ask the user:
 ```
-Where would you like to keep the Hive Mind clone?
+Where would you like to keep the Hivemind clone?
 
 The default is ~/.hivemind, but if you already have it cloned
 somewhere (like ~/repos/hivemind), we can use that path.
@@ -335,7 +335,7 @@ with open('$HOME/.config/hivemind/hivemind-preferences.md') as f:
     m = re.search(r'clone_path:\s*(.+)', f.read())
     if m: print(m.group(1).strip())
 " 2>/dev/null)
-[ -d "$clone_path/.git" ] && echo "PASS: Hive Mind clone at $clone_path" || echo "FAIL: No git repo at $clone_path"
+[ -d "$clone_path/.git" ] && echo "PASS: Hivemind clone at $clone_path" || echo "FAIL: No git repo at $clone_path"
 ```
 
 Tell the user:
@@ -354,7 +354,7 @@ The preflight will skip the setup steps on re-entry.
 
 Explain:
 ```
-Before writing, let's see what's already in the Hive Mind.
+Before writing, let's see what's already in the Hivemind.
 This is exactly what hivemind-query does — but we'll do it manually
 first so you understand the underlying structure.
 ```
@@ -412,7 +412,7 @@ for tag, count in sorted(tags.items(), key=lambda x: -x[1])[:15]:
 
 Explain:
 ```
-Tags are how the Hive Mind connects related articles across contributors.
+Tags are how the Hivemind connects related articles across contributors.
 When you write an article, reuse existing tags whenever possible.
 Only create new tags when nothing existing fits.
 ```
@@ -496,7 +496,7 @@ Does this look right? I can adjust before saving.
 After approval, explain (but don't push):
 ```
 In a real workflow, hivemind-write would save, commit, and push this
-article to the Hive Mind repository. For this practice exercise,
+article to the Hivemind repository. For this practice exercise,
 we'll skip the push — but the process is:
 
   1. Save the file to vault/people/<you>/<filename>.md
@@ -506,7 +506,7 @@ we'll skip the push — but the process is:
 The hivemind-write skill handles all of this automatically.
 ```
 
-## Step 5 — Search the Hive Mind
+## Step 5 — Search the Hivemind
 
 Explain:
 ```
@@ -552,7 +552,7 @@ In practice, you don't run these commands yourself. Just ask Claude:
 
   "Has anyone documented the IdP cert fix?"
   "What has the team been working on this week?"
-  "Search the hive mind for Babylon core"
+  "Search the hivemind for Babylon core"
 
 The hivemind-query skill handles the search strategy, reads matching
 articles, follows wikilinks to related content, and synthesizes
@@ -591,7 +591,7 @@ with open('$HOME/.config/hivemind/hivemind-preferences.md') as f:
 
 if [ -d "$clone_path/.git" ]; then
   count=$(find "$clone_path/vault" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-  echo "PASS: Hive Mind clone exists ($count articles)"
+  echo "PASS: Hivemind clone exists ($count articles)"
 else
   echo "FAIL: No git repo at $clone_path"
 fi
@@ -606,7 +606,7 @@ fi
 
 Print:
 ```
-All Hive Mind checks passed.
+All Hivemind checks passed.
 ```
 
 If any fail:
@@ -634,9 +634,9 @@ Troubleshooting:
 ## Challenge
 
 ```
-Use the Hive Mind to answer these questions:
+Use the Hivemind to answer these questions:
 
-1. How many total articles are in the Hive Mind?
+1. How many total articles are in the Hivemind?
    (Count all .md files in vault/people/ and vault/team_docs/)
 
 2. Which contributor has written the most articles?
@@ -708,7 +708,7 @@ If the answers are reasonable, print:
 ```
 Module 20 complete.
 
-You can now contribute to and search the Hive Mind knowledge base.
+You can now contribute to and search the Hivemind knowledge base.
 Key skills:
   hivemind-write  — "share with the team", "write to hivemind"
   hivemind-query  — "search hivemind", "has anyone documented..."
@@ -724,7 +724,7 @@ Best practices:
   - Write articles when you fix something non-obvious
   - Search before writing — someone may have documented it already
 
-Next module: /learn-21-workshop-intake
+Next module: /learn-21-plugin-marketplace
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```

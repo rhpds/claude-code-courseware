@@ -150,14 +150,16 @@ Shared reference data for all learning modules.
 | Module | Requires |
 |--------|----------|
 | 01 — Vertex Setup | Mac or Linux, Red Hat GCP account |
-| 02 — Atlassian MCP | Module 01 complete (Claude Code working) |
+| 02 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
 | 03 — Memory MCP | Module 01 complete (Claude Code working) |
 | 04 — Git MCP | Module 01 complete (Claude Code working) |
-| 05 — Writing CLAUDE.md | Module 01 complete (Claude Code working) |
+| 05 — Atlassian MCP | Module 01 complete (Claude Code working) |
 | 06 — Playwright MCP | Module 01 complete (Claude Code working) |
-| 07 — Writing Custom Skills | Module 01 complete (Claude Code working) |
-| 08 — Hivemind Knowledge Base | Module 01 complete, GitHub access to rhpds org |
+| 07 — Notion MCP | Module 01 complete (Claude Code working) |
+| 08 — Container & Podman MCP | Module 01 complete (Claude Code working) |
+| 09 — Writing Custom Skills | Module 01 complete (Claude Code working) |
 | 11 — Building MCP Servers | Module 01 complete, Module 04 recommended |
-| 12 — Review Agents | Module 01 complete, Module 07 recommended |
-| 13 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
+| 12 — Review Agents | Module 01 complete, Module 09 recommended |
+| 19 — Red Hat Quick Deck | Module 01 complete (Claude Code working) |
+| 20 — Hivemind Knowledge Base | Module 01 complete, GitHub access to rhpds org |
 | 21 — Plugin Marketplace | Module 01 complete, Module 09 recommended |

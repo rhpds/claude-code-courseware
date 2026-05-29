@@ -84,7 +84,7 @@ Print the catalog using markdown (NOT inside a code block).
 ### Advanced Patterns
 `11`  Building MCP Servers · 30 min
 `12`  Review Agents · 15 min
-`13`  Agent Teams vs Superpowers · 15 min
+`13`  Agent Teams vs Superpowers · 20 min
 `26`  Claude Agent SDK · 25 min
 
 ### Parallel & Autonomous Workflows
@@ -213,7 +213,7 @@ Build a custom MCP server in Python and register it with Claude Code. Covers str
 Use Claude Code's agent system for specialized code reviews.
 *Prereq: Module 01, Module 09 recommended*
 
-**`13` Agent Teams vs Superpowers** -- ~15 min
+**`13` Agent Teams vs Superpowers** -- ~20 min
 Compare multi-agent coordination patterns for reviews and implementation.
 *Prereq: Module 01, Module 12 recommended*
 

@@ -464,7 +464,7 @@ else:
     missing = []
     if not has_name: missing.append('name')
     if not has_desc: missing.append('description')
-    print(f'FAIL: code-quality-reviewer.md missing: {', '.join(missing)}')
+    print(f"FAIL: code-quality-reviewer.md missing: {', '.join(missing)}")
 " 2>/dev/null && PASS=$((PASS+1))
 else
   echo "FAIL: code-quality-reviewer.md not found"
@@ -568,9 +568,9 @@ body = content.split('---', 2)[-1] if content.startswith('---') else content
 doc_terms = ['docstring', 'comment', 'README', 'link', 'documentation']
 found = [t for t in doc_terms if t.lower() in body.lower()]
 if len(found) >= 3:
-    print(f'  PASS: body covers documentation topics ({', '.join(found)})')
+    print(f"  PASS: body covers documentation topics ({', '.join(found)})")
 else:
-    print(f'  FAIL: body should cover documentation topics (found: {', '.join(found)})')
+    print(f"  FAIL: body should cover documentation topics (found: {', '.join(found)})")
 " 2>/dev/null
 fi
 ```

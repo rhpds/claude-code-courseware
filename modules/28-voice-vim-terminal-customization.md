@@ -523,7 +523,7 @@ If successful, print:
 ```
 Module 28 complete.
 
-You've completed the courseware! All 28 modules covered.
+You've covered 28 of 29 modules. One more to go.
 
 Key customization features:
   - /voice: dictate prompts instead of typing (local terminals only)
@@ -537,6 +537,7 @@ These settings let you tailor Claude Code to your workflow.
 Experiment with combinations -- vim mode plus voice dictation
 is particularly effective for hands-free coding sessions.
 
+Next module: /learn-29-effort-reasoning-control
 Re-run anytime: /learn-28-voice-vim-terminal-customization
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
