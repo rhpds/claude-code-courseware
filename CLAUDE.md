@@ -39,12 +39,25 @@ Dispatchers in `.claude/commands/` are thin (10 lines) and load the correspondin
 2. Create `.claude/commands/learn-NN-topic.md` as a dispatcher
 3. Add the module to the catalog in `.claude/commands/courseware.md`
 
+## Authoring Rule — Target the Team's Runtime Baseline
+
+The RHDP ops team runs Claude Code against **Vertex AI with Opus 4.6** (and Sonnet 4.5). Any artifact a colleague will *run* — module steps, skill `effort:` frontmatter, shared `effortLevel` settings, copy-paste commands — must work on that baseline. Do not put features that exist only on newer models or non-Vertex backends into runnable content.
+
+Concretely:
+
+- **Effort levels:** Use only `low`, `medium`, `high`, `max`. Never instruct colleagues to set `xhigh` — on Vertex/Opus 4.6 it silently clamps to `high`, so a step that depends on it is misleading.
+- **No `ultracode`:** It sends `xhigh` plus workflow orchestration that degrades on 4.6. `ultrathink` (a prompt-level keyword) is fine — it is model-agnostic and works on 4.6.
+- **Newer-model features stay in prose, not steps:** If a capability only exists on a model the team can't reach yet, you may *mention* it as "coming when the team upgrades," but never make a verification or challenge depend on it.
+
+When in doubt, ask: "Will this exact command/setting do the same thing on Opus 4.6 via Vertex?" If not, it doesn't belong in a runnable step.
+
 ## Key Conventions
 
 - Preflight checks use EXISTS/MISSING pattern (audit first, skip what's green)
 - Read-only checks run automatically; system-modifying actions use `!` prefix
 - Challenges use real team data (RHDPOPS Jira project, team MCP servers, etc.)
 - No conventional-commit prefixes, no emojis in any output
+- Runnable content targets the 4.6/Vertex baseline (see Authoring Rule above)
 
 ## Versioning
 
@@ -99,10 +112,10 @@ Use `mcp__plugin_atlassian_atlassian__getConfluencePage` to fetch current conten
 
 Add a row to the Build Releases database:
 
-- Data source ID: `8092bf78-4a79-415e-a4c3-48c7f9ad3d4d`
-- Properties: `Build` (title), `date:Date:start` (ISO date), `Commit` (short SHA), `Summary` (1-2 sentences), `Project` = `courseware`
+- Data source ID: `4bcc1896-f2b7-47a4-88de-0a2e60ec0f99`
+- Properties: `Build` (title), `Date` (date, ISO format), `Commit` (short SHA), `Summary` (1-2 sentences), `Project` = `courseware`
 
-Use `mcp__claude_ai_Notion__notion-create-pages` with `parent.data_source_id`.
+Use `mcp__notion__API-post-page` with `parent.data_source_id`.
 
 ### Step 5 -- Memory MCP
 
@@ -116,5 +129,5 @@ Use `mcp__claude_ai_Notion__notion-create-pages` with `parent.data_source_id`.
 |----------|----|
 | Confluence page | `400032764` (cloud `2b9e35e3-6bd3-4cec-b838-f4249ee02432`) |
 | Notion Dev Log page | `359b44c5-54f5-81d9-bb69-e509a01772a7` |
-| Notion Build Releases DB | `8092bf78-4a79-415e-a4c3-48c7f9ad3d4d` (Project select = `courseware`) |
+| Notion Build Releases DB | `4bcc1896-f2b7-47a4-88de-0a2e60ec0f99` (Project select = `courseware`) |
 | GitHub repo | `rhpds/claude-code-courseware` |
