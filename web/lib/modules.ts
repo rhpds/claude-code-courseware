@@ -1,6 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 
+// PatternFly 6 label colors — the Red Hat design-system palette.
+export type LabelColor =
+  | "blue"
+  | "teal"
+  | "green"
+  | "orange"
+  | "purple"
+  | "red"
+  | "grey"
+  | "yellow";
+
 export type ModuleMeta = {
   slug: string; // e.g. "01-vertex-setup"
   num: string; // e.g. "01"
@@ -10,6 +21,8 @@ export type ModuleMeta = {
   description: string;
   isNew: boolean;
   section: string;
+  category: string; // short topic label, e.g. "MCP"
+  categoryColor: LabelColor;
 };
 
 export type Section = {
@@ -61,6 +74,20 @@ const SECTION_ORDER = [
   "Team-Customizable",
 ];
 
+// Short category label + color per section. Colors come from the PatternFly 6
+// label palette (Red Hat's design system), so they stay on-brand and pass
+// contrast requirements without hardcoding hex values.
+const CATEGORY_BY_SECTION: Record<string, { label: string; color: LabelColor }> = {
+  "Setup & Foundation": { label: "Setup", color: "blue" },
+  "Core MCP Servers": { label: "MCP", color: "teal" },
+  "Skills & Customization": { label: "Skills", color: "purple" },
+  Security: { label: "Security", color: "red" },
+  "Advanced Patterns": { label: "Advanced", color: "orange" },
+  "Parallel & Autonomous Workflows": { label: "Autonomous", color: "yellow" },
+  "Workflow & Operations": { label: "Workflow", color: "green" },
+  "Team-Customizable": { label: "Team", color: "grey" },
+};
+
 function modulesDir(): string {
   if (process.env.MODULES_DIR) return process.env.MODULES_DIR;
   // Container builds sync modules into ./content/modules; local dev reads the
@@ -73,7 +100,8 @@ function modulesDir(): string {
 function stripTitle(h1: string): { num: string; title: string } {
   // "# Module 01 — Claude Code + Vertex AI Setup"
   const cleaned = h1.replace(/^#\s+/, "").trim();
-  const m = cleaned.match(/^Module\s+(\d+)\s+[—-]\s+(.*)$/);
+  // Separator may be an em-dash, en-dash, or one/two hyphens, with flexible spacing.
+  const m = cleaned.match(/^Module\s+(\d+)\s*[—–-]{1,2}\s*(.*)$/);
   if (m) return { num: m[1], title: m[2].trim() };
   return { num: "", title: cleaned };
 }
@@ -114,6 +142,9 @@ function parseModule(file: string, raw: string): ModuleMeta {
   }
   description = buf.join(" ");
 
+  const section = SECTION_BY_NUM[num] ?? "Other";
+  const cat = CATEGORY_BY_SECTION[section] ?? { label: "Other", color: "grey" as LabelColor };
+
   return {
     slug,
     num,
@@ -122,7 +153,9 @@ function parseModule(file: string, raw: string): ModuleMeta {
     prerequisites,
     description,
     isNew,
-    section: SECTION_BY_NUM[num] ?? "Other",
+    section,
+    category: cat.label,
+    categoryColor: cat.color,
   };
 }
 

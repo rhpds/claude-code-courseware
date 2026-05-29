@@ -15,22 +15,29 @@ import {
   PageToggleButton,
   Nav,
   NavList,
-  NavExpandable,
   NavItem,
+  Label,
   Content,
+  Flex,
+  FlexItem,
 } from "@patternfly/react-core";
 import { BarsIcon } from "@patternfly/react-icons";
+import type { LabelColor } from "@/lib/modules";
 
-export type NavSection = {
-  name: string;
-  modules: { slug: string; num: string; title: string }[];
+export type NavModule = {
+  slug: string;
+  num: string;
+  title: string;
+  category: string;
+  categoryColor: LabelColor;
+  isNew: boolean;
 };
 
 export function AppShell({
-  sections,
+  modules,
   children,
 }: {
-  sections: NavSection[];
+  modules: NavModule[];
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -68,29 +75,33 @@ export function AppShell({
             >
               Catalog
             </NavItem>
-            {sections.map((section) => (
-              <NavExpandable
-                key={section.name}
-                title={section.name}
-                isExpanded
-                groupId={section.name}
-              >
-                {section.modules.map((m) => {
-                  const href = `/learn/${m.slug}`;
-                  return (
-                    <NavItem
-                      key={m.slug}
-                      component={Link}
-                      href={href}
-                      isActive={pathname === href}
-                      itemId={m.slug}
-                    >
+            {modules.map((m) => {
+              const href = `/learn/${m.slug}`;
+              return (
+                <NavItem
+                  key={m.slug}
+                  component={Link}
+                  href={href}
+                  isActive={pathname === href}
+                  itemId={m.slug}
+                >
+                  <Flex
+                    alignItems={{ default: "alignItemsCenter" }}
+                    spaceItems={{ default: "spaceItemsSm" }}
+                    flexWrap={{ default: "nowrap" }}
+                  >
+                    <FlexItem flex={{ default: "flex_1" }}>
                       {m.num} · {m.title}
-                    </NavItem>
-                  );
-                })}
-              </NavExpandable>
-            ))}
+                    </FlexItem>
+                    <FlexItem>
+                      <Label color={m.categoryColor} isCompact>
+                        {m.category}
+                      </Label>
+                    </FlexItem>
+                  </Flex>
+                </NavItem>
+              );
+            })}
           </NavList>
         </Nav>
       </PageSidebarBody>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/AppShell";
-import { getSections } from "@/lib/modules";
+import { getAllModules } from "@/lib/modules";
 
 export const metadata: Metadata = {
   title: {
@@ -17,15 +17,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const sections = getSections().map((s) => ({
-    name: s.name,
-    modules: s.modules.map((m) => ({ slug: m.slug, num: m.num, title: m.title })),
+  const modules = getAllModules().map((m) => ({
+    slug: m.slug,
+    num: m.num,
+    title: m.title,
+    category: m.category,
+    categoryColor: m.categoryColor,
+    isNew: m.isNew,
   }));
 
   return (
     <html lang="en">
       <body>
-        <AppShell sections={sections}>{children}</AppShell>
+        <AppShell modules={modules}>{children}</AppShell>
       </body>
     </html>
   );

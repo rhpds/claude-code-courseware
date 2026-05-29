@@ -18,6 +18,7 @@ import {
   ProgressMeasureLocation,
 } from "@patternfly/react-core";
 import { loadProgress } from "@/lib/progress";
+import type { LabelColor } from "@/lib/modules";
 
 type CatalogModule = {
   slug: string;
@@ -27,6 +28,8 @@ type CatalogModule = {
   description: string;
   isNew: boolean;
   section: string;
+  category: string;
+  categoryColor: LabelColor;
 };
 
 export function Catalog({
@@ -81,7 +84,10 @@ export function Catalog({
                       </Link>
                     </FlexItem>
                     <FlexItem>
-                      <LabelGroup numLabels={2}>
+                      <LabelGroup numLabels={3}>
+                        <Label color={m.categoryColor} isCompact>
+                          {m.category}
+                        </Label>
                         {done[m.slug] && (
                           <Label color="green" isCompact>
                             Done

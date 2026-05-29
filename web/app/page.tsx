@@ -12,6 +12,8 @@ export default function HomePage() {
       description: m.description,
       isNew: m.isNew,
       section: m.section,
+      category: m.category,
+      categoryColor: m.categoryColor,
     })),
   }));
 

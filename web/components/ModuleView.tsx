@@ -8,8 +8,12 @@ import {
   Flex,
   FlexItem,
   Divider,
+  Card,
+  CardBody,
+  ClipboardCopy,
 } from "@patternfly/react-core";
 import { ProgressButton } from "@/components/ProgressButton";
+import type { LabelColor } from "@/lib/modules";
 
 type Meta = {
   slug: string;
@@ -18,6 +22,8 @@ type Meta = {
   time: string;
   prerequisites: string;
   isNew: boolean;
+  category: string;
+  categoryColor: LabelColor;
 };
 
 export function ModuleView({
@@ -39,6 +45,7 @@ export function ModuleView({
               Module {meta.num} — {meta.title}
             </Content>
             <LabelGroup>
+              <Label color={meta.categoryColor}>{meta.category}</Label>
               {meta.time && <Label color="blue">{meta.time}</Label>}
               <Label variant="outline">
                 Prerequisites: {meta.prerequisites}
@@ -50,6 +57,25 @@ export function ModuleView({
             <ProgressButton slug={meta.slug} />
           </FlexItem>
         </Flex>
+      </PageSection>
+      <PageSection>
+        <Card isCompact>
+          <CardBody>
+            <Content component="p">
+              <strong>How to run this module.</strong> This is a hands-on Claude
+              Code module — the steps below execute inside the Claude Code CLI,
+              not in the browser. Open Claude Code in the courseware repo and run:
+            </Content>
+            <ClipboardCopy
+              isReadOnly
+              hoverTip="Copy"
+              clickTip="Copied"
+              variant="inline-compact"
+            >
+              {`/learn-${meta.slug}`}
+            </ClipboardCopy>
+          </CardBody>
+        </Card>
       </PageSection>
       <Divider />
       <PageSection>{children}</PageSection>
