@@ -13,7 +13,7 @@ import {
   ClipboardCopy,
 } from "@patternfly/react-core";
 import { ProgressButton } from "@/components/ProgressButton";
-import type { LabelColor } from "@/lib/modules";
+import type { LabelColor, Difficulty } from "@/lib/modules";
 
 type Meta = {
   slug: string;
@@ -24,6 +24,7 @@ type Meta = {
   isNew: boolean;
   category: string;
   categoryColor: LabelColor;
+  difficulty: Difficulty;
 };
 
 export function ModuleView({
@@ -46,6 +47,7 @@ export function ModuleView({
             </Content>
             <LabelGroup>
               <Label color={meta.categoryColor}>{meta.category}</Label>
+              <Label variant="outline">{meta.difficulty}</Label>
               {meta.time && <Label color="blue">{meta.time}</Label>}
               <Label variant="outline">
                 Prerequisites: {meta.prerequisites}

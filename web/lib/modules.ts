@@ -12,6 +12,8 @@ export type LabelColor =
   | "grey"
   | "yellow";
 
+export type Difficulty = "Beginner" | "Intermediate" | "Advanced";
+
 export type ModuleMeta = {
   slug: string; // e.g. "01-vertex-setup"
   num: string; // e.g. "01"
@@ -23,6 +25,7 @@ export type ModuleMeta = {
   section: string;
   category: string; // short topic label, e.g. "MCP"
   categoryColor: LabelColor;
+  difficulty: Difficulty; // learner level, distinct from topic
 };
 
 export type Section = {
@@ -86,6 +89,19 @@ const CATEGORY_BY_SECTION: Record<string, { label: string; color: LabelColor }> 
   "Parallel & Autonomous Workflows": { label: "Autonomous", color: "yellow" },
   "Workflow & Operations": { label: "Workflow", color: "green" },
   "Team-Customizable": { label: "Team", color: "grey" },
+};
+
+// Learner level per section, distinct from topic. Rendered as an outline label
+// so it reads as a separate dimension from the filled category chip.
+const DIFFICULTY_BY_SECTION: Record<string, Difficulty> = {
+  "Setup & Foundation": "Beginner",
+  "Core MCP Servers": "Beginner",
+  "Skills & Customization": "Intermediate",
+  Security: "Intermediate",
+  "Advanced Patterns": "Advanced",
+  "Parallel & Autonomous Workflows": "Advanced",
+  "Workflow & Operations": "Intermediate",
+  "Team-Customizable": "Intermediate",
 };
 
 function modulesDir(): string {
@@ -156,6 +172,7 @@ function parseModule(file: string, raw: string): ModuleMeta {
     section,
     category: cat.label,
     categoryColor: cat.color,
+    difficulty: DIFFICULTY_BY_SECTION[section] ?? "Intermediate",
   };
 }
 

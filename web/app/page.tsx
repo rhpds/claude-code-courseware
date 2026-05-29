@@ -14,6 +14,7 @@ export default function HomePage() {
       section: m.section,
       category: m.category,
       categoryColor: m.categoryColor,
+      difficulty: m.difficulty,
     })),
   }));
 

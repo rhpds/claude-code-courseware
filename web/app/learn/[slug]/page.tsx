@@ -48,6 +48,7 @@ export default async function ModulePage({
         isNew: meta.isNew,
         category: meta.category,
         categoryColor: meta.categoryColor,
+        difficulty: meta.difficulty,
       }}
     >
       <ModuleBody body={body} />

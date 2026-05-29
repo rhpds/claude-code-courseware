@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import {
   Masthead,
   MastheadMain,
@@ -31,6 +32,7 @@ export type NavModule = {
   category: string;
   categoryColor: LabelColor;
   isNew: boolean;
+  difficulty?: string;
 };
 
 export function AppShell({
@@ -41,6 +43,18 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // Scroll the active NavItem into view within the sidebar whenever the route
+  // changes. With 29 modules the active item is often below the fold. Querying
+  // by data attribute keeps this robust when no item matches (e.g. the catalog
+  // home page), where querySelector simply returns null and we do nothing.
+  useEffect(() => {
+    const active = navRef.current?.querySelector<HTMLElement>(
+      '[data-active-nav-item="true"]'
+    );
+    active?.scrollIntoView({ block: "nearest" });
+  }, [pathname]);
 
   const masthead = (
     <Masthead>
@@ -65,6 +79,7 @@ export function AppShell({
   const sidebar = (
     <PageSidebar>
       <PageSidebarBody>
+        <div ref={navRef}>
         <Nav aria-label="Module navigation">
           <NavList>
             <NavItem
@@ -72,18 +87,21 @@ export function AppShell({
               href="/"
               isActive={pathname === "/"}
               itemId="home"
+              {...(pathname === "/" ? { "data-active-nav-item": "true" } : {})}
             >
               Catalog
             </NavItem>
             {modules.map((m) => {
               const href = `/learn/${m.slug}`;
+              const isActive = pathname === href;
               return (
                 <NavItem
                   key={m.slug}
                   component={Link}
                   href={href}
-                  isActive={pathname === href}
+                  isActive={isActive}
                   itemId={m.slug}
+                  {...(isActive ? { "data-active-nav-item": "true" } : {})}
                 >
                   <Flex
                     alignItems={{ default: "alignItemsCenter" }}
@@ -104,12 +122,18 @@ export function AppShell({
             })}
           </NavList>
         </Nav>
+        </div>
       </PageSidebarBody>
     </PageSidebar>
   );
 
   return (
-    <Page masthead={masthead} sidebar={sidebar} isManagedSidebar>
+    <Page
+      masthead={masthead}
+      sidebar={sidebar}
+      isManagedSidebar
+      defaultManagedSidebarIsOpen
+    >
       {children}
     </Page>
   );

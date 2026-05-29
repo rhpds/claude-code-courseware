@@ -23,6 +23,7 @@ export default function RootLayout({
     title: m.title,
     category: m.category,
     categoryColor: m.categoryColor,
+    difficulty: m.difficulty,
     isNew: m.isNew,
   }));
 

@@ -9,9 +9,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // hydration bootstrap uses inline scripts, so style-src/script-src allow
 // 'unsafe-inline'. Everything else is locked to same-origin. Tightening
 // script-src to a nonce is the next step once a custom middleware nonce is wired.
+// React's dev build relies on eval() for debugging, so allow 'unsafe-eval' in
+// script-src only in development. Production keeps the strict CSP unchanged.
+const isDev = process.env.NODE_ENV !== "production";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self' data:",

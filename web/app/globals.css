@@ -29,3 +29,11 @@
   padding: 0.5rem 0.75rem;
   text-align: left;
 }
+
+/* The PatternFly page sidebar already scrolls (overflow-y: auto). The wrapper
+   div around the Nav (used as a scroll-into-view anchor for the 29 module
+   items) must not introduce its own clipping context, so scrollIntoView with
+   block: "nearest" resolves against the sidebar itself. */
+.pf-v6-c-page__sidebar-body > div {
+  min-height: 0;
+}
