@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Track lola-ai version bumps via the pinned requirements file.
+  # The bot only OPENS the bump PR; the lola-verify GitHub Actions
+  # gate validates that the new version produces identical output.
+  - package-ecosystem: pip
+    directory: /lola
+    schedule:
+      interval: weekly
+      day: monday
+    commit-message:
+      prefix: ""
+    groups:
+      lola:
+        patterns:
+          - "lola-ai"
+    open-pull-requests-limit: 3
