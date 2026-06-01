@@ -1,0 +1,9 @@
+name: RHDP Courseware
+description: Learning modules for the RHDP operations team, delivered as Lola skills.
+version: "1.0"
+modules:
+  - name: ccc
+    description: Claude Code courseware -- 29 hands-on modules covering Vertex AI, MCP servers, skills, agents, security, and operations.
+    version: "1.0.0"
+    repository: https://github.com/rhpds/claude-code-courseware.git
+    tags: [claude-code, courseware, rhdp, learning]
