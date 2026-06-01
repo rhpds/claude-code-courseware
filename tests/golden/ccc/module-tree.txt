@@ -33,9 +33,9 @@ commands/ccc-learn-29-effort-reasoning-control.md
 commands/ccc-preflight.md
 commands/ccc-quick-install.md
 commands/ccc-update-courseware.md
+skills/01-vertex-setup/SKILL.md
 skills/01-vertex-setup/scripts/setup-claude-vertex-portable.sh
 skills/01-vertex-setup/scripts/setup-claude-vertex.sh
-skills/01-vertex-setup/SKILL.md
 skills/02-writing-claude-md/SKILL.md
 skills/03-memory-mcp/SKILL.md
 skills/04-git-mcp/SKILL.md
@@ -64,5 +64,5 @@ skills/26-claude-agent-sdk/SKILL.md
 skills/27-checkpointing-session-management/SKILL.md
 skills/28-voice-vim-terminal-customization/SKILL.md
 skills/29-effort-reasoning-control/SKILL.md
-skills/references/context.md
 skills/TEMPLATE/SKILL.md
+skills/references/context.md

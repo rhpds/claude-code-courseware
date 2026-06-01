@@ -55,7 +55,7 @@ lola install ccc "$INSTALL_DIR" -a claude-code
 
 echo ""
 echo "==> Installed module tree:"
-find "$LOLA_HOME/modules/ccc" -type f | sed "s|$LOLA_HOME/modules/ccc/||" | sort
+find "$LOLA_HOME/modules/ccc" -type f | sed "s|$LOLA_HOME/modules/ccc/||" | LC_ALL=C sort
 
 echo ""
 echo "==> Installation manifest:"
@@ -65,7 +65,7 @@ cat "$LOLA_HOME/installed.yml"
 ACTUAL_DIR="$WORK_DIR/actual"
 mkdir -p "$ACTUAL_DIR"
 cp "$LOLA_HOME/installed.yml" "$ACTUAL_DIR/installed.yml"
-find "$LOLA_HOME/modules/ccc" -type f | sed "s|$LOLA_HOME/modules/ccc/||" | sort > "$ACTUAL_DIR/module-tree.txt"
+find "$LOLA_HOME/modules/ccc" -type f | sed "s|$LOLA_HOME/modules/ccc/||" | LC_ALL=C sort > "$ACTUAL_DIR/module-tree.txt"
 
 # Normalize installed.yml: strip the project_path line (contains temp dir)
 sed -i.bak '/project_path:/d' "$ACTUAL_DIR/installed.yml"
