@@ -180,6 +180,23 @@ The `main` branch is protected:
 
 This project uses **semver tags** on `main` (`vX.Y.Z`). New modules bump the minor version; fixes to existing content bump the patch version. Tags are created after merge by maintainers.
 
+## Install via Lola (experimental, on feat/lola-packaging)
+
+The courseware is also packaged as a [Lola](https://github.com/LobsterTrap/lola) module for multi-assistant distribution. This is on the `feat/lola-packaging` branch and not yet on main.
+
+```bash
+# Add the courseware marketplace
+lola market add rhdp-courseware \
+  https://raw.githubusercontent.com/rhpds/claude-code-courseware/feat/lola-packaging/courseware-market.yml
+
+# Install for Claude Code
+lola install ccc -a claude-code
+```
+
+All skills and commands get the `ccc-` prefix (e.g., `/ccc-courseware`, `/ccc-learn-01-vertex-setup`).
+
+See [docs/lola-packaging.md](docs/lola-packaging.md), [docs/lola-marketplace.md](docs/lola-marketplace.md), and [docs/lola-ci.md](docs/lola-ci.md) for full details.
+
 ## Authoring New Modules
 
 1. Create `modules/NN-topic.md` following the module template (see any existing module)
