@@ -1,0 +1,30 @@
+name: Lola module verification
+
+on:
+  pull_request:
+    paths:
+      - "lola/**"
+      - "courseware-market.yml"
+      - "tests/golden/**"
+      - "scripts/lola-verify.sh"
+      - ".github/workflows/lola-verify.yml"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Run lola-verify.sh
+        run: scripts/lola-verify.sh
+        env:
+          LOLA_HOME: ${{ runner.temp }}/lola-home
