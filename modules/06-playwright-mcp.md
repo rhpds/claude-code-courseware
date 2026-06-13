@@ -385,7 +385,7 @@ Note: If the user needed to restart, the module resumes from Step 2 when re-run.
 
 On re-entry after restart, verify the Playwright MCP tools are actually available in this session before continuing to Step 2.
 
-Check if any `mcp__playwright__*` tools are available. If they are:
+Check if any `mcp__plugin_playwright_playwright__*` tools are available. If they are:
 ```
 PASS: Playwright MCP tools are live in this session.
 Continuing to Step 2.
@@ -661,7 +661,7 @@ You can:
   - Read page content as structured data (browser_snapshot)
   - Click, type, hover, and fill forms (browser_click, browser_type, etc.)
   - Take screenshots for documentation (browser_take_screenshot)
-  - Run custom Playwright code (browser_run_code)
+  - Run custom Playwright code (browser_run_code_unsafe)
 
 Common workflows:
   Visual testing  — navigate to deployed app, snapshot, verify elements

@@ -1,6 +1,7 @@
 # Module 01 — Claude Code + Vertex AI Setup
 
 Estimated time: 10 minutes
+Prerequisites: None
 
 Install Claude Code and configure Google Cloud Vertex AI as the backend provider. When complete, all Claude API calls route through your assigned GCP project — no Anthropic API key required.
 
@@ -405,7 +406,7 @@ Now let's verify it works end-to-end.
 1. Open a NEW terminal window (so your env vars are loaded fresh)
 2. Run: claude
 3. Ask Claude a question — anything you like
-4. Look at the output — it should show the model name (e.g. claude-sonnet-4-6)
+4. Look at the output — it should show the model name (e.g. claude-sonnet-4-5)
 
 Come back here and tell me:
   - Did Claude Code launch successfully?

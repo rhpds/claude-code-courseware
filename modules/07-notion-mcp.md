@@ -89,16 +89,15 @@ Audit current state before doing anything. Each check prints EXISTS or MISSING.
 ```bash
 # Check 1 — Claude Code installed?
 command -v claude &>/dev/null && echo "EXISTS: Claude Code" || echo "MISSING: Claude Code — run /learn-01-vertex-setup first"
-
-# Check 2 — Notion MCP tools available?
-# The Notion MCP is a cloud-hosted integration, not a local package.
-# We check if the tools are already accessible in the current session.
-if claude --print-system-prompt 2>/dev/null | grep -q "claude_ai_Notion"; then
-  echo "EXISTS: Notion MCP tools detected in session"
-else
-  echo "INFO: Notion MCP tools not yet active — will set up in Step 1"
-fi
 ```
+
+Check 2 — Notion MCP tools available? The Notion MCP is a cloud-hosted
+integration, not a local package, so there is nothing to detect on disk. Instead,
+check whether any `mcp__claude_ai_Notion__*` tools are available in the current
+session (the same way the Install-Only Option does it):
+
+- If they are available, print "EXISTS: Notion MCP tools detected in session".
+- If they are not, print "INFO: Notion MCP tools not yet active — will set up in Step 1".
 
 Print a summary of what was found. Skip any step below where the item already exists and is valid.
 
@@ -258,5 +257,3 @@ Next module: /learn-08-container-podman-mcp
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
-
-<!-- NEW -->

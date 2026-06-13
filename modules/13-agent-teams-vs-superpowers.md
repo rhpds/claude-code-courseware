@@ -99,7 +99,14 @@ else
   echo "    pattern with simulated examples instead of the real workflow."
 fi
 
-# Check for team-lead agent from Module 12
+# Check for the code-quality-reviewer agent from Module 12 (a useful starting point)
+if [ -f ".claude/agents/code-quality-reviewer.md" ]; then
+  echo "EXISTS: code-quality-reviewer agent from Module 12"
+else
+  echo "MISSING: code-quality-reviewer agent (Module 12 — optional, not required here)"
+fi
+
+# Check for the team coordinator agent this module builds
 if [ -f ".claude/agents/review-coordinator.md" ] || [ -f ".claude/agents/team-lead.md" ]; then
   echo "EXISTS: Team coordinator agent definition found"
 else
@@ -258,12 +265,10 @@ description: Validates cross-references between modules, skills, and dispatchers
 
 You are a link checker for the courseware repository. Verify that:
 
-1. Every module in modules/ has a matching skill dispatcher in skills/learn-*/SKILL.md
-2. Every module in modules/ has a matching clone-mode dispatcher in .claude/commands/learn-*.md
-3. Every skill dispatcher references the correct module file path
-4. The courseware catalog (skills/courseware/SKILL.md and .claude/commands/courseware.md)
-   lists all available modules
-5. "Next module" links at the end of each module point to a module that exists
+1. Every module in modules/ has a matching dispatcher in .claude/commands/learn-*.md
+2. Every dispatcher in .claude/commands/learn-*.md references the correct module file path
+3. The courseware catalog (.claude/commands/courseware.md) lists all available modules
+4. "Next module" links at the end of each module point to a module that exists
 
 For each broken reference, report:
 - Source file and line
@@ -656,7 +661,7 @@ Run both patterns against this courseware repository and compare:
    and note the total number of findings across all specialists.
 
 2. Run a two-stage review (Pattern B — superpowers style) on the
-   module file modules/14-agent-teams-vs-superpowers.md:
+   module file modules/13-agent-teams-vs-superpowers.md:
    - Stage 1: spec-compliance review against modules/TEMPLATE.md
    - Stage 2: code-quality review
 

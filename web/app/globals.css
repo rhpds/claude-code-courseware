@@ -1,0 +1,39 @@
+@import "@patternfly/react-core/dist/styles/base.css";
+
+/* Markdown content rendered server-side gets PatternFly typography via the
+   pf-v6-c-content class. A little extra spacing for long-form module bodies. */
+.module-body {
+  max-width: 60rem;
+}
+
+.module-body pre {
+  overflow-x: auto;
+  padding: var(--pf-t--global--spacer--md, 1rem);
+  border-radius: 8px;
+  background: var(--pf-t--global--background--color--secondary--default, #f5f5f5);
+}
+
+.module-body code {
+  font-size: 0.875em;
+}
+
+.module-body table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.module-body th,
+.module-body td {
+  border: 1px solid var(--pf-t--global--border--color--default, #d2d2d2);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+/* The PatternFly page sidebar already scrolls (overflow-y: auto). The wrapper
+   div around the Nav (used as a scroll-into-view anchor for the 29 module
+   items) must not introduce its own clipping context, so scrollIntoView with
+   block: "nearest" resolves against the sidebar itself. */
+.pf-v6-c-page__sidebar-body > div {
+  min-height: 0;
+}

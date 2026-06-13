@@ -1,4 +1,4 @@
-# Module 21 -- Plugin Marketplace
+# Module 21 — Plugin Marketplace
 
 Estimated time: 15 minutes
 Prerequisites: Module 01 (Claude Code installed and working), Module 09 recommended (Writing Custom Skills)
@@ -9,9 +9,9 @@ Discover, install, and manage Claude Code plugins from marketplace registries. W
 
 This module depends on services outside your local environment:
 
-- **GitHub** -- marketplace repos are hosted on GitHub. You need network access and (for private marketplaces) SSH access to the org.
-- **Claude Code CLI** -- plugin management uses `claude plugin add`, `claude plugin remove`, and related commands. If the CLI syntax changes in a future Claude Code release, these commands may need updating.
-- **Marketplace repositories** -- plugin availability depends on what the marketplace maintainers have published. Plugins may be added, removed, or renamed at any time.
+- **GitHub** — marketplace repos are hosted on GitHub. You need network access and (for private marketplaces) SSH access to the org.
+- **Claude Code CLI** — plugin management uses `claude plugin add`, `claude plugin remove`, and related commands. If the CLI syntax changes in a future Claude Code release, these commands may need updating.
+- **Marketplace repositories** — plugin availability depends on what the marketplace maintainers have published. Plugins may be added, removed, or renamed at any time.
 
 ## Orientation
 
@@ -39,7 +39,7 @@ You'll need:
 
 ## Install-Only Option
 
-This module is conceptual -- there is no single thing to "install." If the user just wants to install specific plugins quickly, direct them to `/quick-install` instead.
+This module is conceptual — there is no single thing to "install." If the user just wants to install specific plugins quickly, direct them to `/quick-install` instead.
 
 ```
 This module teaches the plugin ecosystem. If you just want to install
@@ -105,9 +105,9 @@ Claude Code is not installed. Complete Module 01 first:
 
 Print a summary of what was found.
 
-## Step 1 -- Understand plugins vs skills vs MCP servers
+## Step 1 — Understand plugins vs skills vs MCP servers
 
-This step is informational -- nothing to install.
+This step is informational — nothing to install.
 
 Explain:
 ```
@@ -142,7 +142,7 @@ Three ways to extend Claude Code:
     Plugins add discoverability, versioning, and one-command install.
 ```
 
-## Step 2 -- Browse available plugins
+## Step 2 — Browse available plugins
 
 Check what marketplaces are configured and what plugins they offer:
 
@@ -203,7 +203,7 @@ You can add multiple marketplaces -- your team might have a private one
 alongside the official Anthropic marketplace.
 ```
 
-## Step 3 -- Install a plugin
+## Step 3 — Install a plugin
 
 Check which plugins the user does NOT have installed. Suggest one that is lightweight and useful. Default suggestion: `frontend-design` from `claude-plugins-official` if not installed; otherwise pick another uninstalled plugin.
 
@@ -242,7 +242,7 @@ else
 fi
 ```
 
-## Step 4 -- Inspect installed plugins
+## Step 4 — Inspect installed plugins
 
 Show the user how to examine what a plugin contains:
 
@@ -311,7 +311,7 @@ Inside you'll find:
 Skills from installed plugins appear in your /slash command list automatically.
 ```
 
-## Step 5 -- Remove a plugin
+## Step 5 — Remove a plugin
 
 Demonstrate removing the plugin installed in Step 3, then offer to reinstall it:
 
@@ -454,7 +454,7 @@ Key concepts:
   - Marketplaces are GitHub repos with plugin catalogs
   - Plugins are versioned and updatable
 
-Next module: Module 22 (Workshop Intake) is coming soon.
+Next module: /learn-22-git-worktrees
 
 Questions or feedback? https://github.com/rhpds/claude-code-courseware/issues
 ```
